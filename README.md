@@ -99,7 +99,7 @@ Natually: most databases implement different views in `information_schema`.
 |`enabled_roles`                        |[>=8.0][036]| [>=10.0.5][037]|[all][038]|      X      |    X     |
 |`engines`                              |  [all][039]|      [all][040]|    X     |      X      |    X     |
 |`events`                               |  [all][041]|      [all][042]|    X     |      X      |    X     |
-|`key_column_data_store`                |  [all][043]|      [all][044]|[all][045]|   [all][046]|[all][047]|
+|`key_column_usage`                     |  [all][043]|      [all][044]|[all][045]|   [all][046]|[all][047]|
 |`parameters`                           |  [all][048]|    [>=5.5][049]|[all][050]|   [  X][051]|[all][052]|
 |`partitions`                           |  [all][053]|      [all][054]|[all][055]|      X      |    X     |
 |`referential_contraints`               |  [all][056]|      [all][057]|[all][058]|   [all][059]|[all][060]|
