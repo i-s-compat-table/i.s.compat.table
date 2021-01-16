@@ -41,7 +41,9 @@ Thus, volunteer developers _might_ choose to do something nice for themselves ra
 
 Natually: most databases implement different views in `information_schema`.
 
-<pre> (╯°□°）╯︵ ┻━┻</pre>
+<hr/>
+<p align=center> <span style="font-family: monospace"> (╯°□°）╯︵ ┻━┻</span></p>
+<hr/>
 
 <!-- ## Table of contents (spoiler: the contents are tables)
 0. tables
