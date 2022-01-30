@@ -1,0 +1,903 @@
+relation	column	type	references	description	version
+administrable_role-authorizations	grantee	sql_identifier		Name of the role to which this role membership was granted (can be the current user, or a different role in case of nested role memberships)	8.3,8.4,9.0,9.1,9.2,9.3,9.4,9.5,9.6,10,11,12,13
+administrable_role-authorizations	grantee	sql_identifier		Name of the role to which this role membership was granted (may be the current user, or a different role in case of nested role memberships)	8.2
+administrable_role-authorizations	is_grantable	character_data		Always YES	8.2,8.3,8.4
+administrable_role-authorizations	is_grantable	yes_or_no		Always YES	9.0,9.1,9.2,9.3,9.4,9.5,9.6,10,11,12,13
+administrable_role-authorizations	role_name	sql_identifier		Name of a role	8.2,8.3,8.4,9.0,9.1,9.2,9.3,9.4,9.5,9.6,10,11,12,13
+applicable_roles	grantee	sql_identifier		Always the name of the current user	7.4,8.0,8.1
+applicable_roles	grantee	sql_identifier		Name of the role to which this role membership was granted (can be the current user, or a different role in case of nested role memberships)	8.3,8.4,9.0,9.1,9.2,9.3,9.4,9.5,9.6,10,11,12,13
+applicable_roles	grantee	sql_identifier		Name of the role to which this role membership was granted (may be the current user, or a different role in case of nested role memberships)	8.2
+applicable_roles	is_grantable	character_data		Applies to a feature not available in PostgreSQL	7.4,8.0,8.1
+applicable_roles	is_grantable	character_data		YES if the grantee has the admin option on the role, NO if not	8.2,8.3,8.4
+applicable_roles	is_grantable	yes_or_no		YES if the grantee has the admin option on the role, NO if not	9.0,9.1,9.2,9.3,9.4,9.5,9.6,10,11,12,13
+applicable_roles	role_name	sql_identifier		Name of a group	7.4,8.0,8.1
+applicable_roles	role_name	sql_identifier		Name of a role	8.2,8.3,8.4,9.0,9.1,9.2,9.3,9.4,9.5,9.6,10,11,12,13
+attributes	attribute_default	character_data		Default expression of the attribute	8.2,8.3,8.4,9.0,9.1,9.2,9.3,9.4,9.5,9.6,10,11,12,13
+attributes	attribute_name	sql_identifier		Name of the attribute	8.2,8.3,8.4,9.0,9.1,9.2,9.3,9.4,9.5,9.6,10,11,12,13
+attributes	attribute_udt_catalog	sql_identifier		Name of the database that the attribute data type is defined in (always the current database)	8.2,8.3,8.4,9.0,9.1,9.2,9.3,9.4,9.5,9.6,10,11,12,13
+attributes	attribute_udt_name	sql_identifier		Name of the attribute data type	8.2,8.3,8.4,9.0,9.1,9.2,9.3,9.4,9.5,9.6,10,11,12,13
+attributes	attribute_udt_schema	sql_identifier		Name of the schema that the attribute data type is defined in	8.2,8.3,8.4,9.0,9.1,9.2,9.3,9.4,9.5,9.6,10,11,12,13
+attributes	character_maximum_length	cardinal_number		If data_type identifies a character or bit string type, the declared maximum length; null for all other data types or if no maximum length was declared	8.2,8.3,8.4,9.0,9.1,9.2,9.3,9.4,9.5,9.6,10,11,12,13
+attributes	character_octet_length	cardinal_number		If data_type identifies a character type, the maximum possible length in octets (bytes) of a datum (this should not be of concern to PostgreSQL users); null for all other data types	8.2,8.3,8.4
+attributes	character_octet_length	cardinal_number		If data_type identifies a character type, the maximum possible length in octets (bytes) of a datum; null for all other data types. The maximum octet length depends on the declared character maximum length (see above) and the server encoding	9.0,9.1,9.2,9.3,9.4,9.5,9.6,10,11,12,13
+attributes	character_set_catalog	sql_identifier		Applies to a feature not available in PostgreSQL	9.1,9.2,9.3,9.4,9.5,9.6,10,11,12,13
+attributes	character_set_name	sql_identifier		Applies to a feature not available in PostgreSQL	9.1,9.2,9.3,9.4,9.5,9.6,10,11,12,13
+attributes	character_set_schema	sql_identifier		Applies to a feature not available in PostgreSQL	9.1,9.2,9.3,9.4,9.5,9.6,10,11,12,13
+attributes	collation_catalog	sql_identifier		Name of the database containing the collation of the attribute (always the current database), null if default or the data type of the attribute is not collatable	9.2,9.3,9.4,9.5,9.6,10,11,12,13
+attributes	collation_catalog	sql_identifier		Not yet implemented	9.1
+attributes	collation_name	sql_identifier		Name of the collation of the attribute, null if default or the data type of the attribute is not collatable	9.2,9.3,9.4,9.5,9.6,10,11,12,13
+attributes	collation_name	sql_identifier		Not yet implemented	9.1
+attributes	collation_schema	sql_identifier		Name of the schema containing the collation of the attribute, null if default or the data type of the attribute is not collatable	9.2,9.3,9.4,9.5,9.6,10,11,12,13
+attributes	collation_schema	sql_identifier		Not yet implemented	9.1
+attributes	data_type	character_data		Data type of the attribute, if it is a built-in type, or ARRAY if it is some array (in that case, see the view element_types), else USER-DEFINED (in that case, the type is identified in attribute_udt_name and associated columns)	8.2,8.3,8.4,9.0,9.1,9.2,9.3,9.4,9.5,9.6,10,11,12,13
+attributes	datetime_precision	cardinal_number		If data_type identifies a date, time, or interval type, the declared precision; null for all other data types or if no precision was declared	8.2,8.3
+attributes	datetime_precision	cardinal_number		If data_type identifies a date, time, timestamp, or interval type, this column contains the (declared or implicit) fractional seconds precision of the type for this attribute, that is, the number of decimal digits maintained following the decimal point in the seconds value. For all other data types, this column is null	8.4,9.0,9.1,9.2,9.3,9.4,9.5,9.6,10,11,12,13
+attributes	dtd_identifier	sql_identifier		An identifier of the data type descriptor of the column, unique among the data type descriptors pertaining to the table. This is mainly useful for joining with other instances of such identifiers. (The specific format of the identifier is not defined and not guaranteed to remain the same in future versions.)	8.2,8.3,8.4,9.0,9.1,9.2,9.3,9.4,9.5,9.6,10,11,12,13
+attributes	interval_precision	cardinal_number		Applies to a feature not available in PostgreSQL (see datetime_precision for the fractional seconds precision of interval type attributes)	9.2,9.3,9.4,9.5,9.6,10,11,12,13
+attributes	interval_precision	character_data		Not yet implemented	8.2,8.3,8.4,9.0,9.1
+attributes	interval_type	character_data		If data_type identifies an interval type, this column contains the specification which fields the intervals include for this attribute, e.g., YEAR TO MONTH, DAY TO SECOND, etc. If no field restrictions were specified (that is, the interval accepts all fields), and for all other data types, this field is null	9.2,9.3,9.4,9.5,9.6,10,11,12,13
+attributes	interval_type	character_data		Not yet implemented	8.2,8.3,8.4,9.0,9.1
+attributes	is_derived_reference_attribute	character_data		Applies to a feature not available in PostgreSQL	8.2,8.3,8.4
+attributes	is_derived_reference_attribute	yes_or_no		Applies to a feature not available in PostgreSQL	9.0,9.1,9.2,9.3,9.4,9.5,9.6,10,11,12,13
+attributes	is_nullable	character_data		YES if the attribute is possibly nullable, NO if it is known not nullable	8.2,8.3,8.4
+attributes	is_nullable	yes_or_no		YES if the attribute is possibly nullable, NO if it is known not nullable	9.0,9.1,9.2,9.3,9.4,9.5,9.6,10,11,12,13
+attributes	maximum_cardinality	cardinal_number		Always null, because arrays always have unlimited maximum cardinality in PostgreSQL	8.2,8.3,8.4,9.0,9.1,9.2,9.3,9.4,9.5,9.6,10,11,12,13
+attributes	numeric_precision	cardinal_number		If data_type identifies a numeric type, this column contains the (declared or implicit) precision of the type for this attribute. The precision indicates the number of significant digits. It can be expressed in decimal (base 10) or binary (base 2) terms, as specified in the column numeric_precision_radix. For all other data types, this column is null	8.3,8.4,9.0,9.1,9.2,9.3,9.4,9.5,9.6,10,11,12,13
+attributes	numeric_precision	cardinal_number		If data_type identifies a numeric type, this column contains the (declared or implicit) precision of the type for this attribute. The precision indicates the number of significant digits. It may be expressed in decimal (base 10) or binary (base 2) terms, as specified in the column numeric_precision_radix. For all other data types, this column is null	8.2
+attributes	numeric_precision_radix	cardinal_number		If data_type identifies a numeric type, this column indicates in which base the values in the columns numeric_precision and numeric_scale are expressed. The value is either 2 or 10. For all other data types, this column is null	8.2,8.3,8.4,9.0,9.1,9.2,9.3,9.4,9.5,9.6,10,11,12,13
+attributes	numeric_scale	cardinal_number		If data_type identifies an exact numeric type, this column contains the (declared or implicit) scale of the type for this attribute. The scale indicates the number of significant digits to the right of the decimal point. It can be expressed in decimal (base 10) or binary (base 2) terms, as specified in the column numeric_precision_radix. For all other data types, this column is null	8.3,8.4,9.0,9.1,9.2,9.3,9.4,9.5,9.6,10,11,12,13
+attributes	numeric_scale	cardinal_number		If data_type identifies an exact numeric type, this column contains the (declared or implicit) scale of the type for this attribute. The scale indicates the number of significant digits to the right of the decimal point. It may be expressed in decimal (base 10) or binary (base 2) terms, as specified in the column numeric_precision_radix. For all other data types, this column is null	8.2
+attributes	ordinal_position	cardinal_number		Ordinal position of the attribute within the data type (count starts at 1)	8.2,8.3,8.4,9.0,9.1,9.2,9.3,9.4,9.5,9.6,10,11,12,13
+attributes	scope_catalog	sql_identifier		Applies to a feature not available in PostgreSQL	8.2,8.3,8.4,9.0,9.1,9.2,9.3,9.4,9.5,9.6,10,11,12,13
+attributes	scope_name	sql_identifier		Applies to a feature not available in PostgreSQL	8.2,8.3,8.4,9.0,9.1,9.2,9.3,9.4,9.5,9.6,10,11,12,13
+attributes	scope_schema	sql_identifier		Applies to a feature not available in PostgreSQL	8.2,8.3,8.4,9.0,9.1,9.2,9.3,9.4,9.5,9.6,10,11,12,13
+attributes	udt_catalog	sql_identifier		Name of the database containing the data type (always the current database)	8.2,8.3,8.4,9.0,9.1,9.2,9.3,9.4,9.5,9.6,10,11,12,13
+attributes	udt_name	sql_identifier		Name of the data type	8.2,8.3,8.4,9.0,9.1,9.2,9.3,9.4,9.5,9.6,10,11,12,13
+attributes	udt_schema	sql_identifier		Name of the schema containing the data type	8.2,8.3,8.4,9.0,9.1,9.2,9.3,9.4,9.5,9.6,10,11,12,13
+character_sets	character_repertoire	sql_identifier		Character repertoire, showing UCS if the encoding is UTF8, else just the encoding name	9.1,9.2,9.3,9.4,9.5,9.6,10,11,12,13
+character_sets	character_set_catalog	sql_identifier		Character sets are currently not implemented as schema objects, so this column is null	9.1,9.2,9.3,9.4,9.5,9.6,10,11,12,13
+character_sets	character_set_name	sql_identifier		Name of the character set, currently implemented as showing the name of the database encoding	9.1,9.2,9.3,9.4,9.5,9.6,10,11,12,13
+character_sets	character_set_schema	sql_identifier		Character sets are currently not implemented as schema objects, so this column is null	9.1,9.2,9.3,9.4,9.5,9.6,10,11,12,13
+character_sets	default_collate_catalog	sql_identifier		Name of the database containing the default collation (always the current database, if any collation is identified)	9.1,9.2,9.3,9.4,9.5,9.6,10,11,12,13
+character_sets	default_collate_name	sql_identifier		Name of the default collation. The default collation is identified as the collation that matches the COLLATE and CTYPE settings of the current database. If there is no such collation, then this column and the associated schema and catalog columns are null	9.1,9.2,9.3,9.4,9.5,9.6,10,11,12,13
+character_sets	default_collate_schema	sql_identifier		Name of the schema containing the default collation	9.1,9.2,9.3,9.4,9.5,9.6,10,11,12,13
+character_sets	form_of_use	sql_identifier		Character encoding form, same as the database encoding	9.1,9.2,9.3,9.4,9.5,9.6,10,11,12,13
+check_constraint-routine-usage	constraint_catalog	sql_identifier		Name of the database containing the constraint (always the current database)	8.2,8.3,8.4,9.0,9.1,9.2,9.3,9.4,9.5,9.6,10,11,12,13
+check_constraint-routine-usage	constraint_name	sql_identifier		Name of the constraint	8.2,8.3,8.4,9.0,9.1,9.2,9.3,9.4,9.5,9.6,10,11,12,13
+check_constraint-routine-usage	constraint_schema	sql_identifier		Name of the schema containing the constraint	8.2,8.3,8.4,9.0,9.1,9.2,9.3,9.4,9.5,9.6,10,11,12,13
+check_constraint-routine-usage	specific_catalog	sql_identifier		Name of the database containing the function (always the current database)	8.2,8.3,8.4,9.0,9.1,9.2,9.3,9.4,9.5,9.6,10,11,12,13
+check_constraint-routine-usage	specific_name	sql_identifier		The "specific name" of the function. See Section 32.29 for more information	8.2
+check_constraint-routine-usage	specific_name	sql_identifier		The "specific name" of the function. See Section 33.29 for more information	8.3
+check_constraint-routine-usage	specific_name	sql_identifier		The "specific name" of the function. See Section 33.33 for more information	8.4
+check_constraint-routine-usage	specific_name	sql_identifier		The "specific name" of the function. See Section 34.33 for more information	9.0
+check_constraint-routine-usage	specific_name	sql_identifier		The "specific name" of the function. See Section 34.38 for more information	9.1
+check_constraint-routine-usage	specific_name	sql_identifier		The "specific name" of the function. See Section 34.40 for more information	9.2,9.3,9.4,9.5
+check_constraint-routine-usage	specific_name	sql_identifier		The "specific name" of the function. See Section 35.40 for more information	9.6
+check_constraint-routine-usage	specific_name	sql_identifier		The "specific name" of the function. See Section 36.40 for more information	10
+check_constraint-routine-usage	specific_name	sql_identifier		The "specific name" of the function. See Section 36.41 for more information	12,13
+check_constraint-routine-usage	specific_name	sql_identifier		The "specific name" of the function. See Section 37.40 for more information	11
+check_constraint-routine-usage	specific_schema	sql_identifier		Name of the schema containing the function	8.2,8.3,8.4,9.0,9.1,9.2,9.3,9.4,9.5,9.6,10,11,12,13
+check_constraints	check_clause	character_data		The check expression of the check constraint	7.4,8.0,8.1,8.2,8.3,8.4,9.0,9.1,9.2,9.3,9.4,9.5,9.6,10,11,12,13
+check_constraints	constraint_catalog	sql_identifier		Name of the database containing the constraint (always the current database)	7.4,8.0,8.1,8.2,8.3,8.4,9.0,9.1,9.2,9.3,9.4,9.5,9.6,10,11,12,13
+check_constraints	constraint_name	sql_identifier		Name of the constraint	7.4,8.0,8.1,8.2,8.3,8.4,9.0,9.1,9.2,9.3,9.4,9.5,9.6,10,11,12,13
+check_constraints	constraint_schema	sql_identifier		Name of the schema containing the constraint	7.4,8.0,8.1,8.2,8.3,8.4,9.0,9.1,9.2,9.3,9.4,9.5,9.6,10,11,12,13
+collation_character-set-applicab	character_set_catalog	sql_identifier		Character sets are currently not implemented as schema objects, so this column is null	9.1,9.2,9.3,9.4,9.5,9.6,10,11,12,13
+collation_character-set-applicab	character_set_name	sql_identifier		Name of the character set	9.1,9.2,9.3,9.4,9.5,9.6,10,11,12,13
+collation_character-set-applicab	character_set_schema	sql_identifier		Character sets are currently not implemented as schema objects, so this column is null	9.1,9.2,9.3,9.4,9.5,9.6,10,11,12,13
+collation_character-set-applicab	collation_catalog	sql_identifier		Name of the database containing the collation (always the current database)	9.1,9.2,9.3,9.4,9.5,9.6,10,11,12,13
+collation_character-set-applicab	collation_name	sql_identifier		Name of the default collation	9.1,9.2,9.3,9.4,9.5,9.6,10,11,12,13
+collation_character-set-applicab	collation_schema	sql_identifier		Name of the schema containing the collation	9.1,9.2,9.3,9.4,9.5,9.6,10,11,12,13
+collations	collation_catalog	sql_identifier		Name of the database containing the collation (always the current database)	9.1,9.2,9.3,9.4,9.5,9.6,10,11,12,13
+collations	collation_name	sql_identifier		Name of the default collation	9.1,9.2,9.3,9.4,9.5,9.6,10,11,12,13
+collations	collation_schema	sql_identifier		Name of the schema containing the collation	9.1,9.2,9.3,9.4,9.5,9.6,10,11,12,13
+collations	pad_attribute	character_data		Always NO PAD (The alternative PAD SPACE is not supported by PostgreSQL.)	9.1,9.2,9.3,9.4,9.5,9.6,10,11,12,13
+column_column-usage	column_name	sql_identifier		Name of the base column that a generated column depends on	12,13
+column_column-usage	dependent_column	sql_identifier		Name of the generated column	12,13
+column_column-usage	table_catalog	sql_identifier		Name of the database containing the table (always the current database)	12,13
+column_column-usage	table_name	sql_identifier		Name of the table	12,13
+column_column-usage	table_schema	sql_identifier		Name of the schema containing the table	12,13
+column_domain-usage	column_name	sql_identifier		Name of the column	7.4,8.0,8.1,8.2,8.3,8.4,9.0,9.1,9.2,9.3,9.4,9.5,9.6,10,11,12,13
+column_domain-usage	domain_catalog	sql_identifier		Name of the database containing the domain (always the current database)	7.4,8.0,8.1,8.2,8.3,8.4,9.0,9.1,9.2,9.3,9.4,9.5,9.6,10,11,12,13
+column_domain-usage	domain_name	sql_identifier		Name of the domain	7.4,8.0,8.1,8.2,8.3,8.4,9.0,9.1,9.2,9.3,9.4,9.5,9.6,10,11,12,13
+column_domain-usage	domain_schema	sql_identifier		Name of the schema containing the domain	7.4,8.0,8.1,8.2,8.3,8.4,9.0,9.1,9.2,9.3,9.4,9.5,9.6,10,11,12,13
+column_domain-usage	table_catalog	sql_identifier		Name of the database containing the table (always the current database)	7.4,8.0,8.1,8.2,8.3,8.4,9.0,9.1,9.2,9.3,9.4,9.5,9.6,10,11,12,13
+column_domain-usage	table_name	sql_identifier		Name of the table	7.4,8.0,8.1,8.2,8.3,8.4,9.0,9.1,9.2,9.3,9.4,9.5,9.6,10,11,12,13
+column_domain-usage	table_schema	sql_identifier		Name of the schema containing the table	7.4,8.0,8.1,8.2,8.3,8.4,9.0,9.1,9.2,9.3,9.4,9.5,9.6,10,11,12,13
+column_options	column_name	sql_identifier		Name of the column	9.2,9.3,9.4,9.5,9.6,10,11,12,13
+column_options	option_name	sql_identifier		Name of an option	9.2,9.3,9.4,9.5,9.6,10,11,12,13
+column_options	option_value	character_data		Value of the option	9.2,9.3,9.4,9.5,9.6,10,11,12,13
+column_options	table_catalog	sql_identifier		Name of the database that contains the foreign table (always the current database)	9.2,9.3,9.4,9.5,9.6,10,11,12,13
+column_options	table_name	sql_identifier		Name of the foreign table	9.2,9.3,9.4,9.5,9.6,10,11,12,13
+column_options	table_schema	sql_identifier		Name of the schema that contains the foreign table	9.2,9.3,9.4,9.5,9.6,10,11,12,13
+column_privileges	column_name	sql_identifier		Name of the column	7.4,8.0,8.1,8.2,8.3,8.4,9.0,9.1,9.2,9.3,9.4,9.5,9.6,10,11,12,13
+column_privileges	grantee	sql_identifier		Name of the role that the privilege was granted to	8.2,8.3,8.4,9.0,9.1,9.2,9.3,9.4,9.5,9.6,10,11,12,13
+column_privileges	grantee	sql_identifier		Name of the user or group that the privilege was granted to	7.4,8.0,8.1
+column_privileges	grantor	sql_identifier		Name of the role that granted the privilege	8.2,8.3,8.4,9.0,9.1,9.2,9.3,9.4,9.5,9.6,10,11,12,13
+column_privileges	grantor	sql_identifier		Name of the user that granted the privilege	7.4,8.0,8.1
+column_privileges	is_grantable	character_data		YES if the privilege is grantable, NO if not	7.4,8.0,8.1,8.2,8.3,8.4
+column_privileges	is_grantable	yes_or_no		YES if the privilege is grantable, NO if not	9.0,9.1,9.2,9.3,9.4,9.5,9.6,10,11,12,13
+column_privileges	privilege_type	character_data		Type of the privilege: SELECT, INSERT, UPDATE, or REFERENCES	7.4,8.0,8.1,8.2,8.3,8.4,9.0,9.1,9.2,9.3,9.4,9.5,9.6,10,11,12,13
+column_privileges	table_catalog	sql_identifier		Name of the database that contains the table that contains the column (always the current database)	7.4,8.0,8.1,8.2,8.3,8.4,9.0,9.1,9.2,9.3,9.4,9.5,9.6,10,11,12,13
+column_privileges	table_name	sql_identifier		Name of the table that contains the column	7.4,8.0,8.1,8.2,8.3,8.4,9.0,9.1,9.2,9.3,9.4,9.5,9.6,10,11,12,13
+column_privileges	table_schema	sql_identifier		Name of the schema that contains the table that contains the column	7.4,8.0,8.1,8.2,8.3,8.4,9.0,9.1,9.2,9.3,9.4,9.5,9.6,10,11,12,13
+column_udt-usage	column_name	sql_identifier		Name of the column	7.4,8.0,8.1,8.2,8.3,8.4,9.0,9.1,9.2,9.3,9.4,9.5,9.6,10,11,12,13
+column_udt-usage	table_catalog	sql_identifier		Name of the database containing the table (always the current database)	7.4,8.0,8.1,8.2,8.3,8.4,9.0,9.1,9.2,9.3,9.4,9.5,9.6,10,11,12,13
+column_udt-usage	table_name	sql_identifier		Name of the table	7.4,8.0,8.1,8.2,8.3,8.4,9.0,9.1,9.2,9.3,9.4,9.5,9.6,10,11,12,13
+column_udt-usage	table_schema	sql_identifier		Name of the schema containing the table	7.4,8.0,8.1,8.2,8.3,8.4,9.0,9.1,9.2,9.3,9.4,9.5,9.6,10,11,12,13
+column_udt-usage	udt_catalog	sql_identifier		Name of the database that the column data type (the underlying type of the domain, if applicable) is defined in (always the current database)	7.4,8.0,8.1,8.2,8.3,8.4,9.0,9.1,9.2,9.3,9.4,9.5,9.6,10,11,12,13
+column_udt-usage	udt_name	sql_identifier		Name of the column data type (the underlying type of the domain, if applicable)	7.4,8.0,8.1,8.2,8.3,8.4,9.0,9.1,9.2,9.3,9.4,9.5,9.6,10,11,12,13
+column_udt-usage	udt_schema	sql_identifier		Name of the schema that the column data type (the underlying type of the domain, if applicable) is defined in	7.4,8.0,8.1,8.2,8.3,8.4,9.0,9.1,9.2,9.3,9.4,9.5,9.6,10,11,12,13
+columns	character_maximum_length	cardinal_number		If data_type identifies a character or bit string type, the declared maximum length; null for all other data types or if no maximum length was declared	7.4,8.0,8.1,8.2,8.3,8.4,9.0,9.1,9.2,9.3,9.4,9.5,9.6,10,11,12,13
+columns	character_octet_length	cardinal_number		If data_type identifies a character type, the maximum possible length in octets (bytes) of a datum (this should not be of concern to PostgreSQL users); null for all other data types	7.4,8.0,8.1,8.2,8.3,8.4
+columns	character_octet_length	cardinal_number		If data_type identifies a character type, the maximum possible length in octets (bytes) of a datum; null for all other data types. The maximum octet length depends on the declared character maximum length (see above) and the server encoding	9.0,9.1,9.2,9.3,9.4,9.5,9.6,10,11,12,13
+columns	character_set_catalog	sql_identifier		Applies to a feature not available in PostgreSQL	7.4,8.0,8.1,8.2,8.3,8.4,9.0,9.1,9.2,9.3,9.4,9.5,9.6,10,11,12,13
+columns	character_set_name	sql_identifier		Applies to a feature not available in PostgreSQL	7.4,8.0,8.1,8.2,8.3,8.4,9.0,9.1,9.2,9.3,9.4,9.5,9.6,10,11,12,13
+columns	character_set_schema	sql_identifier		Applies to a feature not available in PostgreSQL	7.4,8.0,8.1,8.2,8.3,8.4,9.0,9.1,9.2,9.3,9.4,9.5,9.6,10,11,12,13
+columns	collation_catalog	sql_identifier		Applies to a feature not available in PostgreSQL	7.4,8.0,8.1,8.2,8.3,8.4,9.0
+columns	collation_catalog	sql_identifier		Name of the database containing the collation of the column (always the current database), null if default or the data type of the column is not collatable	9.2,9.3,9.4,9.5,9.6,10,11,12,13
+columns	collation_catalog	sql_identifier		Not yet implemented	9.1
+columns	collation_name	sql_identifier		Applies to a feature not available in PostgreSQL	7.4,8.0,8.1,8.2,8.3,8.4,9.0
+columns	collation_name	sql_identifier		Name of the collation of the column, null if default or the data type of the column is not collatable	9.2,9.3,9.4,9.5,9.6,10,11,12,13
+columns	collation_name	sql_identifier		Not yet implemented	9.1
+columns	collation_schema	sql_identifier		Applies to a feature not available in PostgreSQL	7.4,8.0,8.1,8.2,8.3,8.4,9.0
+columns	collation_schema	sql_identifier		Name of the schema containing the collation of the column, null if default or the data type of the column is not collatable	9.2,9.3,9.4,9.5,9.6,10,11,12,13
+columns	collation_schema	sql_identifier		Not yet implemented	9.1
+columns	column_default	character_data		Default expression of the column	8.2,8.3,8.4,9.0,9.1,9.2,9.3,9.4,9.5,9.6,10,11,12,13
+columns	column_default	character_data		Default expression of the column (null if the current user is not the owner of the table containing the column)	7.4,8.0,8.1
+columns	column_name	sql_identifier		Name of the column	7.4,8.0,8.1,8.2,8.3,8.4,9.0,9.1,9.2,9.3,9.4,9.5,9.6,10,11,12,13
+columns	data_type	character_data		Data type of the column, if it is a built-in type, or ARRAY if it is some array (in that case, see the view element_types), else USER-DEFINED (in that case, the type is identified in udt_name and associated columns). If the column is based on a domain, this column refers to the type underlying the domain (and the domain is identified in domain_name and associated columns)	7.4,8.0,8.1,8.2,8.3,8.4,9.0,9.1,9.2,9.3,9.4,9.5,9.6,10,11,12,13
+columns	datetime_precision	cardinal_number		If data_type identifies a date, time, or interval type, the declared precision; null for all other data types or if no precision was declared	7.4,8.0,8.1,8.2,8.3
+columns	datetime_precision	cardinal_number		If data_type identifies a date, time, timestamp, or interval type, this column contains the (declared or implicit) fractional seconds precision of the type for this column, that is, the number of decimal digits maintained following the decimal point in the seconds value. For all other data types, this column is null	8.4,9.0,9.1,9.2,9.3,9.4,9.5,9.6,10,11,12,13
+columns	domain_catalog	sql_identifier		If the column has a domain type, the name of the database that the domain is defined in (always the current database), else null	7.4,8.0,8.1,8.2,8.3,8.4,9.0,9.1,9.2,9.3,9.4,9.5,9.6,10,11,12,13
+columns	domain_name	sql_identifier		If the column has a domain type, the name of the domain, else null	7.4,8.0,8.1,8.2,8.3,8.4,9.0,9.1,9.2,9.3,9.4,9.5,9.6,10,11,12,13
+columns	domain_schema	sql_identifier		If the column has a domain type, the name of the schema that the domain is defined in, else null	7.4,8.0,8.1,8.2,8.3,8.4,9.0,9.1,9.2,9.3,9.4,9.5,9.6,10,11,12,13
+columns	dtd_identifier	sql_identifier		An identifier of the data type descriptor of the column, unique among the data type descriptors pertaining to the table. This is mainly useful for joining with other instances of such identifiers. (The specific format of the identifier is not defined and not guaranteed to remain the same in future versions.)	7.4,8.0,8.1,8.2,8.3,8.4,9.0,9.1,9.2,9.3,9.4,9.5,9.6,10,11,12,13
+columns	generation_expression	character_data		Applies to a feature not available in PostgreSQL	8.2,8.3,8.4,9.0,9.1,9.2,9.3,9.4,9.5,9.6,10,11
+columns	generation_expression	character_data		If the column is a generated column, then the generation expression, else null	12,13
+columns	identity_cycle	character_data		Applies to a feature not available in PostgreSQL	8.2,8.3,8.4
+columns	identity_cycle	yes_or_no		Applies to a feature not available in PostgreSQL	9.0,9.1,9.2,9.3,9.4,9.5,9.6
+columns	identity_cycle	yes_or_no		If the column is an identity column, then YES if the internal sequence cycles or NO if it does not; otherwise null	10,11,12,13
+columns	identity_generation	character_data		Applies to a feature not available in PostgreSQL	8.2,8.3,8.4,9.0,9.1,9.2,9.3,9.4,9.5,9.6
+columns	identity_generation	character_data		If the column is an identity column, then ALWAYS or BY DEFAULT, reflecting the definition of the column	10,11,12,13
+columns	identity_increment	character_data		Applies to a feature not available in PostgreSQL	8.2,8.3,8.4,9.0,9.1,9.2,9.3,9.4,9.5,9.6
+columns	identity_increment	character_data		If the column is an identity column, then the increment of the internal sequence, else null	10,11,12,13
+columns	identity_maximum	character_data		Applies to a feature not available in PostgreSQL	8.2,8.3,8.4,9.0,9.1,9.2,9.3,9.4,9.5,9.6
+columns	identity_maximum	character_data		If the column is an identity column, then the maximum value of the internal sequence, else null	10,11,12,13
+columns	identity_minimum	character_data		Applies to a feature not available in PostgreSQL	8.2,8.3,8.4,9.0,9.1,9.2,9.3,9.4,9.5,9.6
+columns	identity_minimum	character_data		If the column is an identity column, then the minimum value of the internal sequence, else null	10,11,12,13
+columns	identity_start	character_data		Applies to a feature not available in PostgreSQL	8.2,8.3,8.4,9.0,9.1,9.2,9.3,9.4,9.5,9.6
+columns	identity_start	character_data		If the column is an identity column, then the start value of the internal sequence, else null	10,11,12,13
+columns	interval_precision	cardinal_number		Applies to a feature not available in PostgreSQL (see datetime_precision for the fractional seconds precision of interval type columns)	9.2,9.3,9.4,9.5,9.6,10,11,12,13
+columns	interval_precision	character_data		Not yet implemented	7.4,8.0,8.1,8.2,8.3,8.4,9.0,9.1
+columns	interval_type	character_data		If data_type identifies an interval type, this column contains the specification which fields the intervals include for this column, e.g., YEAR TO MONTH, DAY TO SECOND, etc. If no field restrictions were specified (that is, the interval accepts all fields), and for all other data types, this field is null	9.2,9.3,9.4,9.5,9.6,10,11,12,13
+columns	interval_type	character_data		Not yet implemented	7.4,8.0,8.1,8.2,8.3,8.4,9.0,9.1
+columns	is_generated	character_data		Applies to a feature not available in PostgreSQL	8.2,8.3,8.4,9.0,9.1,9.2,9.3,9.4,9.5,9.6,10,11
+columns	is_generated	character_data		If the column is a generated column, then ALWAYS, else NEVER	12,13
+columns	is_identity	character_data		Applies to a feature not available in PostgreSQL	8.2,8.3,8.4
+columns	is_identity	yes_or_no		Applies to a feature not available in PostgreSQL	9.0,9.1,9.2,9.3,9.4,9.5,9.6
+columns	is_identity	yes_or_no		If the column is an identity column, then YES, else NO	10,11,12,13
+columns	is_nullable	character_data		YES if the column is possibly nullable, NO if it is known not nullable. A not-null constraint is one way a column can be known not nullable, but there can be others	8.3,8.4
+columns	is_nullable	character_data		YES if the column is possibly nullable, NO if it is known not nullable. A not-null constraint is one way a column can be known not nullable, but there may be others	7.4,8.0,8.1,8.2
+columns	is_nullable	yes_or_no		YES if the column is possibly nullable, NO if it is known not nullable. A not-null constraint is one way a column can be known not nullable, but there can be others	9.0,9.1,9.2,9.3,9.4,9.5,9.6,10,11,12,13
+columns	is_self_referencing	character_data		Applies to a feature not available in PostgreSQL	7.4,8.0,8.1,8.2,8.3,8.4
+columns	is_self_referencing	yes_or_no		Applies to a feature not available in PostgreSQL	9.0,9.1,9.2,9.3,9.4,9.5,9.6,10,11,12,13
+columns	is_updatable	character_data		YES if the column is updatable, NO if not (Columns in base tables are always updatable, columns in views not necessarily)	8.2,8.3,8.4
+columns	is_updatable	yes_or_no		YES if the column is updatable, NO if not (Columns in base tables are always updatable, columns in views not necessarily)	9.0,9.1,9.2,9.3,9.4,9.5,9.6,10,11,12,13
+columns	maximum_cardinality	cardinal_number		Always null, because arrays always have unlimited maximum cardinality in PostgreSQL	7.4,8.0,8.1,8.2,8.3,8.4,9.0,9.1,9.2,9.3,9.4,9.5,9.6,10,11,12,13
+columns	numeric_precision	cardinal_number		If data_type identifies a numeric type, this column contains the (declared or implicit) precision of the type for this column. The precision indicates the number of significant digits. It can be expressed in decimal (base 10) or binary (base 2) terms, as specified in the column numeric_precision_radix. For all other data types, this column is null	8.3,8.4,9.0,9.1,9.2,9.3,9.4,9.5,9.6,10,11,12,13
+columns	numeric_precision	cardinal_number		If data_type identifies a numeric type, this column contains the (declared or implicit) precision of the type for this column. The precision indicates the number of significant digits. It may be expressed in decimal (base 10) or binary (base 2) terms, as specified in the column numeric_precision_radix. For all other data types, this column is null	7.4,8.0,8.1,8.2
+columns	numeric_precision_radix	cardinal_number		If data_type identifies a numeric type, this column indicates in which base the values in the columns numeric_precision and numeric_scale are expressed. The value is either 2 or 10. For all other data types, this column is null	7.4,8.0,8.1,8.2,8.3,8.4,9.0,9.1,9.2,9.3,9.4,9.5,9.6,10,11,12,13
+columns	numeric_scale	cardinal_number		If data_type identifies an exact numeric type, this column contains the (declared or implicit) scale of the type for this column. The scale indicates the number of significant digits to the right of the decimal point. It can be expressed in decimal (base 10) or binary (base 2) terms, as specified in the column numeric_precision_radix. For all other data types, this column is null	8.3,8.4,9.0,9.1,9.2,9.3,9.4,9.5,9.6,10,11,12,13
+columns	numeric_scale	cardinal_number		If data_type identifies an exact numeric type, this column contains the (declared or implicit) scale of the type for this column. The scale indicates the number of significant digits to the right of the decimal point. It may be expressed in decimal (base 10) or binary (base 2) terms, as specified in the column numeric_precision_radix. For all other data types, this column is null	7.4,8.0,8.1,8.2
+columns	ordinal_position	cardinal_number		Ordinal position of the column within the table (count starts at 1)	7.4,8.0,8.1,8.2,8.3,8.4,9.0,9.1,9.2,9.3,9.4,9.5,9.6,10,11,12,13
+columns	scope_catalog	sql_identifier		Applies to a feature not available in PostgreSQL	7.4,8.0,8.1,8.2,8.3,8.4,9.0,9.1,9.2,9.3,9.4,9.5,9.6,10,11,12,13
+columns	scope_name	sql_identifier		Applies to a feature not available in PostgreSQL	7.4,8.0,8.1,8.2,8.3,8.4,9.0,9.1,9.2,9.3,9.4,9.5,9.6,10,11,12,13
+columns	scope_schema	sql_identifier		Applies to a feature not available in PostgreSQL	7.4,8.0,8.1,8.2,8.3,8.4,9.0,9.1,9.2,9.3,9.4,9.5,9.6,10,11,12,13
+columns	table_catalog	sql_identifier		Name of the database containing the table (always the current database)	7.4,8.0,8.1,8.2,8.3,8.4,9.0,9.1,9.2,9.3,9.4,9.5,9.6,10,11,12,13
+columns	table_name	sql_identifier		Name of the table	7.4,8.0,8.1,8.2,8.3,8.4,9.0,9.1,9.2,9.3,9.4,9.5,9.6,10,11,12,13
+columns	table_schema	sql_identifier		Name of the schema containing the table	7.4,8.0,8.1,8.2,8.3,8.4,9.0,9.1,9.2,9.3,9.4,9.5,9.6,10,11,12,13
+columns	udt_catalog	sql_identifier		Name of the database that the column data type (the underlying type of the domain, if applicable) is defined in (always the current database)	7.4,8.0,8.1,8.2,8.3,8.4,9.0,9.1,9.2,9.3,9.4,9.5,9.6,10,11,12,13
+columns	udt_name	sql_identifier		Name of the column data type (the underlying type of the domain, if applicable)	7.4,8.0,8.1,8.2,8.3,8.4,9.0,9.1,9.2,9.3,9.4,9.5,9.6,10,11,12,13
+columns	udt_schema	sql_identifier		Name of the schema that the column data type (the underlying type of the domain, if applicable) is defined in	7.4,8.0,8.1,8.2,8.3,8.4,9.0,9.1,9.2,9.3,9.4,9.5,9.6,10,11,12,13
+constraint_column-usage	column_name	sql_identifier		Name of the column that is used by some constraint	7.4,8.0,8.1,8.2,8.3,8.4,9.0,9.1,9.2,9.3,9.4,9.5,9.6,10,11,12,13
+constraint_column-usage	constraint_catalog	sql_identifier		Name of the database that contains the constraint (always the current database)	7.4,8.0,8.1,8.2,8.3,8.4,9.0,9.1,9.2,9.3,9.4,9.5,9.6,10,11,12,13
+constraint_column-usage	constraint_name	sql_identifier		Name of the constraint	7.4,8.0,8.1,8.2,8.3,8.4,9.0,9.1,9.2,9.3,9.4,9.5,9.6,10,11,12,13
+constraint_column-usage	constraint_schema	sql_identifier		Name of the schema that contains the constraint	7.4,8.0,8.1,8.2,8.3,8.4,9.0,9.1,9.2,9.3,9.4,9.5,9.6,10,11,12,13
+constraint_column-usage	table_catalog	sql_identifier		Name of the database that contains the table that contains the column that is used by some constraint (always the current database)	7.4,8.0,8.1,8.2,8.3,8.4,9.0,9.1,9.2,9.3,9.4,9.5,9.6,10,11,12,13
+constraint_column-usage	table_name	sql_identifier		Name of the table that contains the column that is used by some constraint	7.4,8.0,8.1,8.2,8.3,8.4,9.0,9.1,9.2,9.3,9.4,9.5,9.6,10,11,12,13
+constraint_column-usage	table_schema	sql_identifier		Name of the schema that contains the table that contains the column that is used by some constraint	7.4,8.0,8.1,8.2,8.3,8.4,9.0,9.1,9.2,9.3,9.4,9.5,9.6,10,11,12,13
+constraint_table-usage	constraint_catalog	sql_identifier		Name of the database that contains the constraint (always the current database)	7.4,8.0,8.1,8.2,8.3,8.4,9.0,9.1,9.2,9.3,9.4,9.5,9.6,10,11,12,13
+constraint_table-usage	constraint_name	sql_identifier		Name of the constraint	7.4,8.0,8.1,8.2,8.3,8.4,9.0,9.1,9.2,9.3,9.4,9.5,9.6,10,11,12,13
+constraint_table-usage	constraint_schema	sql_identifier		Name of the schema that contains the constraint	7.4,8.0,8.1,8.2,8.3,8.4,9.0,9.1,9.2,9.3,9.4,9.5,9.6,10,11,12,13
+constraint_table-usage	table_catalog	sql_identifier		Name of the database that contains the table that is used by some constraint (always the current database)	7.4,8.0,8.1,8.2,8.3,8.4,9.0,9.1,9.2,9.3,9.4,9.5,9.6,10,11,12,13
+constraint_table-usage	table_name	sql_identifier		Name of the table that is used by some constraint	7.4,8.0,8.1,8.2,8.3,8.4,9.0,9.1,9.2,9.3,9.4,9.5,9.6,10,11,12,13
+constraint_table-usage	table_schema	sql_identifier		Name of the schema that contains the table that is used by some constraint	7.4,8.0,8.1,8.2,8.3,8.4,9.0,9.1,9.2,9.3,9.4,9.5,9.6,10,11,12,13
+data_type-privileges	dtd_identifier	sql_identifier		The identifier of the data type descriptor, which is unique among the data type descriptors for that same object	7.4,8.0,8.1,8.2,8.3,8.4,9.0,9.1,9.2,9.3,9.4,9.5,9.6,10,11,12,13
+data_type-privileges	object_catalog	sql_identifier		Name of the database that contains the described object (always the current database)	7.4,8.0,8.1,8.2,8.3,8.4,9.0,9.1,9.2,9.3,9.4,9.5,9.6,10,11,12,13
+data_type-privileges	object_name	sql_identifier		Name of the described object	7.4,8.0,8.1,8.2,8.3,8.4,9.0,9.1,9.2,9.3,9.4,9.5,9.6,10,11,12,13
+data_type-privileges	object_schema	sql_identifier		Name of the schema that contains the described object	7.4,8.0,8.1,8.2,8.3,8.4,9.0,9.1,9.2,9.3,9.4,9.5,9.6,10,11,12,13
+data_type-privileges	object_type	character_data		The type of the described object: one of TABLE (the data type descriptor pertains to a column of that table), DOMAIN (the data type descriptors pertains to that domain), ROUTINE (the data type descriptor pertains to a parameter or the return data type of that function)	7.4,8.0,8.1,8.2,8.3,8.4,9.0,9.1,9.2,9.3,9.4,9.5,9.6,10,11,12,13
+domain_constraints	constraint_catalog	sql_identifier		Name of the database that contains the constraint (always the current database)	7.4,8.0,8.1,8.2,8.3,8.4,9.0,9.1,9.2,9.3,9.4,9.5,9.6,10,11,12,13
+domain_constraints	constraint_name	sql_identifier		Name of the constraint	7.4,8.0,8.1,8.2,8.3,8.4,9.0,9.1,9.2,9.3,9.4,9.5,9.6,10,11,12,13
+domain_constraints	constraint_schema	sql_identifier		Name of the schema that contains the constraint	7.4,8.0,8.1,8.2,8.3,8.4,9.0,9.1,9.2,9.3,9.4,9.5,9.6,10,11,12,13
+domain_constraints	domain_catalog	sql_identifier		Name of the database that contains the domain (always the current database)	7.4,8.0,8.1,8.2,8.3,8.4,9.0,9.1,9.2,9.3,9.4,9.5,9.6,10,11,12,13
+domain_constraints	domain_name	sql_identifier		Name of the domain	7.4,8.0,8.1,8.2,8.3,8.4,9.0,9.1,9.2,9.3,9.4,9.5,9.6,10,11,12,13
+domain_constraints	domain_schema	sql_identifier		Name of the schema that contains the domain	7.4,8.0,8.1,8.2,8.3,8.4,9.0,9.1,9.2,9.3,9.4,9.5,9.6,10,11,12,13
+domain_constraints	initially_deferred	character_data		YES if the constraint is deferrable and initially deferred, NO if not	7.4,8.0,8.1,8.2,8.3,8.4
+domain_constraints	initially_deferred	yes_or_no		YES if the constraint is deferrable and initially deferred, NO if not	9.0,9.1,9.2,9.3,9.4,9.5,9.6,10,11,12,13
+domain_constraints	is_deferrable	character_data		YES if the constraint is deferrable, NO if not	7.4,8.0,8.1,8.2,8.3,8.4
+domain_constraints	is_deferrable	yes_or_no		YES if the constraint is deferrable, NO if not	9.0,9.1,9.2,9.3,9.4,9.5,9.6,10,11,12,13
+domain_udt-usage	domain_catalog	sql_identifier		Name of the database that contains the domain (always the current database)	7.4,8.0,8.1,8.2,8.3,8.4,9.0,9.1,9.2,9.3,9.4,9.5,9.6,10,11,12,13
+domain_udt-usage	domain_name	sql_identifier		Name of the domain	7.4,8.0,8.1,8.2,8.3,8.4,9.0,9.1,9.2,9.3,9.4,9.5,9.6,10,11,12,13
+domain_udt-usage	domain_schema	sql_identifier		Name of the schema that contains the domain	7.4,8.0,8.1,8.2,8.3,8.4,9.0,9.1,9.2,9.3,9.4,9.5,9.6,10,11,12,13
+domain_udt-usage	udt_catalog	sql_identifier		Name of the database that the domain data type is defined in (always the current database)	7.4,8.0,8.1,8.2,8.3,8.4,9.0,9.1,9.2,9.3,9.4,9.5,9.6,10,11,12,13
+domain_udt-usage	udt_name	sql_identifier		Name of the domain data type	7.4,8.0,8.1,8.2,8.3,8.4,9.0,9.1,9.2,9.3,9.4,9.5,9.6,10,11,12,13
+domain_udt-usage	udt_schema	sql_identifier		Name of the schema that the domain data type is defined in	7.4,8.0,8.1,8.2,8.3,8.4,9.0,9.1,9.2,9.3,9.4,9.5,9.6,10,11,12,13
+domains	character_maximum_length	cardinal_number		If the domain has a character or bit string type, the declared maximum length; null for all other data types or if no maximum length was declared	7.4,8.0,8.1,8.2,8.3,8.4,9.0,9.1,9.2,9.3,9.4,9.5,9.6,10,11,12,13
+domains	character_octet_length	cardinal_number		If the domain has a character type, the maximum possible length in octets (bytes) of a datum (this should not be of concern to PostgreSQL users); null for all other data types	7.4,8.0,8.1,8.2,8.3,8.4
+domains	character_octet_length	cardinal_number		If the domain has a character type, the maximum possible length in octets (bytes) of a datum; null for all other data types. The maximum octet length depends on the declared character maximum length (see above) and the server encoding	9.0,9.1,9.2,9.3,9.4,9.5,9.6,10,11,12,13
+domains	character_set_catalog	sql_identifier		Applies to a feature not available in PostgreSQL	7.4,8.0,8.1,8.2,8.3,8.4,9.0,9.1,9.2,9.3,9.4,9.5,9.6,10,11,12,13
+domains	character_set_name	sql_identifier		Applies to a feature not available in PostgreSQL	7.4,8.0,8.1,8.2,8.3,8.4,9.0,9.1,9.2,9.3,9.4,9.5,9.6,10,11,12,13
+domains	character_set_schema	sql_identifier		Applies to a feature not available in PostgreSQL	7.4,8.0,8.1,8.2,8.3,8.4,9.0,9.1,9.2,9.3,9.4,9.5,9.6,10,11,12,13
+domains	collation_catalog	sql_identifier		Applies to a feature not available in PostgreSQL	7.4,8.0,8.1,8.2,8.3,8.4,9.0
+domains	collation_catalog	sql_identifier		Name of the database containing the collation of the domain (always the current database), null if default or the data type of the domain is not collatable	9.2,9.3,9.4,9.5,9.6,10,11,12,13
+domains	collation_catalog	sql_identifier		Not yet implemented	9.1
+domains	collation_name	sql_identifier		Applies to a feature not available in PostgreSQL	7.4,8.0,8.1,8.2,8.3,8.4,9.0
+domains	collation_name	sql_identifier		Name of the collation of the domain, null if default or the data type of the domain is not collatable	9.2,9.3,9.4,9.5,9.6,10,11,12,13
+domains	collation_name	sql_identifier		Not yet implemented	9.1
+domains	collation_schema	sql_identifier		Applies to a feature not available in PostgreSQL	7.4,8.0,8.1,8.2,8.3,8.4,9.0
+domains	collation_schema	sql_identifier		Name of the schema containing the collation of the domain, null if default or the data type of the domain is not collatable	9.2,9.3,9.4,9.5,9.6,10,11,12,13
+domains	collation_schema	sql_identifier		Not yet implemented	9.1
+domains	data_type	character_data		Data type of the domain, if it is a built-in type, or ARRAY if it is some array (in that case, see the view element_types), else USER-DEFINED (in that case, the type is identified in udt_name and associated columns)	7.4,8.0,8.1,8.2,8.3,8.4,9.0,9.1,9.2,9.3,9.4,9.5,9.6,10,11,12,13
+domains	datetime_precision	cardinal_number		If data_type identifies a date, time, timestamp, or interval type, this column contains the (declared or implicit) fractional seconds precision of the type for this domain, that is, the number of decimal digits maintained following the decimal point in the seconds value. For all other data types, this column is null	8.4,9.0,9.1,9.2,9.3,9.4,9.5,9.6,10,11,12,13
+domains	datetime_precision	cardinal_number		If the domain has a date, time, or interval type, the declared precision; null for all other data types or if no precision was declared	7.4,8.0,8.1,8.2,8.3
+domains	domain_catalog	sql_identifier		Name of the database that contains the domain (always the current database)	7.4,8.0,8.1,8.2,8.3,8.4,9.0,9.1,9.2,9.3,9.4,9.5,9.6,10,11,12,13
+domains	domain_default	character_data		Default expression of the domain	7.4,8.0,8.1,8.2,8.3,8.4,9.0,9.1,9.2,9.3,9.4,9.5,9.6,10,11,12,13
+domains	domain_name	sql_identifier		Name of the domain	7.4,8.0,8.1,8.2,8.3,8.4,9.0,9.1,9.2,9.3,9.4,9.5,9.6,10,11,12,13
+domains	domain_schema	sql_identifier		Name of the schema that contains the domain	7.4,8.0,8.1,8.2,8.3,8.4,9.0,9.1,9.2,9.3,9.4,9.5,9.6,10,11,12,13
+domains	dtd_identifier	sql_identifier		An identifier of the data type descriptor of the domain, unique among the data type descriptors pertaining to the domain (which is trivial, because a domain only contains one data type descriptor). This is mainly useful for joining with other instances of such identifiers. (The specific format of the identifier is not defined and not guaranteed to remain the same in future versions.)	7.4,8.0,8.1,8.2,8.3,8.4,9.0,9.1,9.2,9.3,9.4,9.5,9.6,10,11,12,13
+domains	interval_precision	cardinal_number		Applies to a feature not available in PostgreSQL (see datetime_precision for the fractional seconds precision of interval type domains)	9.2,9.3,9.4,9.5,9.6,10,11,12,13
+domains	interval_precision	character_data		Not yet implemented	7.4,8.0,8.1,8.2,8.3,8.4,9.0,9.1
+domains	interval_type	character_data		If data_type identifies an interval type, this column contains the specification which fields the intervals include for this domain, e.g., YEAR TO MONTH, DAY TO SECOND, etc. If no field restrictions were specified (that is, the interval accepts all fields), and for all other data types, this field is null	9.2,9.3,9.4,9.5,9.6,10,11,12,13
+domains	interval_type	character_data		Not yet implemented	7.4,8.0,8.1,8.2,8.3,8.4,9.0,9.1
+domains	maximum_cardinality	cardinal_number		Always null, because arrays always have unlimited maximum cardinality in PostgreSQL	7.4,8.0,8.1,8.2,8.3,8.4,9.0,9.1,9.2,9.3,9.4,9.5,9.6,10,11,12,13
+domains	numeric_precision	cardinal_number		If the domain has a numeric type, this column contains the (declared or implicit) precision of the type for this column. The precision indicates the number of significant digits. It can be expressed in decimal (base 10) or binary (base 2) terms, as specified in the column numeric_precision_radix. For all other data types, this column is null	8.3
+domains	numeric_precision	cardinal_number		If the domain has a numeric type, this column contains the (declared or implicit) precision of the type for this column. The precision indicates the number of significant digits. It may be expressed in decimal (base 10) or binary (base 2) terms, as specified in the column numeric_precision_radix. For all other data types, this column is null	7.4,8.0,8.1,8.2
+domains	numeric_precision	cardinal_number		If the domain has a numeric type, this column contains the (declared or implicit) precision of the type for this domain. The precision indicates the number of significant digits. It can be expressed in decimal (base 10) or binary (base 2) terms, as specified in the column numeric_precision_radix. For all other data types, this column is null	8.4,9.0,9.1,9.2,9.3,9.4,9.5,9.6,10,11,12,13
+domains	numeric_precision_radix	cardinal_number		If the domain has a numeric type, this column indicates in which base the values in the columns numeric_precision and numeric_scale are expressed. The value is either 2 or 10. For all other data types, this column is null	7.4,8.0,8.1,8.2,8.3,8.4,9.0,9.1,9.2,9.3,9.4,9.5,9.6,10,11,12,13
+domains	numeric_scale	cardinal_number		If the domain has an exact numeric type, this column contains the (declared or implicit) scale of the type for this column. The scale indicates the number of significant digits to the right of the decimal point. It can be expressed in decimal (base 10) or binary (base 2) terms, as specified in the column numeric_precision_radix. For all other data types, this column is null	8.3
+domains	numeric_scale	cardinal_number		If the domain has an exact numeric type, this column contains the (declared or implicit) scale of the type for this column. The scale indicates the number of significant digits to the right of the decimal point. It may be expressed in decimal (base 10) or binary (base 2) terms, as specified in the column numeric_precision_radix. For all other data types, this column is null	7.4,8.0,8.1,8.2
+domains	numeric_scale	cardinal_number		If the domain has an exact numeric type, this column contains the (declared or implicit) scale of the type for this domain. The scale indicates the number of significant digits to the right of the decimal point. It can be expressed in decimal (base 10) or binary (base 2) terms, as specified in the column numeric_precision_radix. For all other data types, this column is null	8.4,9.0,9.1,9.2,9.3,9.4,9.5,9.6,10,11,12,13
+domains	scope_catalog	sql_identifier		Applies to a feature not available in PostgreSQL	7.4,8.0,8.1,8.2,8.3,8.4,9.0,9.1,9.2,9.3,9.4,9.5,9.6,10,11,12,13
+domains	scope_name	sql_identifier		Applies to a feature not available in PostgreSQL	7.4,8.0,8.1,8.2,8.3,8.4,9.0,9.1,9.2,9.3,9.4,9.5,9.6,10,11,12,13
+domains	scope_schema	sql_identifier		Applies to a feature not available in PostgreSQL	7.4,8.0,8.1,8.2,8.3,8.4,9.0,9.1,9.2,9.3,9.4,9.5,9.6,10,11,12,13
+domains	udt_catalog	sql_identifier		Name of the database that the domain data type is defined in (always the current database)	7.4,8.0,8.1,8.2,8.3,8.4,9.0,9.1,9.2,9.3,9.4,9.5,9.6,10,11,12,13
+domains	udt_name	sql_identifier		Name of the domain data type	7.4,8.0,8.1,8.2,8.3,8.4,9.0,9.1,9.2,9.3,9.4,9.5,9.6,10,11,12,13
+domains	udt_schema	sql_identifier		Name of the schema that the domain data type is defined in	7.4,8.0,8.1,8.2,8.3,8.4,9.0,9.1,9.2,9.3,9.4,9.5,9.6,10,11,12,13
+element_types	array_type_identifier	sql_identifier		The identifier of the data type descriptor of the array being described. Use this to join with the dtd_identifier columns of other information schema views	7.4,8.0,8.1
+element_types	character_maximum_length	cardinal_number		Always null, since this information is not applied to array element data types in PostgreSQL	7.4,8.0,8.1,8.2,8.3,8.4,9.0,9.1,9.2,9.3,9.4,9.5,9.6,10,11,12,13
+element_types	character_octet_length	cardinal_number		Always null, since this information is not applied to array element data types in PostgreSQL	7.4,8.0,8.1,8.2,8.3,8.4,9.0,9.1,9.2,9.3,9.4,9.5,9.6,10,11,12,13
+element_types	character_set_catalog	sql_identifier		Applies to a feature not available in PostgreSQL	7.4,8.0,8.1,8.2,8.3,8.4,9.0,9.1,9.2,9.3,9.4,9.5,9.6,10,11,12,13
+element_types	character_set_name	sql_identifier		Applies to a feature not available in PostgreSQL	7.4,8.0,8.1,8.2,8.3,8.4,9.0,9.1,9.2,9.3,9.4,9.5,9.6,10,11,12,13
+element_types	character_set_schema	sql_identifier		Applies to a feature not available in PostgreSQL	7.4,8.0,8.1,8.2,8.3,8.4,9.0,9.1,9.2,9.3,9.4,9.5,9.6,10,11,12,13
+element_types	collation_catalog	sql_identifier		Applies to a feature not available in PostgreSQL	7.4,8.0,8.1,8.2,8.3,8.4,9.0
+element_types	collation_catalog	sql_identifier		Name of the database containing the collation of the element type (always the current database), null if default or the data type of the element is not collatable	9.2,9.3,9.4,9.5,9.6,10,11,12,13
+element_types	collation_catalog	sql_identifier		Not yet implemented	9.1
+element_types	collation_name	sql_identifier		Applies to a feature not available in PostgreSQL	7.4,8.0,8.1,8.2,8.3,8.4,9.0
+element_types	collation_name	sql_identifier		Name of the collation of the element type, null if default or the data type of the element is not collatable	9.2,9.3,9.4,9.5,9.6,10,11,12,13
+element_types	collation_name	sql_identifier		Not yet implemented	9.1
+element_types	collation_schema	sql_identifier		Applies to a feature not available in PostgreSQL	7.4,8.0,8.1,8.2,8.3,8.4,9.0
+element_types	collation_schema	sql_identifier		Name of the schema containing the collation of the element type, null if default or the data type of the element is not collatable	9.2,9.3,9.4,9.5,9.6,10,11,12,13
+element_types	collation_schema	sql_identifier		Not yet implemented	9.1
+element_types	collection_type_identifier	sql_identifier		The identifier of the data type descriptor of the array being described. Use this to join with the dtd_identifier columns of other information schema views	8.2,8.3,8.4,9.0,9.1,9.2,9.3,9.4,9.5,9.6,10,11,12,13
+element_types	data_type	character_data		Data type of the array elements, if it is a built-in type, else USER-DEFINED (in that case, the type is identified in udt_name and associated columns)	7.4,8.0,8.1,8.2,8.3,8.4,9.0,9.1,9.2,9.3,9.4,9.5,9.6,10,11,12,13
+element_types	datetime_precision	cardinal_number		Always null, since this information is not applied to array element data types in PostgreSQL	7.4,8.0,8.1,8.2,8.3,8.4,9.0,9.1,9.2,9.3,9.4,9.5,9.6,10,11,12,13
+element_types	domain_default	character_data		Not yet implemented	7.4,8.0,8.1,8.2,8.3,8.4,9.0,9.1,9.2,9.3,9.4,9.5,9.6,10,11,12,13
+element_types	dtd_identifier	sql_identifier		An identifier of the data type descriptor of the element. This is currently not useful	7.4,8.0,8.1,8.2,8.3,8.4,9.0,9.1,9.2,9.3,9.4,9.5,9.6,10,11,12,13
+element_types	interval_precision	cardinal_number		Always null, since this information is not applied to array element data types in PostgreSQL	9.2,9.3,9.4,9.5,9.6,10,11,12,13
+element_types	interval_precision	character_data		Always null, since this information is not applied to array element data types in PostgreSQL	7.4,8.0,8.1,8.2,8.3,8.4,9.0,9.1
+element_types	interval_type	character_data		Always null, since this information is not applied to array element data types in PostgreSQL	7.4,8.0,8.1,8.2,8.3,8.4,9.0,9.1,9.2,9.3,9.4,9.5,9.6,10,11,12,13
+element_types	maximum_cardinality	cardinal_number		Always null, because arrays always have unlimited maximum cardinality in PostgreSQL	7.4,8.0,8.1,8.2,8.3,8.4,9.0,9.1,9.2,9.3,9.4,9.5,9.6,10,11,12,13
+element_types	numeric_precision	cardinal_number		Always null, since this information is not applied to array element data types in PostgreSQL	7.4,8.0,8.1,8.2,8.3,8.4,9.0,9.1,9.2,9.3,9.4,9.5,9.6,10,11,12,13
+element_types	numeric_precision_radix	cardinal_number		Always null, since this information is not applied to array element data types in PostgreSQL	7.4,8.0,8.1,8.2,8.3,8.4,9.0,9.1,9.2,9.3,9.4,9.5,9.6,10,11,12,13
+element_types	numeric_scale	cardinal_number		Always null, since this information is not applied to array element data types in PostgreSQL	7.4,8.0,8.1,8.2,8.3,8.4,9.0,9.1,9.2,9.3,9.4,9.5,9.6,10,11,12,13
+element_types	object_catalog	sql_identifier		Name of the database that contains the object that uses the array being described (always the current database)	7.4,8.0,8.1,8.2,8.3,8.4,9.0,9.1,9.2,9.3,9.4,9.5,9.6,10,11,12,13
+element_types	object_name	sql_identifier		Name of the object that uses the array being described	7.4,8.0,8.1,8.2,8.3,8.4,9.0,9.1,9.2,9.3,9.4,9.5,9.6,10,11,12,13
+element_types	object_schema	sql_identifier		Name of the schema that contains the object that uses the array being described	7.4,8.0,8.1,8.2,8.3,8.4,9.0,9.1,9.2,9.3,9.4,9.5,9.6,10,11,12,13
+element_types	object_type	character_data		The type of the object that uses the array being described: one of TABLE (the array is used by a column of that table), DOMAIN (the array is used by that domain), ROUTINE (the array is used by a parameter or the return data type of that function)	7.4,8.0,8.1,8.2,8.3,8.4,9.0,9.1
+element_types	object_type	character_data		The type of the object that uses the array being described: one of TABLE (the array is used by a column of that table), USER-DEFINED TYPE (the array is used by an attribute of that composite type), DOMAIN (the array is used by that domain), ROUTINE (the array is used by a parameter or the return data type of that function)	9.2,9.3,9.4,9.5,9.6,10,11,12,13
+element_types	scope_catalog	sql_identifier		Applies to a feature not available in PostgreSQL	7.4,8.0,8.1,8.2,8.3,8.4,9.0,9.1,9.2,9.3,9.4,9.5,9.6,10,11,12,13
+element_types	scope_name	sql_identifier		Applies to a feature not available in PostgreSQL	7.4,8.0,8.1,8.2,8.3,8.4,9.0,9.1,9.2,9.3,9.4,9.5,9.6,10,11,12,13
+element_types	scope_schema	sql_identifier		Applies to a feature not available in PostgreSQL	7.4,8.0,8.1,8.2,8.3,8.4,9.0,9.1,9.2,9.3,9.4,9.5,9.6,10,11,12,13
+element_types	udt_catalog	sql_identifier		Name of the database that the data type of the elements is defined in (always the current database)	7.4,8.0,8.1,8.2,8.3,8.4,9.0,9.1,9.2,9.3,9.4,9.5,9.6,10,11,12,13
+element_types	udt_name	sql_identifier		Name of the data type of the elements	7.4,8.0,8.1,8.2,8.3,8.4,9.0,9.1,9.2,9.3,9.4,9.5,9.6,10,11,12,13
+element_types	udt_schema	sql_identifier		Name of the schema that the data type of the elements is defined in	7.4,8.0,8.1,8.2,8.3,8.4,9.0,9.1,9.2,9.3,9.4,9.5,9.6,10,11,12,13
+enabled_roles	role_name	sql_identifier		Name of a group	7.4,8.0,8.1
+enabled_roles	role_name	sql_identifier		Name of a role	8.2,8.3,8.4,9.0,9.1,9.2,9.3,9.4,9.5,9.6,10,11,12,13
+foreign_data-wrapper-options	foreign_data_wrapper_catalog	sql_identifier		Name of the database that the foreign-data wrapper is defined in (always the current database)	8.4,9.0,9.1,9.2,9.3,9.4,9.5,9.6,10,11,12,13
+foreign_data-wrapper-options	foreign_data_wrapper_name	sql_identifier		Name of the foreign-data wrapper	8.4,9.0,9.1,9.2,9.3,9.4,9.5,9.6,10,11,12,13
+foreign_data-wrapper-options	option_name	sql_identifier		Name of an option	8.4,9.0,9.1,9.2,9.3,9.4,9.5,9.6,10,11,12,13
+foreign_data-wrapper-options	option_value	character_data		Value of the option	8.4,9.0,9.1,9.2,9.3,9.4,9.5,9.6,10,11,12,13
+foreign_data-wrappers	authorization_identifier	sql_identifier		Name of the owner of the foreign server	8.4,9.0,9.1,9.2,9.3,9.4,9.5,9.6,10,11,12,13
+foreign_data-wrappers	foreign_data_wrapper_catalog	sql_identifier		Name of the database that contains the foreign-data wrapper (always the current database)	8.4,9.0,9.1,9.2,9.3,9.4,9.5,9.6,10,11,12,13
+foreign_data-wrappers	foreign_data_wrapper_language	character_data		Language used to implement this foreign-data wrapper	8.4,9.0,9.1,9.2,9.3,9.4,9.5,9.6,10,11,12,13
+foreign_data-wrappers	foreign_data_wrapper_name	sql_identifier		Name of the foreign-data wrapper	8.4,9.0,9.1,9.2,9.3,9.4,9.5,9.6,10,11,12,13
+foreign_data-wrappers	library_name	character_data		File name of the library that implementing this foreign-data wrapper	8.4,9.0,9.1,9.2,9.3,9.4,9.5,9.6,10,11,12,13
+foreign_server-options	foreign_server_catalog	sql_identifier		Name of the database that the foreign server is defined in (always the current database)	8.4,9.0,9.1,9.2,9.3,9.4,9.5,9.6,10,11,12,13
+foreign_server-options	foreign_server_name	sql_identifier		Name of the foreign server	8.4,9.0,9.1,9.2,9.3,9.4,9.5,9.6,10,11,12,13
+foreign_server-options	option_name	sql_identifier		Name of an option	8.4,9.0,9.1,9.2,9.3,9.4,9.5,9.6,10,11,12,13
+foreign_server-options	option_value	character_data		Value of the option	8.4,9.0,9.1,9.2,9.3,9.4,9.5,9.6,10,11,12,13
+foreign_servers	authorization_identifier	sql_identifier		Name of the owner of the foreign server	8.4,9.0,9.1,9.2,9.3,9.4,9.5,9.6,10,11,12,13
+foreign_servers	foreign_data_wrapper_catalog	sql_identifier		Name of the database that contains the foreign-data wrapper used by the foreign server (always the current database)	8.4,9.0,9.1,9.2,9.3,9.4,9.5,9.6,10,11,12,13
+foreign_servers	foreign_data_wrapper_name	sql_identifier		Name of the foreign-data wrapper used by the foreign server	8.4,9.0,9.1,9.2,9.3,9.4,9.5,9.6,10,11,12,13
+foreign_servers	foreign_server_catalog	sql_identifier		Name of the database that the foreign server is defined in (always the current database)	8.4,9.0,9.1,9.2,9.3,9.4,9.5,9.6,10,11,12,13
+foreign_servers	foreign_server_name	sql_identifier		Name of the foreign server	8.4,9.0,9.1,9.2,9.3,9.4,9.5,9.6,10,11,12,13
+foreign_servers	foreign_server_type	character_data		Foreign server type information, if specified upon creation	8.4,9.0,9.1,9.2,9.3,9.4,9.5,9.6,10,11,12,13
+foreign_servers	foreign_server_version	character_data		Foreign server version information, if specified upon creation	8.4,9.0,9.1,9.2,9.3,9.4,9.5,9.6,10,11,12,13
+foreign_table-options	foreign_table_catalog	sql_identifier		Name of the database that contains the foreign table (always the current database)	9.1,9.2,9.3,9.4,9.5,9.6,10,11,12,13
+foreign_table-options	foreign_table_name	sql_identifier		Name of the foreign table	9.1,9.2,9.3,9.4,9.5,9.6,10,11,12,13
+foreign_table-options	foreign_table_schema	sql_identifier		Name of the schema that contains the foreign table	9.1,9.2,9.3,9.4,9.5,9.6,10,11,12,13
+foreign_table-options	option_name	sql_identifier		Name of an option	9.1,9.2,9.3,9.4,9.5,9.6,10,11,12,13
+foreign_table-options	option_value	character_data		Value of the option	9.1,9.2,9.3,9.4,9.5,9.6,10,11,12,13
+foreign_tables	foreign_server_catalog	sql_identifier		Name of the database that the foreign server is defined in (always the current database)	9.1,9.2,9.3,9.4,9.5,9.6,10,11,12,13
+foreign_tables	foreign_server_name	sql_identifier		Name of the foreign server	9.1,9.2,9.3,9.4,9.5,9.6,10,11,12,13
+foreign_tables	foreign_table_catalog	sql_identifier		Name of the database that the foreign table is defined in (always the current database)	9.1,9.2,9.3,9.4,9.5,9.6,10,11,12,13
+foreign_tables	foreign_table_name	sql_identifier		Name of the foreign table	9.1,9.2,9.3,9.4,9.5,9.6,10,11,12,13
+foreign_tables	foreign_table_schema	sql_identifier		Name of the schema that contains the foreign table	9.1,9.2,9.3,9.4,9.5,9.6,10,11,12,13
+information_schema-catalog-name	catalog_name	sql_identifier		Name of the database that contains this information schema	7.4,8.0,8.1,8.2,8.3,8.4,9.0,9.1,9.2,9.3,9.4,9.5,9.6,10,11,12,13
+key_column-usage	column_name	sql_identifier		Name of the column that is restricted by some constraint	7.4,8.0,8.1
+key_column-usage	column_name	sql_identifier		Name of the column that is restricted by this constraint	8.2,8.3,8.4,9.0,9.1,9.2,9.3,9.4,9.5,9.6,10,11,12,13
+key_column-usage	constraint_catalog	sql_identifier		Name of the database that contains the constraint (always the current database)	7.4,8.0,8.1,8.2,8.3,8.4,9.0,9.1,9.2,9.3,9.4,9.5,9.6,10,11,12,13
+key_column-usage	constraint_name	sql_identifier		Name of the constraint	7.4,8.0,8.1,8.2,8.3,8.4,9.0,9.1,9.2,9.3,9.4,9.5,9.6,10,11,12,13
+key_column-usage	constraint_schema	sql_identifier		Name of the schema that contains the constraint	7.4,8.0,8.1,8.2,8.3,8.4,9.0,9.1,9.2,9.3,9.4,9.5,9.6,10,11,12,13
+key_column-usage	ordinal_position	cardinal_number		Ordinal position of the column within the constraint key (count starts at 1)	7.4,8.0,8.1,8.2,8.3,8.4,9.0,9.1,9.2,9.3,9.4,9.5,9.6,10,11,12,13
+key_column-usage	position_in_unique_constraint	cardinal_number		For a foreign-key constraint, ordinal position of the referenced column within its unique constraint (count starts at 1); otherwise null	8.2,8.3,8.4,9.0,9.1,9.2,9.3,9.4,9.5,9.6,10,11,12,13
+key_column-usage	table_catalog	sql_identifier		Name of the database that contains the table that contains the column that is restricted by some constraint (always the current database)	7.4,8.0,8.1
+key_column-usage	table_catalog	sql_identifier		Name of the database that contains the table that contains the column that is restricted by this constraint (always the current database)	8.2,8.3,8.4,9.0,9.1,9.2,9.3,9.4,9.5,9.6,10,11,12,13
+key_column-usage	table_name	sql_identifier		Name of the table that contains the column that is restricted by some constraint	7.4,8.0,8.1
+key_column-usage	table_name	sql_identifier		Name of the table that contains the column that is restricted by this constraint	8.2,8.3,8.4,9.0,9.1,9.2,9.3,9.4,9.5,9.6,10,11,12,13
+key_column-usage	table_schema	sql_identifier		Name of the schema that contains the table that contains the column that is restricted by some constraint	7.4,8.0,8.1
+key_column-usage	table_schema	sql_identifier		Name of the schema that contains the table that contains the column that is restricted by this constraint	8.2,8.3,8.4,9.0,9.1,9.2,9.3,9.4,9.5,9.6,10,11,12,13
+parameters	as_locator	character_data		Applies to a feature not available in PostgreSQL	7.4,8.0,8.1,8.2,8.3,8.4
+parameters	as_locator	yes_or_no		Applies to a feature not available in PostgreSQL	9.0,9.1,9.2,9.3,9.4,9.5,9.6,10,11,12,13
+parameters	character_maximum_length	cardinal_number		Always null, since this information is not applied to parameter data types in PostgreSQL	7.4,8.0,8.1,8.2,8.3,8.4,9.0,9.1,9.2,9.3,9.4,9.5,9.6,10,11,12,13
+parameters	character_octet_length	cardinal_number		Always null, since this information is not applied to parameter data types in PostgreSQL	7.4,8.0,8.1,8.2,8.3,8.4,9.0,9.1,9.2,9.3,9.4,9.5,9.6,10,11,12,13
+parameters	character_set_catalog	sql_identifier		Applies to a feature not available in PostgreSQL	7.4,8.0,8.1,8.2,8.3,8.4,9.0,9.1,9.2,9.3,9.4,9.5,9.6,10,11,12,13
+parameters	character_set_name	sql_identifier		Applies to a feature not available in PostgreSQL	7.4,8.0,8.1,8.2,8.3,8.4,9.0,9.1,9.2,9.3,9.4,9.5,9.6,10,11,12,13
+parameters	character_set_schema	sql_identifier		Applies to a feature not available in PostgreSQL	7.4,8.0,8.1,8.2,8.3,8.4,9.0,9.1,9.2,9.3,9.4,9.5,9.6,10,11,12,13
+parameters	collation_catalog	sql_identifier		Always null, since this information is not applied to parameter data types in PostgreSQL	9.1,9.2,9.3,9.4,9.5,9.6,10,11,12,13
+parameters	collation_catalog	sql_identifier		Applies to a feature not available in PostgreSQL	7.4,8.0,8.1,8.2,8.3,8.4,9.0
+parameters	collation_name	sql_identifier		Always null, since this information is not applied to parameter data types in PostgreSQL	9.1,9.2,9.3,9.4,9.5,9.6,10,11,12,13
+parameters	collation_name	sql_identifier		Applies to a feature not available in PostgreSQL	7.4,8.0,8.1,8.2,8.3,8.4,9.0
+parameters	collation_schema	sql_identifier		Always null, since this information is not applied to parameter data types in PostgreSQL	9.1,9.2,9.3,9.4,9.5,9.6,10,11,12,13
+parameters	collation_schema	sql_identifier		Applies to a feature not available in PostgreSQL	7.4,8.0,8.1,8.2,8.3,8.4,9.0
+parameters	data_type	character_data		Data type of the parameter, if it is a built-in type, or ARRAY if it is some array (in that case, see the view element_types), else USER-DEFINED (in that case, the type is identified in udt_name and associated columns)	7.4,8.0,8.1,8.2,8.3,8.4,9.0,9.1,9.2,9.3,9.4,9.5,9.6,10,11,12,13
+parameters	datetime_precision	cardinal_number		Always null, since this information is not applied to parameter data types in PostgreSQL	7.4,8.0,8.1,8.2,8.3,8.4,9.0,9.1,9.2,9.3,9.4,9.5,9.6,10,11,12,13
+parameters	dtd_identifier	sql_identifier		An identifier of the data type descriptor of the parameter, unique among the data type descriptors pertaining to the function. This is mainly useful for joining with other instances of such identifiers. (The specific format of the identifier is not defined and not guaranteed to remain the same in future versions.)	7.4,8.0,8.1,8.2,8.3,8.4,9.0,9.1,9.2,9.3,9.4,9.5,9.6,10,11,12,13
+parameters	interval_precision	cardinal_number		Always null, since this information is not applied to parameter data types in PostgreSQL	9.2,9.3,9.4,9.5,9.6,10,11,12,13
+parameters	interval_precision	character_data		Always null, since this information is not applied to parameter data types in PostgreSQL	7.4,8.0,8.1,8.2,8.3,8.4,9.0,9.1
+parameters	interval_type	character_data		Always null, since this information is not applied to parameter data types in PostgreSQL	7.4,8.0,8.1,8.2,8.3,8.4,9.0,9.1,9.2,9.3,9.4,9.5,9.6,10,11,12,13
+parameters	is_result	character_data		Applies to a feature not available in PostgreSQL	7.4,8.0,8.1,8.2,8.3,8.4
+parameters	is_result	yes_or_no		Applies to a feature not available in PostgreSQL	9.0,9.1,9.2,9.3,9.4,9.5,9.6,10,11,12,13
+parameters	maximum_cardinality	cardinal_number		Always null, because arrays always have unlimited maximum cardinality in PostgreSQL	7.4,8.0,8.1,8.2,8.3,8.4,9.0,9.1,9.2,9.3,9.4,9.5,9.6,10,11,12,13
+parameters	numeric_precision	cardinal_number		Always null, since this information is not applied to parameter data types in PostgreSQL	7.4,8.0,8.1,8.2,8.3,8.4,9.0,9.1,9.2,9.3,9.4,9.5,9.6,10,11,12,13
+parameters	numeric_precision_radix	cardinal_number		Always null, since this information is not applied to parameter data types in PostgreSQL	7.4,8.0,8.1,8.2,8.3,8.4,9.0,9.1,9.2,9.3,9.4,9.5,9.6,10,11,12,13
+parameters	numeric_scale	cardinal_number		Always null, since this information is not applied to parameter data types in PostgreSQL	7.4,8.0,8.1,8.2,8.3,8.4,9.0,9.1,9.2,9.3,9.4,9.5,9.6,10,11,12,13
+parameters	ordinal_position	cardinal_number		Ordinal position of the parameter in the argument list of the function (count starts at 1)	7.4,8.0,8.1,8.2,8.3,8.4,9.0,9.1,9.2,9.3,9.4,9.5,9.6,10,11,12,13
+parameters	parameter_default	character_data		The default expression of the parameter, or null if none or if the function is not owned by a currently enabled role	9.4,9.5,9.6,10,11,12,13
+parameters	parameter_mode	character_data		Always IN, meaning input parameter (in the future there might be other parameter modes)	8.0,8.1
+parameters	parameter_mode	character_data		Always IN, meaning input parameter (In the future there might be other parameter modes.)	7.4
+parameters	parameter_mode	character_data		IN for input parameter, OUT for output parameter, and INOUT for input/output parameter	8.2,8.3,8.4,9.0,9.1,9.2,9.3,9.4,9.5,9.6,10,11,12,13
+parameters	parameter_name	sql_identifier		Always null, since PostgreSQL does not support named parameters	7.4
+parameters	parameter_name	sql_identifier		Name of the parameter, or null if the parameter has no name	8.0,8.1,8.2,8.3,8.4,9.0,9.1,9.2,9.3,9.4,9.5,9.6,10,11,12,13
+parameters	scope_catalog	sql_identifier		Applies to a feature not available in PostgreSQL	7.4,8.0,8.1,8.2,8.3,8.4,9.0,9.1,9.2,9.3,9.4,9.5,9.6,10,11,12,13
+parameters	scope_name	sql_identifier		Applies to a feature not available in PostgreSQL	7.4,8.0,8.1,8.2,8.3,8.4,9.0,9.1,9.2,9.3,9.4,9.5,9.6,10,11,12,13
+parameters	scope_schema	sql_identifier		Applies to a feature not available in PostgreSQL	7.4,8.0,8.1,8.2,8.3,8.4,9.0,9.1,9.2,9.3,9.4,9.5,9.6,10,11,12,13
+parameters	specific_catalog	sql_identifier		Name of the database containing the function (always the current database)	7.4,8.0,8.1,8.2,8.3,8.4,9.0,9.1,9.2,9.3,9.4,9.5,9.6,10,11,12,13
+parameters	specific_name	sql_identifier		The "specific name" of the function. See Section 30.26 for more information	8.0
+parameters	specific_name	sql_identifier		The "specific name" of the function. See Section 31.26 for more information	8.1
+parameters	specific_name	sql_identifier		The "specific name" of the function. See Section 32.26 for more information	7.4
+parameters	specific_name	sql_identifier		The "specific name" of the function. See Section 32.29 for more information	8.2
+parameters	specific_name	sql_identifier		The "specific name" of the function. See Section 33.29 for more information	8.3
+parameters	specific_name	sql_identifier		The "specific name" of the function. See Section 33.33 for more information	8.4
+parameters	specific_name	sql_identifier		The "specific name" of the function. See Section 34.33 for more information	9.0
+parameters	specific_name	sql_identifier		The "specific name" of the function. See Section 34.38 for more information	9.1
+parameters	specific_name	sql_identifier		The "specific name" of the function. See Section 34.40 for more information	9.2,9.3,9.4,9.5
+parameters	specific_name	sql_identifier		The "specific name" of the function. See Section 35.40 for more information	9.6
+parameters	specific_name	sql_identifier		The "specific name" of the function. See Section 36.40 for more information	10
+parameters	specific_name	sql_identifier		The "specific name" of the function. See Section 36.41 for more information	12,13
+parameters	specific_name	sql_identifier		The "specific name" of the function. See Section 37.40 for more information	11
+parameters	specific_schema	sql_identifier		Name of the schema containing the function	7.4,8.0,8.1,8.2,8.3,8.4,9.0,9.1,9.2,9.3,9.4,9.5,9.6,10,11,12,13
+parameters	udt_catalog	sql_identifier		Name of the database that the data type of the parameter is defined in (always the current database)	7.4,8.0,8.1,8.2,8.3,8.4,9.0,9.1,9.2,9.3,9.4,9.5,9.6,10,11,12,13
+parameters	udt_name	sql_identifier		Name of the data type of the parameter	7.4,8.0,8.1,8.2,8.3,8.4,9.0,9.1,9.2,9.3,9.4,9.5,9.6,10,11,12,13
+parameters	udt_schema	sql_identifier		Name of the schema that the data type of the parameter is defined in	7.4,8.0,8.1,8.2,8.3,8.4,9.0,9.1,9.2,9.3,9.4,9.5,9.6,10,11,12,13
+referential_constraints	constraint_catalog	sql_identifier		Name of the database containing the constraint (always the current database)	7.4,8.0,8.1,8.2,8.3,8.4,9.0,9.1,9.2,9.3,9.4,9.5,9.6,10,11,12,13
+referential_constraints	constraint_name	sql_identifier		Name of the constraint	7.4,8.0,8.1,8.2,8.3,8.4,9.0,9.1,9.2,9.3,9.4,9.5,9.6,10,11,12,13
+referential_constraints	constraint_schema	sql_identifier		Name of the schema containing the constraint	7.4,8.0,8.1,8.2,8.3,8.4,9.0,9.1,9.2,9.3,9.4,9.5,9.6,10,11,12,13
+referential_constraints	delete_rule	character_data		Delete rule of the foreign key constraint: CASCADE, SET NULL, SET DEFAULT, RESTRICT, or NO ACTION	7.4,8.0,8.1,8.2,8.3,8.4,9.0,9.1,9.2,9.3,9.4,9.5,9.6,10,11,12,13
+referential_constraints	match_option	character_data		Match option of the foreign key constraint: FULL, PARTIAL, or NONE	7.4,8.0,8.1,8.2,8.3,8.4,9.0,9.1,9.2,9.3,9.4,9.5,9.6,10,11,12,13
+referential_constraints	unique_constraint_catalog	sql_identifier		Name of the database that contains the unique or primary key constraint that the foreign key constraint references (always the current database)	7.4,8.0,8.1,8.2,8.3,8.4,9.0,9.1,9.2,9.3,9.4,9.5,9.6,10,11,12,13
+referential_constraints	unique_constraint_name	sql_identifier		Name of the unique or primary key constraint that the foreign key constraint references	7.4,8.0,8.1,8.2,8.3,8.4,9.0,9.1,9.2,9.3,9.4,9.5,9.6,10,11,12,13
+referential_constraints	unique_constraint_schema	sql_identifier		Name of the schema that contains the unique or primary key constraint that the foreign key constraint references	7.4,8.0,8.1,8.2,8.3,8.4,9.0,9.1,9.2,9.3,9.4,9.5,9.6,10,11,12,13
+referential_constraints	update_rule	character_data		Update rule of the foreign key constraint: CASCADE, SET NULL, SET DEFAULT, RESTRICT, or NO ACTION	7.4,8.0,8.1,8.2,8.3,8.4,9.0,9.1,9.2,9.3,9.4,9.5,9.6,10,11,12,13
+role_column-grants	column_name	sql_identifier		Name of the column	7.4,8.0,8.1,8.2,8.3,8.4,9.0,9.1,9.2,9.3,9.4,9.5,9.6,10,11,12,13
+role_column-grants	grantee	sql_identifier		Name of the group that the privilege was granted to	7.4,8.0,8.1
+role_column-grants	grantee	sql_identifier		Name of the role that the privilege was granted to	8.2,8.3,8.4,9.0,9.1,9.2,9.3,9.4,9.5,9.6,10,11,12,13
+role_column-grants	grantor	sql_identifier		Name of the role that granted the privilege	8.2,8.3,8.4,9.0,9.1,9.2,9.3,9.4,9.5,9.6,10,11,12,13
+role_column-grants	grantor	sql_identifier		Name of the user that granted the privilege	7.4,8.0,8.1
+role_column-grants	is_grantable	character_data		YES if the privilege is grantable, NO if not	7.4,8.0,8.1,8.2,8.3,8.4
+role_column-grants	is_grantable	yes_or_no		YES if the privilege is grantable, NO if not	9.0,9.1,9.2,9.3,9.4,9.5,9.6,10,11,12,13
+role_column-grants	privilege_type	character_data		Type of the privilege: SELECT, INSERT, UPDATE, or REFERENCES	7.4,8.0,8.1,8.2,8.3,8.4,9.0,9.1,9.2,9.3,9.4,9.5,9.6,10,11,12,13
+role_column-grants	table_catalog	sql_identifier		Name of the database that contains the table that contains the column (always the current database)	7.4,8.0,8.1,8.2,8.3,8.4,9.0,9.1,9.2,9.3,9.4,9.5,9.6,10,11,12,13
+role_column-grants	table_name	sql_identifier		Name of the table that contains the column	7.4,8.0,8.1,8.2,8.3,8.4,9.0,9.1,9.2,9.3,9.4,9.5,9.6,10,11,12,13
+role_column-grants	table_schema	sql_identifier		Name of the schema that contains the table that contains the column	7.4,8.0,8.1,8.2,8.3,8.4,9.0,9.1,9.2,9.3,9.4,9.5,9.6,10,11,12,13
+role_routine-grants	grantee	sql_identifier		Name of the group that the privilege was granted to	7.4,8.0,8.1
+role_routine-grants	grantee	sql_identifier		Name of the role that the privilege was granted to	8.2,8.3,8.4,9.0,9.1,9.2,9.3,9.4,9.5,9.6,10,11,12,13
+role_routine-grants	grantor	sql_identifier		Name of the role that granted the privilege	8.2,8.3,8.4,9.0,9.1,9.2,9.3,9.4,9.5,9.6,10,11,12,13
+role_routine-grants	grantor	sql_identifier		Name of the user that granted the privilege	7.4,8.0,8.1
+role_routine-grants	is_grantable	character_data		YES if the privilege is grantable, NO if not	7.4,8.0,8.1,8.2,8.3,8.4
+role_routine-grants	is_grantable	yes_or_no		YES if the privilege is grantable, NO if not	9.0,9.1,9.2,9.3,9.4,9.5,9.6,10,11,12,13
+role_routine-grants	privilege_type	character_data		Always EXECUTE (the only privilege type for functions)	7.4,8.0,8.1,8.2,8.3,8.4,9.0,9.1,9.2,9.3,9.4,9.5,9.6,10,11,12,13
+role_routine-grants	routine_catalog	sql_identifier		Name of the database containing the function (always the current database)	7.4,8.0,8.1,8.2,8.3,8.4,9.0,9.1,9.2,9.3,9.4,9.5,9.6,10,11,12,13
+role_routine-grants	routine_name	sql_identifier		Name of the function (may be duplicated in case of overloading)	7.4,8.0,8.1,8.2
+role_routine-grants	routine_name	sql_identifier		Name of the function (might be duplicated in case of overloading)	8.3,8.4,9.0,9.1,9.2,9.3,9.4,9.5,9.6,10,11,12,13
+role_routine-grants	routine_schema	sql_identifier		Name of the schema containing the function	7.4,8.0,8.1,8.2,8.3,8.4,9.0,9.1,9.2,9.3,9.4,9.5,9.6,10,11,12,13
+role_routine-grants	specific_catalog	sql_identifier		Name of the database containing the function (always the current database)	7.4,8.0,8.1,8.2,8.3,8.4,9.0,9.1,9.2,9.3,9.4,9.5,9.6,10,11,12,13
+role_routine-grants	specific_name	sql_identifier		The "specific name" of the function. See Section 30.26 for more information	8.0
+role_routine-grants	specific_name	sql_identifier		The "specific name" of the function. See Section 31.26 for more information	8.1
+role_routine-grants	specific_name	sql_identifier		The "specific name" of the function. See Section 32.26 for more information	7.4
+role_routine-grants	specific_name	sql_identifier		The "specific name" of the function. See Section 32.29 for more information	8.2
+role_routine-grants	specific_name	sql_identifier		The "specific name" of the function. See Section 33.29 for more information	8.3
+role_routine-grants	specific_name	sql_identifier		The "specific name" of the function. See Section 33.33 for more information	8.4
+role_routine-grants	specific_name	sql_identifier		The "specific name" of the function. See Section 34.33 for more information	9.0
+role_routine-grants	specific_name	sql_identifier		The "specific name" of the function. See Section 34.38 for more information	9.1
+role_routine-grants	specific_name	sql_identifier		The "specific name" of the function. See Section 34.40 for more information	9.2,9.3,9.4,9.5
+role_routine-grants	specific_name	sql_identifier		The "specific name" of the function. See Section 35.40 for more information	9.6
+role_routine-grants	specific_name	sql_identifier		The "specific name" of the function. See Section 36.40 for more information	10
+role_routine-grants	specific_name	sql_identifier		The "specific name" of the function. See Section 36.41 for more information	12,13
+role_routine-grants	specific_name	sql_identifier		The "specific name" of the function. See Section 37.40 for more information	11
+role_routine-grants	specific_schema	sql_identifier		Name of the schema containing the function	7.4,8.0,8.1,8.2,8.3,8.4,9.0,9.1,9.2,9.3,9.4,9.5,9.6,10,11,12,13
+role_table-grants	grantee	sql_identifier		Name of the group that the privilege was granted to	7.4,8.0,8.1
+role_table-grants	grantee	sql_identifier		Name of the role that the privilege was granted to	8.2,8.3,8.4,9.0,9.1,9.2,9.3,9.4,9.5,9.6,10,11,12,13
+role_table-grants	grantor	sql_identifier		Name of the role that granted the privilege	8.2,8.3,8.4,9.0,9.1,9.2,9.3,9.4,9.5,9.6,10,11,12,13
+role_table-grants	grantor	sql_identifier		Name of the user that granted the privilege	7.4,8.0,8.1
+role_table-grants	is_grantable	character_data		YES if the privilege is grantable, NO if not	7.4,8.0,8.1,8.2,8.3,8.4
+role_table-grants	is_grantable	yes_or_no		YES if the privilege is grantable, NO if not	9.0,9.1,9.2,9.3,9.4,9.5,9.6,10,11,12,13
+role_table-grants	privilege_type	character_data		Type of the privilege: SELECT, DELETE, INSERT, UPDATE, REFERENCES, or TRIGGER	8.2,8.3
+role_table-grants	privilege_type	character_data		Type of the privilege: SELECT, DELETE, INSERT, UPDATE, REFERENCES, RULE, or TRIGGER	7.4,8.0,8.1
+role_table-grants	privilege_type	character_data		Type of the privilege: SELECT, INSERT, UPDATE, DELETE, TRUNCATE, REFERENCES, or TRIGGER	8.4,9.0,9.1,9.2,9.3,9.4,9.5,9.6,10,11,12,13
+role_table-grants	table_catalog	sql_identifier		Name of the database that contains the table (always the current database)	7.4,8.0,8.1,8.2,8.3,8.4,9.0,9.1,9.2,9.3,9.4,9.5,9.6,10,11,12,13
+role_table-grants	table_name	sql_identifier		Name of the table	7.4,8.0,8.1,8.2,8.3,8.4,9.0,9.1,9.2,9.3,9.4,9.5,9.6,10,11,12,13
+role_table-grants	table_schema	sql_identifier		Name of the schema that contains the table	7.4,8.0,8.1,8.2,8.3,8.4,9.0,9.1,9.2,9.3,9.4,9.5,9.6,10,11,12,13
+role_table-grants	with_hierarchy	character_data		Applies to a feature not available in PostgreSQL	7.4,8.0,8.1,8.2,8.3,8.4
+role_table-grants	with_hierarchy	yes_or_no		Applies to a feature not available in PostgreSQL	9.0,9.1
+role_table-grants	with_hierarchy	yes_or_no		In the SQL standard, WITH HIERARCHY OPTION is a separate (sub-)privilege allowing certain operations on table inheritance hierarchies. In PostgreSQL, this is included in the SELECT privilege, so this column shows YES if the privilege is SELECT, else NO	9.2,9.3,9.4,9.5,9.6,10,11,12,13
+role_udt-grants	grantee	sql_identifier		The name of the role that the privilege was granted to	9.2,9.3,9.4,9.5,9.6,10,11,12,13
+role_udt-grants	grantor	sql_identifier		The name of the role that granted the privilege	9.2,9.3,9.4,9.5,9.6,10,11,12,13
+role_udt-grants	is_grantable	yes_or_no		YES if the privilege is grantable, NO if not	9.2,9.3,9.4,9.5,9.6,10,11,12,13
+role_udt-grants	privilege_type	character_data		Always TYPE USAGE	9.2,9.3,9.4,9.5,9.6,10,11,12,13
+role_udt-grants	udt_catalog	sql_identifier		Name of the database containing the type (always the current database)	9.2,9.3,9.4,9.5,9.6,10,11,12,13
+role_udt-grants	udt_name	sql_identifier		Name of the type	9.2,9.3,9.4,9.5,9.6,10,11,12,13
+role_udt-grants	udt_schema	sql_identifier		Name of the schema containing the type	9.2,9.3,9.4,9.5,9.6,10,11,12,13
+role_usage-grants	grantee	sql_identifier		In the future, the name of the group that the privilege was granted to	7.4,8.0,8.1
+role_usage-grants	grantee	sql_identifier		In the future, the name of the role that the privilege was granted to	8.2,8.3
+role_usage-grants	grantee	sql_identifier		The name of the role that the privilege was granted to	8.4,9.0,9.1,9.2,9.3,9.4,9.5,9.6,10,11,12,13
+role_usage-grants	grantor	sql_identifier		In the future, the name of the role that granted the privilege	8.2,8.3
+role_usage-grants	grantor	sql_identifier		In the future, the name of the user that granted the privilege	7.4,8.0,8.1
+role_usage-grants	grantor	sql_identifier		The name of the role that granted the privilege	8.4,9.0,9.1,9.2,9.3,9.4,9.5,9.6,10,11,12,13
+role_usage-grants	is_grantable	character_data		YES if the privilege is grantable, NO if not	7.4,8.0,8.1,8.2,8.3,8.4
+role_usage-grants	is_grantable	yes_or_no		YES if the privilege is grantable, NO if not	9.0,9.1,9.2,9.3,9.4,9.5,9.6,10,11,12,13
+role_usage-grants	object_catalog	sql_identifier		Name of the database containing the object (always the current database)	7.4,8.0,8.1,8.2,8.3,8.4,9.0,9.1,9.2,9.3,9.4,9.5,9.6,10,11,12,13
+role_usage-grants	object_name	sql_identifier		Name of the object	7.4,8.0,8.1,8.2,8.3,8.4,9.0,9.1,9.2,9.3,9.4,9.5,9.6,10,11,12,13
+role_usage-grants	object_schema	sql_identifier		Name of the schema containing the object	7.4,8.0,8.1,8.2,8.3
+role_usage-grants	object_schema	sql_identifier		Name of the schema containing the object, if applicable, else an empty string	8.4,9.0,9.1,9.2,9.3,9.4,9.5,9.6,10,11,12,13
+role_usage-grants	object_type	character_data		COLLATION or DOMAIN or FOREIGN DATA WRAPPER or FOREIGN SERVER	9.1
+role_usage-grants	object_type	character_data		COLLATION or DOMAIN or FOREIGN DATA WRAPPER or FOREIGN SERVER or SEQUENCE	9.2,9.3,9.4,9.5,9.6,10,11,12,13
+role_usage-grants	object_type	character_data		DOMAIN or FOREIGN DATA WRAPPER or FOREIGN SERVER	8.4,9.0
+role_usage-grants	object_type	character_data		In the future, the type of the object	7.4,8.0,8.1,8.2,8.3
+role_usage-grants	privilege_type	character_data		Always USAGE	7.4,8.0,8.1,8.2,8.3,8.4,9.0,9.1,9.2,9.3,9.4,9.5,9.6,10,11,12,13
+routine_privileges	grantee	sql_identifier		Name of the role that the privilege was granted to	8.2,8.3,8.4,9.0,9.1,9.2,9.3,9.4,9.5,9.6,10,11,12,13
+routine_privileges	grantee	sql_identifier		Name of the user or group that the privilege was granted to	7.4,8.0,8.1
+routine_privileges	grantor	sql_identifier		Name of the role that granted the privilege	8.2,8.3,8.4,9.0,9.1,9.2,9.3,9.4,9.5,9.6,10,11,12,13
+routine_privileges	grantor	sql_identifier		Name of the user that granted the privilege	7.4,8.0,8.1
+routine_privileges	is_grantable	character_data		YES if the privilege is grantable, NO if not	7.4,8.0,8.1,8.2,8.3,8.4
+routine_privileges	is_grantable	yes_or_no		YES if the privilege is grantable, NO if not	9.0,9.1,9.2,9.3,9.4,9.5,9.6,10,11,12,13
+routine_privileges	privilege_type	character_data		Always EXECUTE (the only privilege type for functions)	7.4,8.0,8.1,8.2,8.3,8.4,9.0,9.1,9.2,9.3,9.4,9.5,9.6,10,11,12,13
+routine_privileges	routine_catalog	sql_identifier		Name of the database containing the function (always the current database)	7.4,8.0,8.1,8.2,8.3,8.4,9.0,9.1,9.2,9.3,9.4,9.5,9.6,10,11,12,13
+routine_privileges	routine_name	sql_identifier		Name of the function (may be duplicated in case of overloading)	7.4,8.0,8.1,8.2
+routine_privileges	routine_name	sql_identifier		Name of the function (might be duplicated in case of overloading)	8.3,8.4,9.0,9.1,9.2,9.3,9.4,9.5,9.6,10,11,12,13
+routine_privileges	routine_schema	sql_identifier		Name of the schema containing the function	7.4,8.0,8.1,8.2,8.3,8.4,9.0,9.1,9.2,9.3,9.4,9.5,9.6,10,11,12,13
+routine_privileges	specific_catalog	sql_identifier		Name of the database containing the function (always the current database)	7.4,8.0,8.1,8.2,8.3,8.4,9.0,9.1,9.2,9.3,9.4,9.5,9.6,10,11,12,13
+routine_privileges	specific_name	sql_identifier		The "specific name" of the function. See Section 30.26 for more information	8.0
+routine_privileges	specific_name	sql_identifier		The "specific name" of the function. See Section 31.26 for more information	8.1
+routine_privileges	specific_name	sql_identifier		The "specific name" of the function. See Section 32.26 for more information	7.4
+routine_privileges	specific_name	sql_identifier		The "specific name" of the function. See Section 32.29 for more information	8.2
+routine_privileges	specific_name	sql_identifier		The "specific name" of the function. See Section 33.29 for more information	8.3
+routine_privileges	specific_name	sql_identifier		The "specific name" of the function. See Section 33.33 for more information	8.4
+routine_privileges	specific_name	sql_identifier		The "specific name" of the function. See Section 34.33 for more information	9.0
+routine_privileges	specific_name	sql_identifier		The "specific name" of the function. See Section 34.38 for more information	9.1
+routine_privileges	specific_name	sql_identifier		The "specific name" of the function. See Section 34.40 for more information	9.2,9.3,9.4,9.5
+routine_privileges	specific_name	sql_identifier		The "specific name" of the function. See Section 35.40 for more information	9.6
+routine_privileges	specific_name	sql_identifier		The "specific name" of the function. See Section 36.40 for more information	10
+routine_privileges	specific_name	sql_identifier		The "specific name" of the function. See Section 36.41 for more information	12,13
+routine_privileges	specific_name	sql_identifier		The "specific name" of the function. See Section 37.40 for more information	11
+routine_privileges	specific_schema	sql_identifier		Name of the schema containing the function	7.4,8.0,8.1,8.2,8.3,8.4,9.0,9.1,9.2,9.3,9.4,9.5,9.6,10,11,12,13
+routines	as_locator	character_data		Applies to a feature not available in PostgreSQL	7.4,8.0,8.1,8.2,8.3,8.4
+routines	as_locator	yes_or_no		Applies to a feature not available in PostgreSQL	9.0,9.1,9.2,9.3,9.4,9.5,9.6,10,11,12,13
+routines	character_maximum_length	cardinal_number		Always null, since this information is not applied to return data types in PostgreSQL	7.4,8.0,8.1,8.2,8.3,8.4,9.0,9.1,9.2,9.3,9.4,9.5,9.6,10,11,12,13
+routines	character_octet_length	cardinal_number		Always null, since this information is not applied to return data types in PostgreSQL	7.4,8.0,8.1,8.2,8.3,8.4,9.0,9.1,9.2,9.3,9.4,9.5,9.6,10,11,12,13
+routines	character_set_catalog	sql_identifier		Applies to a feature not available in PostgreSQL	7.4,8.0,8.1,8.2,8.3,8.4,9.0,9.1,9.2,9.3,9.4,9.5,9.6,10,11,12,13
+routines	character_set_name	sql_identifier		Applies to a feature not available in PostgreSQL	7.4,8.0,8.1,8.2,8.3,8.4,9.0,9.1,9.2,9.3,9.4,9.5,9.6,10,11,12,13
+routines	character_set_schema	sql_identifier		Applies to a feature not available in PostgreSQL	7.4,8.0,8.1,8.2,8.3,8.4,9.0,9.1,9.2,9.3,9.4,9.5,9.6,10,11,12,13
+routines	collation_catalog	sql_identifier		Always null, since this information is not applied to return data types in PostgreSQL	9.1,9.2,9.3,9.4,9.5,9.6,10,11,12,13
+routines	collation_catalog	sql_identifier		Applies to a feature not available in PostgreSQL	7.4,8.0,8.1,8.2,8.3,8.4,9.0
+routines	collation_name	sql_identifier		Always null, since this information is not applied to return data types in PostgreSQL	9.1,9.2,9.3,9.4,9.5,9.6,10,11,12,13
+routines	collation_name	sql_identifier		Applies to a feature not available in PostgreSQL	7.4,8.0,8.1,8.2,8.3,8.4,9.0
+routines	collation_schema	sql_identifier		Always null, since this information is not applied to return data types in PostgreSQL	9.1,9.2,9.3,9.4,9.5,9.6,10,11,12,13
+routines	collation_schema	sql_identifier		Applies to a feature not available in PostgreSQL	7.4,8.0,8.1,8.2,8.3,8.4,9.0
+routines	created	time_stamp		Applies to a feature not available in PostgreSQL	8.2,8.3,8.4,9.0,9.1,9.2,9.3,9.4,9.5,9.6,10,11,12,13
+routines	data_type	character_data		Return data type of the function, if it is a built-in type, or ARRAY if it is some array (in that case, see the view element_types), else USER-DEFINED (in that case, the type is identified in type_udt_name and associated columns)	7.4,8.0,8.1,8.2,8.3,8.4,9.0,9.1,9.2,9.3,9.4,9.5,9.6,10
+routines	data_type	character_data		Return data type of the function, if it is a built-in type, or ARRAY if it is some array (in that case, see the view element_types), else USER-DEFINED (in that case, the type is identified in type_udt_name and associated columns). Null for a procedure	11,12,13
+routines	datetime_precision	cardinal_number		Always null, since this information is not applied to return data types in PostgreSQL	7.4,8.0,8.1,8.2,8.3,8.4,9.0,9.1,9.2,9.3,9.4,9.5,9.6,10,11,12,13
+routines	dtd_identifier	sql_identifier		An identifier of the data type descriptor of the return data type of this function, unique among the data type descriptors pertaining to the function. This is mainly useful for joining with other instances of such identifiers. (The specific format of the identifier is not defined and not guaranteed to remain the same in future versions.)	7.4,8.0,8.1,8.2,8.3,8.4,9.0,9.1,9.2,9.3,9.4,9.5,9.6,10,11,12,13
+routines	external_language	character_data		The language the function is written in	7.4,8.0,8.1,8.2,8.3,8.4,9.0,9.1,9.2,9.3,9.4,9.5,9.6,10,11,12,13
+routines	external_name	character_data		If this function is a C function, then the external name (link symbol) of the function; else null. (This works out to be the same value that is shown in routine_definition.)	7.4,8.0,8.1,8.2,8.3,8.4,9.0,9.1,9.2,9.3,9.4,9.5,9.6,10,11,12,13
+routines	interval_precision	cardinal_number		Always null, since this information is not applied to return data types in PostgreSQL	9.2,9.3,9.4,9.5,9.6,10,11,12,13
+routines	interval_precision	character_data		Always null, since this information is not applied to return data types in PostgreSQL	7.4,8.0,8.1,8.2,8.3,8.4,9.0,9.1
+routines	interval_type	character_data		Always null, since this information is not applied to return data types in PostgreSQL	7.4,8.0,8.1,8.2,8.3,8.4,9.0,9.1,9.2,9.3,9.4,9.5,9.6,10,11,12,13
+routines	is_deterministic	character_data		If the function is declared immutable (called deterministic in the SQL standard), then YES, else NO. (You cannot query the other volatility levels available in PostgreSQL through the information schema.)	7.4,8.0,8.1,8.2,8.3,8.4
+routines	is_deterministic	yes_or_no		If the function is declared immutable (called deterministic in the SQL standard), then YES, else NO. (You cannot query the other volatility levels available in PostgreSQL through the information schema.)	9.0,9.1,9.2,9.3,9.4,9.5,9.6,10,11,12,13
+routines	is_implicitly_invocable	character_data		Applies to a feature not available in PostgreSQL	7.4,8.0,8.1,8.2,8.3,8.4
+routines	is_implicitly_invocable	yes_or_no		Applies to a feature not available in PostgreSQL	9.0,9.1,9.2,9.3,9.4,9.5,9.6,10,11,12,13
+routines	is_null_call	character_data		If the function automatically returns null if any of its arguments are null, then YES, else NO	7.4,8.0,8.1,8.2,8.3,8.4
+routines	is_null_call	yes_or_no		If the function automatically returns null if any of its arguments are null, then YES, else NO	9.0,9.1,9.2,9.3,9.4,9.5,9.6,10
+routines	is_null_call	yes_or_no		If the function automatically returns null if any of its arguments are null, then YES, else NO. Null for a procedure	11,12,13
+routines	is_udt_dependent	character_data		Applies to a feature not available in PostgreSQL	8.2,8.3,8.4
+routines	is_udt_dependent	yes_or_no		Applies to a feature not available in PostgreSQL	9.0,9.1
+routines	is_udt_dependent	yes_or_no		Currently always NO. The alternative YES applies to a feature not available in PostgreSQL	9.2,9.3,9.4,9.5,9.6,10,11,12,13
+routines	is_user_defined_cast	character_data		Applies to a feature not available in PostgreSQL	7.4,8.0,8.1,8.2,8.3,8.4
+routines	is_user_defined_cast	yes_or_no		Applies to a feature not available in PostgreSQL	9.0,9.1,9.2,9.3,9.4,9.5,9.6,10,11,12,13
+routines	last_altered	time_stamp		Applies to a feature not available in PostgreSQL	8.2,8.3,8.4,9.0,9.1,9.2,9.3,9.4,9.5,9.6,10,11,12,13
+routines	max_dynamic_result_sets	cardinal_number		Applies to a feature not available in PostgreSQL	7.4,8.0,8.1,8.2,8.3,8.4,9.0,9.1,9.2,9.3,9.4,9.5,9.6,10,11,12,13
+routines	maximum_cardinality	cardinal_number		Always null, because arrays always have unlimited maximum cardinality in PostgreSQL	7.4,8.0,8.1,8.2,8.3,8.4,9.0,9.1,9.2,9.3,9.4,9.5,9.6,10,11,12,13
+routines	module_catalog	sql_identifier		Applies to a feature not available in PostgreSQL	7.4,8.0,8.1,8.2,8.3,8.4,9.0,9.1,9.2,9.3,9.4,9.5,9.6,10,11,12,13
+routines	module_name	sql_identifier		Applies to a feature not available in PostgreSQL	7.4,8.0,8.1,8.2,8.3,8.4,9.0,9.1,9.2,9.3,9.4,9.5,9.6,10,11,12,13
+routines	module_schema	sql_identifier		Applies to a feature not available in PostgreSQL	7.4,8.0,8.1,8.2,8.3,8.4,9.0,9.1,9.2,9.3,9.4,9.5,9.6,10,11,12,13
+routines	new_savepoint_level	character_data		Applies to a feature not available in PostgreSQL	8.2,8.3,8.4
+routines	new_savepoint_level	yes_or_no		Applies to a feature not available in PostgreSQL	9.0,9.1,9.2,9.3,9.4,9.5,9.6,10,11,12,13
+routines	numeric_precision	cardinal_number		Always null, since this information is not applied to return data types in PostgreSQL	7.4,8.0,8.1,8.2,8.3,8.4,9.0,9.1,9.2,9.3,9.4,9.5,9.6,10,11,12,13
+routines	numeric_precision_radix	cardinal_number		Always null, since this information is not applied to return data types in PostgreSQL	7.4,8.0,8.1,8.2,8.3,8.4,9.0,9.1,9.2,9.3,9.4,9.5,9.6,10,11,12,13
+routines	numeric_scale	cardinal_number		Always null, since this information is not applied to return data types in PostgreSQL	7.4,8.0,8.1,8.2,8.3,8.4,9.0,9.1,9.2,9.3,9.4,9.5,9.6,10,11,12,13
+routines	parameter_style	character_data		Always GENERAL (The SQL standard defines other parameter styles, which are not available in PostgreSQL.)	7.4,8.0,8.1,8.2,8.3,8.4,9.0,9.1,9.2,9.3,9.4,9.5,9.6,10,11,12,13
+routines	result_cast_as_locator	character_data		Applies to a feature not available in PostgreSQL	8.2,8.3,8.4
+routines	result_cast_as_locator	yes_or_no		Applies to a feature not available in PostgreSQL	9.0,9.1,9.2,9.3,9.4,9.5,9.6,10,11,12,13
+routines	result_cast_char_max_length	cardinal_number		Applies to a feature not available in PostgreSQL	8.2,8.3,8.4,9.0,9.1,9.2,9.3,9.4,9.5,9.6,10,11,12,13
+routines	result_cast_char_octet_length	cardinal_number		Applies to a feature not available in PostgreSQL	13
+routines	result_cast_char_octet_length	character_data		Applies to a feature not available in PostgreSQL	8.2,8.3,8.4,9.0,9.1,9.2,9.3,9.4,9.5,9.6,10,11,12
+routines	result_cast_char_set_catalog	sql_identifier		Applies to a feature not available in PostgreSQL	8.2,8.3,8.4,9.0,9.1,9.2,9.3,9.4,9.5,9.6,10,11,12,13
+routines	result_cast_char_set_name	sql_identifier		Applies to a feature not available in PostgreSQL	8.2,8.3,8.4,9.0,9.1,9.2,9.3,9.4,9.5,9.6,10,11,12,13
+routines	result_cast_char_set_schema	sql_identifier		Applies to a feature not available in PostgreSQL	8.2,8.3,8.4,9.0,9.1,9.2,9.3,9.4,9.5,9.6,10,11,12,13
+routines	result_cast_collation_catalog	sql_identifier		Applies to a feature not available in PostgreSQL	8.2,8.3,8.4,9.0,9.1,9.2,9.3,9.4,9.5,9.6,10,11,12,13
+routines	result_cast_collation_name	sql_identifier		Applies to a feature not available in PostgreSQL	8.2,8.3,8.4,9.0,9.1,9.2,9.3,9.4,9.5,9.6,10,11,12,13
+routines	result_cast_collation_schema	sql_identifier		Applies to a feature not available in PostgreSQL	8.2,8.3,8.4,9.0,9.1,9.2,9.3,9.4,9.5,9.6,10,11,12,13
+routines	result_cast_datetime_precision	cardinal_number		Applies to a feature not available in PostgreSQL	13
+routines	result_cast_datetime_precision	character_data		Applies to a feature not available in PostgreSQL	8.2,8.3,8.4,9.0,9.1,9.2,9.3,9.4,9.5,9.6,10,11,12
+routines	result_cast_dtd_identifier	sql_identifier		Applies to a feature not available in PostgreSQL	8.2,8.3,8.4,9.0,9.1,9.2,9.3,9.4,9.5,9.6,10,11,12,13
+routines	result_cast_from_data_type	character_data		Applies to a feature not available in PostgreSQL	8.2,8.3,8.4,9.0,9.1,9.2,9.3,9.4,9.5,9.6,10,11,12,13
+routines	result_cast_interval_precision	cardinal_number		Applies to a feature not available in PostgreSQL	9.2,9.3,9.4,9.5,9.6,10,11,12,13
+routines	result_cast_interval_precision	character_data		Applies to a feature not available in PostgreSQL	8.2,8.3,8.4,9.0,9.1
+routines	result_cast_interval_type	character_data		Applies to a feature not available in PostgreSQL	8.2,8.3,8.4,9.0,9.1,9.2,9.3,9.4,9.5,9.6,10,11,12,13
+routines	result_cast_maximum_cardinality	cardinal_number		Applies to a feature not available in PostgreSQL	8.2,8.3,8.4,9.0,9.1,9.2,9.3,9.4,9.5,9.6,10,11,12,13
+routines	result_cast_numeric_precision	cardinal_number		Applies to a feature not available in PostgreSQL	8.2,8.3,8.4,9.0,9.1,9.2,9.3,9.4,9.5,9.6,10,11,12,13
+routines	result_cast_numeric_precision_radix	cardinal_number		Applies to a feature not available in PostgreSQL	8.2,8.3,8.4,9.0,9.1,9.2,9.3,9.4,9.5,9.6,10,11,12,13
+routines	result_cast_numeric_scale	cardinal_number		Applies to a feature not available in PostgreSQL	8.2,8.3,8.4,9.0,9.1,9.2,9.3,9.4,9.5,9.6,10,11,12,13
+routines	result_cast_scope_catalog	sql_identifier		Applies to a feature not available in PostgreSQL	8.2,8.3,8.4,9.0,9.1,9.2,9.3,9.4,9.5,9.6,10,11,12,13
+routines	result_cast_scope_name	sql_identifier		Applies to a feature not available in PostgreSQL	8.2,8.3,8.4,9.0,9.1,9.2,9.3,9.4,9.5,9.6,10,11,12,13
+routines	result_cast_scope_schema	sql_identifier		Applies to a feature not available in PostgreSQL	8.2,8.3,8.4,9.0,9.1,9.2,9.3,9.4,9.5,9.6,10,11,12,13
+routines	result_cast_type_udt_catalog	sql_identifier		Applies to a feature not available in PostgreSQL	8.2,8.3,8.4,9.0,9.1,9.2,9.3,9.4,9.5,9.6,10,11,12,13
+routines	result_cast_type_udt_name	sql_identifier		Applies to a feature not available in PostgreSQL	8.2,8.3,8.4,9.0,9.1,9.2,9.3,9.4,9.5,9.6,10,11,12,13
+routines	result_cast_type_udt_schema	sql_identifier		Applies to a feature not available in PostgreSQL	8.2,8.3,8.4,9.0,9.1,9.2,9.3,9.4,9.5,9.6,10,11,12,13
+routines	routine_body	character_data		If the function is an SQL function, then SQL, else EXTERNAL	7.4,8.0,8.1,8.2,8.3,8.4,9.0,9.1,9.2,9.3,9.4,9.5,9.6,10,11,12,13
+routines	routine_catalog	sql_identifier		Name of the database containing the function (always the current database)	7.4,8.0,8.1,8.2,8.3,8.4,9.0,9.1,9.2,9.3,9.4,9.5,9.6,10,11,12,13
+routines	routine_definition	character_data		The source text of the function (null if the current user is not the owner of the function). (According to the SQL standard, this column is only applicable if routine_body is SQL, but in PostgreSQL it will contain whatever source text was specified when the function was created.)	7.4,8.0,8.1
+routines	routine_definition	character_data		The source text of the function (null if the function is not owned by a currently enabled role). (According to the SQL standard, this column is only applicable if routine_body is SQL, but in PostgreSQL it will contain whatever source text was specified when the function was created.)	8.2,8.3,8.4,9.0,9.1,9.2,9.3,9.4,9.5,9.6,10,11,12,13
+routines	routine_name	sql_identifier		Name of the function (may be duplicated in case of overloading)	7.4,8.0,8.1,8.2
+routines	routine_name	sql_identifier		Name of the function (might be duplicated in case of overloading)	8.3,8.4,9.0,9.1,9.2,9.3,9.4,9.5,9.6,10,11,12,13
+routines	routine_schema	sql_identifier		Name of the schema containing the function	7.4,8.0,8.1,8.2,8.3,8.4,9.0,9.1,9.2,9.3,9.4,9.5,9.6,10,11,12,13
+routines	routine_type	character_data		Always FUNCTION (In the future there might be other types of routines.)	7.4,8.0,8.1,8.2,8.3,8.4,9.0,9.1,9.2,9.3,9.4,9.5,9.6,10
+routines	routine_type	character_data		FUNCTION for a function, PROCEDURE for a procedure	11,12,13
+routines	schema_level_routine	character_data		Always YES (The opposite would be a method of a user-defined type, which is a feature not available in PostgreSQL.)	7.4,8.0,8.1,8.2,8.3,8.4
+routines	schema_level_routine	yes_or_no		Always YES (The opposite would be a method of a user-defined type, which is a feature not available in PostgreSQL.)	9.0,9.1,9.2,9.3,9.4,9.5,9.6,10,11,12,13
+routines	scope_catalog	sql_identifier		Applies to a feature not available in PostgreSQL	7.4,8.0,8.1,8.2,8.3,8.4,9.0,9.1,9.2,9.3,9.4,9.5,9.6,10,11,12,13
+routines	scope_name	sql_identifier		Applies to a feature not available in PostgreSQL	7.4,8.0,8.1,8.2,8.3,8.4,9.0,9.1,9.2,9.3,9.4,9.5,9.6,10,11,12,13
+routines	scope_schema	sql_identifier		Applies to a feature not available in PostgreSQL	7.4,8.0,8.1,8.2,8.3,8.4,9.0,9.1,9.2,9.3,9.4,9.5,9.6,10,11,12,13
+routines	security_type	character_data		If the function runs with the privileges of the current user, then INVOKER, if the function runs with the privileges of the user who defined it, then DEFINER	7.4,8.0,8.1,8.2,8.3,8.4,9.0,9.1,9.2,9.3,9.4,9.5,9.6,10,11,12,13
+routines	specific_catalog	sql_identifier		Name of the database containing the function (always the current database)	7.4,8.0,8.1,8.2,8.3,8.4,9.0,9.1,9.2,9.3,9.4,9.5,9.6,10,11,12,13
+routines	specific_name	sql_identifier		The "specific name" of the function. This is a name that uniquely identifies the function in the schema, even if the real name of the function is overloaded. The format of the specific name is not defined, it should only be used to compare it to other instances of specific routine names	7.4,8.0,8.1,8.2,8.3,8.4,9.0,9.1,9.2,9.3,9.4,9.5,9.6,10,11,12,13
+routines	specific_schema	sql_identifier		Name of the schema containing the function	7.4,8.0,8.1,8.2,8.3,8.4,9.0,9.1,9.2,9.3,9.4,9.5,9.6,10,11,12,13
+routines	sql_data_access	character_data		Always MODIFIES, meaning that the function possibly modifies SQL data. This information is not useful for PostgreSQL	7.4,8.0,8.1,8.2,8.3,8.4,9.0,9.1,9.2,9.3,9.4,9.5,9.6,10,11,12,13
+routines	sql_path	character_data		Applies to a feature not available in PostgreSQL	7.4,8.0,8.1,8.2,8.3,8.4,9.0,9.1,9.2,9.3,9.4,9.5,9.6,10,11,12,13
+routines	to_sql_specific_catalog	sql_identifier		Applies to a feature not available in PostgreSQL	7.4,8.0,8.1,8.2,8.3,8.4,9.0,9.1,9.2,9.3,9.4,9.5,9.6,10,11,12,13
+routines	to_sql_specific_name	sql_identifier		Applies to a feature not available in PostgreSQL	7.4,8.0,8.1,8.2,8.3,8.4,9.0,9.1,9.2,9.3,9.4,9.5,9.6,10,11,12,13
+routines	to_sql_specific_schema	sql_identifier		Applies to a feature not available in PostgreSQL	7.4,8.0,8.1,8.2,8.3,8.4,9.0,9.1,9.2,9.3,9.4,9.5,9.6,10,11,12,13
+routines	type_udt_catalog	sql_identifier		Name of the database that the return data type of the function is defined in (always the current database)	7.4,8.0,8.1,8.2,8.3,8.4,9.0,9.1,9.2,9.3,9.4,9.5,9.6,10
+routines	type_udt_catalog	sql_identifier		Name of the database that the return data type of the function is defined in (always the current database). Null for a procedure	11,12,13
+routines	type_udt_name	sql_identifier		Name of the return data type of the function	7.4,8.0,8.1,8.2,8.3,8.4,9.0,9.1,9.2,9.3,9.4,9.5,9.6,10
+routines	type_udt_name	sql_identifier		Name of the return data type of the function. Null for a procedure	11,12,13
+routines	type_udt_schema	sql_identifier		Name of the schema that the return data type of the function is defined in	7.4,8.0,8.1,8.2,8.3,8.4,9.0,9.1,9.2,9.3,9.4,9.5,9.6,10
+routines	type_udt_schema	sql_identifier		Name of the schema that the return data type of the function is defined in. Null for a procedure	11,12,13
+routines	udt_catalog	sql_identifier		Applies to a feature not available in PostgreSQL	7.4,8.0,8.1,8.2,8.3,8.4,9.0,9.1,9.2,9.3,9.4,9.5,9.6,10,11,12,13
+routines	udt_name	sql_identifier		Applies to a feature not available in PostgreSQL	7.4,8.0,8.1,8.2,8.3,8.4,9.0,9.1,9.2,9.3,9.4,9.5,9.6,10,11,12,13
+routines	udt_schema	sql_identifier		Applies to a feature not available in PostgreSQL	7.4,8.0,8.1,8.2,8.3,8.4,9.0,9.1,9.2,9.3,9.4,9.5,9.6,10,11,12,13
+schemata	catalog_name	sql_identifier		Name of the database that the schema is contained in (always the current database)	7.4,8.0,8.1,8.2,8.3,8.4,9.0,9.1,9.2,9.3,9.4,9.5,9.6,10,11,12,13
+schemata	default_character_set_catalog	sql_identifier		Applies to a feature not available in PostgreSQL	7.4,8.0,8.1,8.2,8.3,8.4,9.0,9.1,9.2,9.3,9.4,9.5,9.6,10,11,12,13
+schemata	default_character_set_name	sql_identifier		Applies to a feature not available in PostgreSQL	7.4,8.0,8.1,8.2,8.3,8.4,9.0,9.1,9.2,9.3,9.4,9.5,9.6,10,11,12,13
+schemata	default_character_set_schema	sql_identifier		Applies to a feature not available in PostgreSQL	7.4,8.0,8.1,8.2,8.3,8.4,9.0,9.1,9.2,9.3,9.4,9.5,9.6,10,11,12,13
+schemata	schema_name	sql_identifier		Name of the schema	7.4,8.0,8.1,8.2,8.3,8.4,9.0,9.1,9.2,9.3,9.4,9.5,9.6,10,11,12,13
+schemata	schema_owner	sql_identifier		Name of the owner of the schema	7.4,8.0,8.1,8.2,8.3,8.4,9.0,9.1,9.2,9.3,9.4,9.5,9.6,10,11,12,13
+schemata	sql_path	character_data		Applies to a feature not available in PostgreSQL	7.4,8.0,8.1,8.2,8.3,8.4,9.0,9.1,9.2,9.3,9.4,9.5,9.6,10,11,12,13
+sequences	cycle_option	character_data		Not yet implemented	8.2,8.3,8.4
+sequences	cycle_option	yes_or_no		Not yet implemented	9.0
+sequences	cycle_option	yes_or_no		YES if the sequence cycles, else NO	9.1,9.2,9.3,9.4,9.5,9.6,10,11,12,13
+sequences	data_type	character_data		The data type of the sequence	10,11,12,13
+sequences	data_type	character_data		The data type of the sequence. In PostgreSQL, this is currently always bigint	8.2,8.3,8.4,9.0,9.1,9.2,9.3,9.4,9.5,9.6
+sequences	increment	cardinal_number		Not yet implemented	8.2,8.3,8.4,9.0
+sequences	increment	character_data		The increment of the sequence	9.1,9.2,9.3,9.4,9.5,9.6,10,11,12,13
+sequences	maximum_value	cardinal_number		Not yet implemented	8.2,8.3,8.4,9.0
+sequences	maximum_value	character_data		The maximum value of the sequence	9.1,9.2,9.3,9.4,9.5,9.6,10,11,12,13
+sequences	minimum_value	cardinal_number		Not yet implemented	8.2,8.3,8.4,9.0
+sequences	minimum_value	character_data		The minimum value of the sequence	9.1,9.2,9.3,9.4,9.5,9.6,10,11,12,13
+sequences	numeric_precision	cardinal_number		This column contains the (declared or implicit) precision of the sequence data type (see above). The precision indicates the number of significant digits. It can be expressed in decimal (base 10) or binary (base 2) terms, as specified in the column numeric_precision_radix	8.3,8.4,9.0,9.1,9.2,9.3,9.4,9.5,9.6,10,11,12,13
+sequences	numeric_precision	cardinal_number		This column contains the (declared or implicit) precision of the sequence data type (see above). The precision indicates the number of significant digits. It may be expressed in decimal (base 10) or binary (base 2) terms, as specified in the column numeric_precision_radix	8.2
+sequences	numeric_precision_radix	cardinal_number		This column indicates in which base the values in the columns numeric_precision and numeric_scale are expressed. The value is either 2 or 10	8.2,8.3,8.4,9.0,9.1,9.2,9.3,9.4,9.5,9.6,10,11,12,13
+sequences	numeric_scale	cardinal_number		This column contains the (declared or implicit) scale of the sequence data type (see above). The scale indicates the number of significant digits to the right of the decimal point. It can be expressed in decimal (base 10) or binary (base 2) terms, as specified in the column numeric_precision_radix	8.3,8.4,9.0,9.1,9.2,9.3,9.4,9.5,9.6,10,11,12,13
+sequences	numeric_scale	cardinal_number		This column contains the (declared or implicit) scale of the sequence data type (see above). The scale indicates the number of significant digits to the right of the decimal point. It may be expressed in decimal (base 10) or binary (base 2) terms, as specified in the column numeric_precision_radix	8.2
+sequences	sequence_catalog	sql_identifier		Name of the database that contains the sequence (always the current database)	8.2,8.3,8.4,9.0,9.1,9.2,9.3,9.4,9.5,9.6,10,11,12,13
+sequences	sequence_name	sql_identifier		Name of the sequence	8.2,8.3,8.4,9.0,9.1,9.2,9.3,9.4,9.5,9.6,10,11,12,13
+sequences	sequence_schema	sql_identifier		Name of the schema that contains the sequence	8.2,8.3,8.4,9.0,9.1,9.2,9.3,9.4,9.5,9.6,10,11,12,13
+sequences	start_value	character_data		The start value of the sequence	9.1,9.2,9.3,9.4,9.5,9.6,10,11,12,13
+sql_features	comments	character_data		Possibly a comment about the supported status of the feature	7.4,8.0,8.1,8.2,8.3,8.4,9.0,9.1,9.2,9.3,9.4,9.5,9.6,10,11,12,13
+sql_features	feature_id	character_data		Identifier string of the feature	7.4,8.0,8.1,8.2,8.3,8.4,9.0,9.1,9.2,9.3,9.4,9.5,9.6,10,11,12,13
+sql_features	feature_name	character_data		Descriptive name of the feature	7.4,8.0,8.1,8.2,8.3,8.4,9.0,9.1,9.2,9.3,9.4,9.5,9.6,10,11,12,13
+sql_features	is_supported	character_data		YES if the feature is fully supported by the current version of PostgreSQL, NO if not	7.4,8.0,8.1,8.2,8.3,8.4
+sql_features	is_supported	yes_or_no		YES if the feature is fully supported by the current version of PostgreSQL, NO if not	9.0,9.1,9.2,9.3,9.4,9.5,9.6,10,11,12,13
+sql_features	is_verified_by	character_data		Always null, since the PostgreSQL development group does not perform formal testing of feature conformance	7.4,8.0,8.1,8.2,8.3,8.4,9.0,9.1,9.2,9.3,9.4,9.5,9.6,10,11,12,13
+sql_features	sub_feature_id	character_data		Identifier string of the subfeature, or a zero-length string if not a subfeature	7.4,8.0,8.1,8.2,8.3,8.4,9.0,9.1,9.2,9.3,9.4,9.5,9.6,10,11,12,13
+sql_features	sub_feature_name	character_data		Descriptive name of the subfeature, or a zero-length string if not a subfeature	7.4,8.0,8.1,8.2,8.3,8.4,9.0,9.1,9.2,9.3,9.4,9.5,9.6,10,11,12,13
+sql_implementation-info	character_value	character_data		Value of the implementation information item, or null if the value is contained in the column integer_value	7.4,8.0,8.1,8.2,8.3,8.4,9.0,9.1,9.2,9.3,9.4,9.5,9.6,10,11,12,13
+sql_implementation-info	comments	character_data		Possibly a comment pertaining to the implementation information item	7.4,8.0,8.1,8.2,8.3,8.4,9.0,9.1,9.2,9.3,9.4,9.5,9.6,10,11,12,13
+sql_implementation-info	implementation_info_id	character_data		Identifier string of the implementation information item	7.4,8.0,8.1,8.2,8.3,8.4,9.0,9.1,9.2,9.3,9.4,9.5,9.6,10,11,12,13
+sql_implementation-info	implementation_info_name	character_data		Descriptive name of the implementation information item	7.4,8.0,8.1,8.2,8.3,8.4,9.0,9.1,9.2,9.3,9.4,9.5,9.6,10,11,12,13
+sql_implementation-info	integer_value	cardinal_number		Value of the implementation information item, or null if the value is contained in the column character_value	7.4,8.0,8.1,8.2,8.3,8.4,9.0,9.1,9.2,9.3,9.4,9.5,9.6,10,11,12,13
+sql_languages	sql_language_binding_style	character_data		The language binding style, either DIRECT or EMBEDDED	7.4,8.0,8.1,8.2,8.3,8.4,9.0,9.1,9.2,9.3,9.4,9.5,9.6,10,11,12
+sql_languages	sql_language_comformance	character_data		The standard conformance level for the language binding. For ISO 9075:1999 this is always CORE	7.4
+sql_languages	sql_language_comformance	character_data		The standard conformance level for the language binding. For ISO 9075:2003 this is always CORE	8.0
+sql_languages	sql_language_conformance	character_data		The standard conformance level for the language binding. For ISO 9075:2003 this is always CORE	8.1,8.2,8.3,8.4,9.0,9.1,9.2,9.3,9.4,9.5,9.6,10,11,12
+sql_languages	sql_language_implementation	character_data		Always null	7.4,8.0,8.1,8.2,8.3,8.4,9.0,9.1,9.2,9.3,9.4,9.5,9.6,10,11,12
+sql_languages	sql_language_integrity	character_data		Always null (This value is relevant to an earlier version of the SQL standard.)	7.4,8.0,8.1,8.2,8.3,8.4,9.0,9.1,9.2,9.3,9.4,9.5,9.6,10,11,12
+sql_languages	sql_language_programming_language	character_data		The programming language, if the binding style is EMBEDDED, else null. PostgreSQL only supports the language C	7.4,8.0,8.1,8.2,8.3,8.4,9.0,9.1,9.2,9.3,9.4,9.5,9.6,10,11,12
+sql_languages	sql_language_source	character_data		The name of the source of the language definition; always ISO 9075, that is, the SQL standard	7.4,8.0,8.1,8.2,8.3,8.4,9.0,9.1,9.2,9.3,9.4,9.5,9.6,10,11,12
+sql_languages	sql_language_year	character_data		The year the standard referenced in sql_language_source was approved	9.1,9.2,9.3,9.4,9.5,9.6,10,11,12
+sql_languages	sql_language_year	character_data		The year the standard referenced in sql_language_source was approved; currently 1999	7.4
+sql_languages	sql_language_year	character_data		The year the standard referenced in sql_language_source was approved; currently 2003	8.0,8.1,8.2,8.3,8.4,9.0
+sql_packages	comments	character_data		Possibly a comment about the supported status of the package	7.4,8.0,8.1,8.2,8.3,8.4,9.0,9.1,9.2,9.3,9.4,9.5,9.6,10,11,12
+sql_packages	feature_id	character_data		Identifier string of the package	7.4,8.0,8.1,8.2,8.3,8.4,9.0,9.1,9.2,9.3,9.4,9.5,9.6,10,11,12
+sql_packages	feature_name	character_data		Descriptive name of the package	7.4,8.0,8.1,8.2,8.3,8.4,9.0,9.1,9.2,9.3,9.4,9.5,9.6,10,11,12
+sql_packages	is_supported	character_data		YES if the package is fully supported by the current version of PostgreSQL, NO if not	7.4,8.0,8.1,8.2,8.3,8.4
+sql_packages	is_supported	yes_or_no		YES if the package is fully supported by the current version of PostgreSQL, NO if not	9.0,9.1,9.2,9.3,9.4,9.5,9.6,10,11,12
+sql_packages	is_verified_by	character_data		Always null, since the PostgreSQL development group does not perform formal testing of feature conformance	7.4,8.0,8.1,8.2,8.3,8.4,9.0,9.1,9.2,9.3,9.4,9.5,9.6,10,11,12
+sql_parts	comments	character_data		Possibly a comment about the supported status of the part	8.2,8.3,8.4,9.0,9.1,9.2,9.3,9.4,9.5,9.6,10,11,12,13
+sql_parts	feature_id	character_data		An identifier string containing the number of the part	8.2,8.3,8.4,9.0,9.1,9.2,9.3,9.4,9.5,9.6,10,11,12,13
+sql_parts	feature_name	character_data		Descriptive name of the part	8.2,8.3,8.4,9.0,9.1,9.2,9.3,9.4,9.5,9.6,10,11,12,13
+sql_parts	is_supported	character_data		YES if the part is fully supported by the current version of PostgreSQL, NO if not	8.2,8.3,8.4
+sql_parts	is_supported	yes_or_no		YES if the part is fully supported by the current version of PostgreSQL, NO if not	9.0,9.1,9.2,9.3,9.4,9.5,9.6,10,11,12,13
+sql_parts	is_verified_by	character_data		Always null, since the PostgreSQL development group does not perform formal testing of feature conformance	8.2,8.3,8.4,9.0,9.1,9.2,9.3,9.4,9.5,9.6,10,11,12,13
+sql_sizing	comments	character_data		Possibly a comment pertaining to the sizing item	7.4,8.0,8.1,8.2,8.3,8.4,9.0,9.1,9.2,9.3,9.4,9.5,9.6,10,11,12,13
+sql_sizing	sizing_id	cardinal_number		Identifier of the sizing item	7.4,8.0,8.1,8.2,8.3,8.4,9.0,9.1,9.2,9.3,9.4,9.5,9.6,10,11,12,13
+sql_sizing	sizing_name	character_data		Descriptive name of the sizing item	7.4,8.0,8.1,8.2,8.3,8.4,9.0,9.1,9.2,9.3,9.4,9.5,9.6,10,11,12,13
+sql_sizing	supported_value	cardinal_number		Value of the sizing item, or 0 if the size is unlimited or cannot be determined, or null if the features for which the sizing item is applicable are not supported	7.4,8.0,8.1,8.2,8.3,8.4,9.0,9.1,9.2,9.3,9.4,9.5,9.6,10,11,12,13
+sql_sizing-profiles	comments	character_data		Possibly a comment pertaining to the sizing item within the profile	7.4,8.0,8.1,8.2,8.3,8.4,9.0,9.1,9.2,9.3,9.4,9.5,9.6,10,11,12
+sql_sizing-profiles	profile_id	character_data		Identifier string of a profile	7.4,8.0,8.1,8.2,8.3,8.4,9.0,9.1,9.2,9.3,9.4,9.5,9.6,10,11,12
+sql_sizing-profiles	required_value	cardinal_number		The value required by the SQL profile for the sizing item, or 0 if the profile places no limit on the sizing item, or null if the profile does not require any of the features for which the sizing item is applicable	7.4,8.0,8.1,8.2,8.3,8.4,9.0,9.1,9.2,9.3,9.4,9.5,9.6,10,11,12
+sql_sizing-profiles	sizing_id	cardinal_number		Identifier of the sizing item	7.4,8.0,8.1,8.2,8.3,8.4,9.0,9.1,9.2,9.3,9.4,9.5,9.6,10,11,12
+sql_sizing-profiles	sizing_name	character_data		Descriptive name of the sizing item	7.4,8.0,8.1,8.2,8.3,8.4,9.0,9.1,9.2,9.3,9.4,9.5,9.6,10,11,12
+table_constraints	constraint_catalog	sql_identifier		Name of the database that contains the constraint (always the current database)	7.4,8.0,8.1,8.2,8.3,8.4,9.0,9.1,9.2,9.3,9.4,9.5,9.6,10,11,12,13
+table_constraints	constraint_name	sql_identifier		Name of the constraint	7.4,8.0,8.1,8.2,8.3,8.4,9.0,9.1,9.2,9.3,9.4,9.5,9.6,10,11,12,13
+table_constraints	constraint_schema	sql_identifier		Name of the schema that contains the constraint	7.4,8.0,8.1,8.2,8.3,8.4,9.0,9.1,9.2,9.3,9.4,9.5,9.6,10,11,12,13
+table_constraints	constraint_type	character_data		Type of the constraint: CHECK, FOREIGN KEY, PRIMARY KEY, or UNIQUE	7.4,8.0,8.1,8.2,8.3,8.4,9.0,9.1,9.2,9.3,9.4,9.5,9.6,10,11,12,13
+table_constraints	enforced	yes_or_no		Applies to a feature not available in PostgreSQL (currently always YES)	11,12,13
+table_constraints	initially_deferred	character_data		YES if the constraint is deferrable and initially deferred, NO if not	7.4,8.0,8.1,8.2,8.3,8.4
+table_constraints	initially_deferred	yes_or_no		YES if the constraint is deferrable and initially deferred, NO if not	9.0,9.1,9.2,9.3,9.4,9.5,9.6,10,11,12,13
+table_constraints	is_deferrable	character_data		YES if the constraint is deferrable, NO if not	7.4,8.0,8.1,8.2,8.3,8.4
+table_constraints	is_deferrable	yes_or_no		YES if the constraint is deferrable, NO if not	9.0,9.1,9.2,9.3,9.4,9.5,9.6,10,11,12,13
+table_constraints	table_catalog	sql_identifier		Name of the database that contains the table (always the current database)	7.4,8.0,8.1,8.2,8.3,8.4,9.0,9.1,9.2,9.3,9.4,9.5,9.6,10,11,12,13
+table_constraints	table_name	sql_identifier		Name of the table	7.4,8.0,8.1,8.2,8.3,8.4,9.0,9.1,9.2,9.3,9.4,9.5,9.6,10,11,12,13
+table_constraints	table_schema	sql_identifier		Name of the schema that contains the table	7.4,8.0,8.1,8.2,8.3,8.4,9.0,9.1,9.2,9.3,9.4,9.5,9.6,10,11,12,13
+table_privileges	grantee	sql_identifier		Name of the role that the privilege was granted to	8.2,8.3,8.4,9.0,9.1,9.2,9.3,9.4,9.5,9.6,10,11,12,13
+table_privileges	grantee	sql_identifier		Name of the user or group that the privilege was granted to	7.4,8.0,8.1
+table_privileges	grantor	sql_identifier		Name of the role that granted the privilege	8.2,8.3,8.4,9.0,9.1,9.2,9.3,9.4,9.5,9.6,10,11,12,13
+table_privileges	grantor	sql_identifier		Name of the user that granted the privilege	7.4,8.0,8.1
+table_privileges	is_grantable	character_data		YES if the privilege is grantable, NO if not	7.4,8.0,8.1,8.2,8.3,8.4
+table_privileges	is_grantable	yes_or_no		YES if the privilege is grantable, NO if not	9.0,9.1,9.2,9.3,9.4,9.5,9.6,10,11,12,13
+table_privileges	privilege_type	character_data		Type of the privilege: SELECT, DELETE, INSERT, UPDATE, REFERENCES, or TRIGGER	8.2,8.3
+table_privileges	privilege_type	character_data		Type of the privilege: SELECT, DELETE, INSERT, UPDATE, REFERENCES, RULE, or TRIGGER	7.4,8.0,8.1
+table_privileges	privilege_type	character_data		Type of the privilege: SELECT, INSERT, UPDATE, DELETE, TRUNCATE, REFERENCES, or TRIGGER	8.4,9.0,9.1,9.2,9.3,9.4,9.5,9.6,10,11,12,13
+table_privileges	table_catalog	sql_identifier		Name of the database that contains the table (always the current database)	7.4,8.0,8.1,8.2,8.3,8.4,9.0,9.1,9.2,9.3,9.4,9.5,9.6,10,11,12,13
+table_privileges	table_name	sql_identifier		Name of the table	7.4,8.0,8.1,8.2,8.3,8.4,9.0,9.1,9.2,9.3,9.4,9.5,9.6,10,11,12,13
+table_privileges	table_schema	sql_identifier		Name of the schema that contains the table	7.4,8.0,8.1,8.2,8.3,8.4,9.0,9.1,9.2,9.3,9.4,9.5,9.6,10,11,12,13
+table_privileges	with_hierarchy	character_data		Applies to a feature not available in PostgreSQL	7.4,8.0,8.1,8.2,8.3,8.4
+table_privileges	with_hierarchy	yes_or_no		Applies to a feature not available in PostgreSQL	9.0,9.1
+table_privileges	with_hierarchy	yes_or_no		In the SQL standard, WITH HIERARCHY OPTION is a separate (sub-)privilege allowing certain operations on table inheritance hierarchies. In PostgreSQL, this is included in the SELECT privilege, so this column shows YES if the privilege is SELECT, else NO	9.2,9.3,9.4,9.5,9.6,10,11,12,13
+tables	commit_action	character_data		If the table is a temporary table, then PRESERVE, else null. (The SQL standard defines other commit actions for temporary tables, which are not supported by PostgreSQL.)	8.2,8.3,8.4,9.0,9.1
+tables	commit_action	character_data		Not yet implemented	9.2,9.3,9.4,9.5,9.6,10,11,12,13
+tables	is_insertable_into	character_data		YES if the table is insertable into, NO if not (Base tables are always insertable into, views not necessarily.)	8.2,8.3,8.4
+tables	is_insertable_into	yes_or_no		YES if the table is insertable into, NO if not (Base tables are always insertable into, views not necessarily.)	9.0,9.1,9.2,9.3,9.4,9.5,9.6,10,11,12,13
+tables	is_typed	character_data		Applies to a feature not available in PostgreSQL	8.2,8.3,8.4
+tables	is_typed	yes_or_no		YES if the table is a typed table, NO if not	9.0,9.1,9.2,9.3,9.4,9.5,9.6,10,11,12,13
+tables	reference_generation	character_data		Applies to a feature not available in PostgreSQL	7.4,8.0,8.1,8.2,8.3,8.4,9.0,9.1,9.2,9.3,9.4,9.5,9.6,10,11,12,13
+tables	self_referencing_column_name	sql_identifier		Applies to a feature not available in PostgreSQL	7.4,8.0,8.1,8.2,8.3,8.4,9.0,9.1,9.2,9.3,9.4,9.5,9.6,10,11,12,13
+tables	table_catalog	sql_identifier		Name of the database that contains the table (always the current database)	7.4,8.0,8.1,8.2,8.3,8.4,9.0,9.1,9.2,9.3,9.4,9.5,9.6,10,11,12,13
+tables	table_name	sql_identifier		Name of the table	7.4,8.0,8.1,8.2,8.3,8.4,9.0,9.1,9.2,9.3,9.4,9.5,9.6,10,11,12,13
+tables	table_schema	sql_identifier		Name of the schema that contains the table	7.4,8.0,8.1,8.2,8.3,8.4,9.0,9.1,9.2,9.3,9.4,9.5,9.6,10,11,12,13
+tables	table_type	character_data		Type of the table: BASE TABLE for a persistent base table (the normal table type), VIEW for a view, FOREIGN for a foreign table, or LOCAL TEMPORARY for a temporary table	11,12,13
+tables	table_type	character_data		Type of the table: BASE TABLE for a persistent base table (the normal table type), VIEW for a view, FOREIGN TABLE for a foreign table, or LOCAL TEMPORARY for a temporary table	9.1,9.2,9.3,9.4,9.5,9.6,10
+tables	table_type	character_data		Type of the table: BASE TABLE for a persistent base table (the normal table type), VIEW for a view, or LOCAL TEMPORARY for a temporary table	7.4,8.0,8.1,8.2,8.3,8.4,9.0
+tables	user_defined_type_catalog	sql_identifier		Applies to a feature not available in PostgreSQL	7.4,8.0,8.1,8.2,8.3,8.4
+tables	user_defined_type_catalog	sql_identifier		If the table is a typed table, the name of the database that contains the underlying data type (always the current database), else null	9.0,9.1,9.2,9.3,9.4,9.5,9.6,10,11,12,13
+tables	user_defined_type_name	sql_identifier		Applies to a feature not available in PostgreSQL	7.4,8.0,8.1,8.2,8.3,8.4
+tables	user_defined_type_name	sql_identifier		If the table is a typed table, the name of the underlying data type, else null	9.0,9.1,9.2,9.3,9.4,9.5,9.6,10,11,12,13
+tables	user_defined_type_schema	sql_identifier		Applies to a feature not available in PostgreSQL	7.4,8.0,8.1,8.2,8.3,8.4
+tables	user_defined_type_schema	sql_identifier		If the table is a typed table, the name of the schema that contains the underlying data type, else null	9.0,9.1,9.2,9.3,9.4,9.5,9.6,10,11,12,13
+transforms	group_name	sql_identifier		The SQL standard allows defining transforms in "groups", and selecting a group at run time. PostgreSQL does not support this. Instead, transforms are specific to a language. As a compromise, this field contains the language the transform is for	9.5,9.6,10,11,12,13
+transforms	specific_catalog	sql_identifier		Name of the database containing the function (always the current database)	9.5,9.6,10,11,12,13
+transforms	specific_name	sql_identifier		The "specific name" of the function. See Section 34.40 for more information	9.5
+transforms	specific_name	sql_identifier		The "specific name" of the function. See Section 35.40 for more information	9.6
+transforms	specific_name	sql_identifier		The "specific name" of the function. See Section 36.40 for more information	10
+transforms	specific_name	sql_identifier		The "specific name" of the function. See Section 36.41 for more information	12,13
+transforms	specific_name	sql_identifier		The "specific name" of the function. See Section 37.40 for more information	11
+transforms	specific_schema	sql_identifier		Name of the schema containing the function	9.5,9.6,10,11,12,13
+transforms	transform_type	character_data		FROM SQL or TO SQL	9.5,9.6,10,11,12,13
+transforms	udt_catalog	sql_identifier		Name of the database that contains the type the transform is for (always the current database)	9.5,9.6,10,11,12,13
+transforms	udt_name	sql_identifier		Name of the type the transform is for	9.5,9.6,10,11,12,13
+transforms	udt_schema	sql_identifier		Name of the schema that contains the type the transform is for	9.5,9.6,10,11,12,13
+triggered_update-columns	event_object_catalog	sql_identifier		Name of the database that contains the table that the trigger is defined on (always the current database)	9.0,9.1,9.2,9.3,9.4,9.5,9.6,10,11,12,13
+triggered_update-columns	event_object_column	sql_identifier		Name of the column that the trigger is defined on	9.0,9.1,9.2,9.3,9.4,9.5,9.6,10,11,12,13
+triggered_update-columns	event_object_schema	sql_identifier		Name of the schema that contains the table that the trigger is defined on	9.0,9.1,9.2,9.3,9.4,9.5,9.6,10,11,12,13
+triggered_update-columns	event_object_table	sql_identifier		Name of the table that the trigger is defined on	9.0,9.1,9.2,9.3,9.4,9.5,9.6,10,11,12,13
+triggered_update-columns	trigger_catalog	sql_identifier		Name of the database that contains the trigger (always the current database)	9.0,9.1,9.2,9.3,9.4,9.5,9.6,10,11,12,13
+triggered_update-columns	trigger_name	sql_identifier		Name of the trigger	9.0,9.1,9.2,9.3,9.4,9.5,9.6,10,11,12,13
+triggered_update-columns	trigger_schema	sql_identifier		Name of the schema that contains the trigger	9.0,9.1,9.2,9.3,9.4,9.5,9.6,10,11,12,13
+triggers	action_condition	character_data		Applies to a feature not available in PostgreSQL	7.4,8.0,8.1,8.2,8.3,8.4
+triggers	action_condition	character_data		WHEN condition of the trigger, null if none (also null if the table is not owned by a currently enabled role)	9.0,9.1,9.2,9.3,9.4,9.5,9.6,10,11,12,13
+triggers	action_order	cardinal_number		Firing order among triggers on the same table having the same event_manipulation, action_timing, and action_orientation. In PostgreSQL, triggers are fired in name order, so this column reflects that	11,12,13
+triggers	action_order	cardinal_number		Not yet implemented	7.4,8.0,8.1,8.2,8.3,8.4,9.0,9.1,9.2,9.3,9.4,9.5,9.6,10
+triggers	action_orientation	character_data		Identifies whether the trigger fires once for each processed row or once for each statement (ROW or STATEMENT)	7.4,8.0,8.1,8.2,8.3,8.4,9.0,9.1,9.2,9.3,9.4,9.5,9.6,10,11,12,13
+triggers	action_reference_new_row	sql_identifier		Applies to a feature not available in PostgreSQL	9.1,9.2,9.3,9.4,9.5,9.6,10,11,12,13
+triggers	action_reference_new_table	sql_identifier		Applies to a feature not available in PostgreSQL	9.1,9.2,9.3,9.4,9.5,9.6,10
+triggers	action_reference_new_table	sql_identifier		Name of the "new" transition table, or null if none	11,12,13
+triggers	action_reference_old_row	sql_identifier		Applies to a feature not available in PostgreSQL	9.1,9.2,9.3,9.4,9.5,9.6,10,11,12,13
+triggers	action_reference_old_table	sql_identifier		Applies to a feature not available in PostgreSQL	9.1,9.2,9.3,9.4,9.5,9.6,10
+triggers	action_reference_old_table	sql_identifier		Name of the "old" transition table, or null if none	11,12,13
+triggers	action_statement	character_data		Statement that is executed by the trigger (currently always EXECUTE FUNCTION function(...))	11,12,13
+triggers	action_statement	character_data		Statement that is executed by the trigger (currently always EXECUTE PROCEDURE function(...))	7.4,8.0,8.1,8.2,8.3,8.4,9.0,9.1,9.2,9.3,9.4,9.5,9.6,10
+triggers	action_timing	character_data		Time at which the trigger fires (BEFORE, AFTER, or INSTEAD OF)	9.1,9.2,9.3,9.4,9.5,9.6,10,11,12,13
+triggers	condition_reference_new_row	sql_identifier		Applies to a feature not available in PostgreSQL	8.2,8.3,8.4,9.0
+triggers	condition_reference_new_table	sql_identifier		Applies to a feature not available in PostgreSQL	7.4,8.0,8.1,8.2,8.3,8.4,9.0
+triggers	condition_reference_old_row	sql_identifier		Applies to a feature not available in PostgreSQL	8.2,8.3,8.4,9.0
+triggers	condition_reference_old_table	sql_identifier		Applies to a feature not available in PostgreSQL	7.4,8.0,8.1,8.2,8.3,8.4,9.0
+triggers	condition_timing	character_data		Time at which the trigger fires (BEFORE or AFTER)	7.4,8.0,8.1,8.2,8.3,8.4,9.0
+triggers	created	time_stamp		Applies to a feature not available in PostgreSQL	8.2,8.3,8.4,9.0,9.1,9.2,9.3,9.4,9.5,9.6,10,11,12,13
+triggers	event_manipulation	character_data		Event that fires the trigger (INSERT, UPDATE, or DELETE)	7.4,8.0,8.1,8.2,8.3,8.4,9.0,9.1,9.2,9.3,9.4,9.5,9.6,10,11,12,13
+triggers	event_object_catalog	sql_identifier		Name of the database that contains the table that the trigger is defined on (always the current database)	7.4,8.0,8.1,8.2,8.3,8.4,9.0,9.1,9.2,9.3,9.4,9.5,9.6,10,11,12,13
+triggers	event_object_schema	sql_identifier		Name of the schema that contains the table that the trigger is defined on	7.4,8.0,8.1,8.2,8.3,8.4,9.0,9.1,9.2,9.3,9.4,9.5,9.6,10,11,12,13
+triggers	event_object_table	sql_identifier		Name of the table that the trigger is defined on	7.4,8.0,8.1,8.2,8.3,8.4,9.0,9.1,9.2,9.3,9.4,9.5,9.6,10,11,12,13
+triggers	trigger_catalog	sql_identifier		Name of the database that contains the trigger (always the current database)	7.4,8.0,8.1,8.2,8.3,8.4,9.0,9.1,9.2,9.3,9.4,9.5,9.6,10,11,12,13
+triggers	trigger_name	sql_identifier		Name of the trigger	7.4,8.0,8.1,8.2,8.3,8.4,9.0,9.1,9.2,9.3,9.4,9.5,9.6,10,11,12,13
+triggers	trigger_schema	sql_identifier		Name of the schema that contains the trigger	7.4,8.0,8.1,8.2,8.3,8.4,9.0,9.1,9.2,9.3,9.4,9.5,9.6,10,11,12,13
+udt_privileges	grantee	sql_identifier		Name of the role that the privilege was granted to	9.2,9.3,9.4,9.5,9.6,10,11,12,13
+udt_privileges	grantor	sql_identifier		Name of the role that granted the privilege	9.2,9.3,9.4,9.5,9.6,10,11,12,13
+udt_privileges	is_grantable	yes_or_no		YES if the privilege is grantable, NO if not	9.2,9.3,9.4,9.5,9.6,10,11,12,13
+udt_privileges	privilege_type	character_data		Always TYPE USAGE	9.2,9.3,9.4,9.5,9.6,10,11,12,13
+udt_privileges	udt_catalog	sql_identifier		Name of the database containing the type (always the current database)	9.2,9.3,9.4,9.5,9.6,10,11,12,13
+udt_privileges	udt_name	sql_identifier		Name of the type	9.2,9.3,9.4,9.5,9.6,10,11,12,13
+udt_privileges	udt_schema	sql_identifier		Name of the schema containing the type	9.2,9.3,9.4,9.5,9.6,10,11,12,13
+usage_privileges	grantee	sql_identifier		Currently always PUBLIC	7.4,8.0,8.1,8.2,8.3
+usage_privileges	grantee	sql_identifier		Name of the role that the privilege was granted to	8.4,9.0,9.1,9.2,9.3,9.4,9.5,9.6,10,11,12,13
+usage_privileges	grantor	sql_identifier		Currently set to the name of the owner of the object	7.4,8.0,8.1,8.2,8.3
+usage_privileges	grantor	sql_identifier		Name of the role that granted the privilege	8.4,9.0,9.1,9.2,9.3,9.4,9.5,9.6,10,11,12,13
+usage_privileges	is_grantable	character_data		Currently always NO	7.4,8.0,8.1,8.2,8.3
+usage_privileges	is_grantable	character_data		YES if the privilege is grantable, NO if not	8.4
+usage_privileges	is_grantable	yes_or_no		YES if the privilege is grantable, NO if not	9.0,9.1,9.2,9.3,9.4,9.5,9.6,10,11,12,13
+usage_privileges	object_catalog	sql_identifier		Name of the database containing the object (always the current database)	7.4,8.0,8.1,8.2,8.3,8.4,9.0,9.1,9.2,9.3,9.4,9.5,9.6,10,11,12,13
+usage_privileges	object_name	sql_identifier		Name of the object	7.4,8.0,8.1,8.2,8.3,8.4,9.0,9.1,9.2,9.3,9.4,9.5,9.6,10,11,12,13
+usage_privileges	object_schema	sql_identifier		Name of the schema containing the object	7.4,8.0,8.1,8.2,8.3
+usage_privileges	object_schema	sql_identifier		Name of the schema containing the object, if applicable, else an empty string	8.4,9.0,9.1,9.2,9.3,9.4,9.5,9.6,10,11,12,13
+usage_privileges	object_type	character_data		COLLATION or DOMAIN or FOREIGN DATA WRAPPER or FOREIGN SERVER	9.1
+usage_privileges	object_type	character_data		COLLATION or DOMAIN or FOREIGN DATA WRAPPER or FOREIGN SERVER or SEQUENCE	9.2,9.3,9.4,9.5,9.6,10,11,12,13
+usage_privileges	object_type	character_data		Currently always DOMAIN	7.4,8.0,8.1,8.2,8.3
+usage_privileges	object_type	character_data		DOMAIN or FOREIGN DATA WRAPPER or FOREIGN SERVER	8.4,9.0
+usage_privileges	privilege_type	character_data		Always USAGE	7.4,8.0,8.1,8.2,8.3,8.4,9.0,9.1,9.2,9.3,9.4,9.5,9.6,10,11,12,13
+user_defined-types	character_maximum_length	cardinal_number		Applies to a feature not available in PostgreSQL	9.2,9.3,9.4,9.5,9.6,10,11,12,13
+user_defined-types	character_octet_length	cardinal_number		Applies to a feature not available in PostgreSQL	9.2,9.3,9.4,9.5,9.6,10,11,12,13
+user_defined-types	character_set_catalog	sql_identifier		Applies to a feature not available in PostgreSQL	9.2,9.3,9.4,9.5,9.6,10,11,12,13
+user_defined-types	character_set_name	sql_identifier		Applies to a feature not available in PostgreSQL	9.2,9.3,9.4,9.5,9.6,10,11,12,13
+user_defined-types	character_set_schema	sql_identifier		Applies to a feature not available in PostgreSQL	9.2,9.3,9.4,9.5,9.6,10,11,12,13
+user_defined-types	collation_catalog	sql_identifier		Applies to a feature not available in PostgreSQL	9.2,9.3,9.4,9.5,9.6,10,11,12,13
+user_defined-types	collation_name	sql_identifier		Applies to a feature not available in PostgreSQL	9.2,9.3,9.4,9.5,9.6,10,11,12,13
+user_defined-types	collation_schema	sql_identifier		Applies to a feature not available in PostgreSQL	9.2,9.3,9.4,9.5,9.6,10,11,12,13
+user_defined-types	data_type	character_data		Applies to a feature not available in PostgreSQL	9.2,9.3,9.4,9.5,9.6,10,11,12,13
+user_defined-types	datetime_precision	cardinal_number		Applies to a feature not available in PostgreSQL	9.2,9.3,9.4,9.5,9.6,10,11,12,13
+user_defined-types	interval_precision	cardinal_number		Applies to a feature not available in PostgreSQL	9.2,9.3,9.4,9.5,9.6,10,11,12,13
+user_defined-types	interval_type	character_data		Applies to a feature not available in PostgreSQL	9.2,9.3,9.4,9.5,9.6,10,11,12,13
+user_defined-types	is_final	yes_or_no		Applies to a feature not available in PostgreSQL	9.2,9.3,9.4,9.5,9.6,10,11,12,13
+user_defined-types	is_instantiable	yes_or_no		Applies to a feature not available in PostgreSQL	9.2,9.3,9.4,9.5,9.6,10,11,12,13
+user_defined-types	numeric_precision	cardinal_number		Applies to a feature not available in PostgreSQL	9.2,9.3,9.4,9.5,9.6,10,11,12,13
+user_defined-types	numeric_precision_radix	cardinal_number		Applies to a feature not available in PostgreSQL	9.2,9.3,9.4,9.5,9.6,10,11,12,13
+user_defined-types	numeric_scale	cardinal_number		Applies to a feature not available in PostgreSQL	9.2,9.3,9.4,9.5,9.6,10,11,12,13
+user_defined-types	ordering_category	character_data		Applies to a feature not available in PostgreSQL	9.2,9.3,9.4,9.5,9.6,10,11,12,13
+user_defined-types	ordering_form	character_data		Applies to a feature not available in PostgreSQL	9.2,9.3,9.4,9.5,9.6,10,11,12,13
+user_defined-types	ordering_routine_catalog	sql_identifier		Applies to a feature not available in PostgreSQL	9.2,9.3,9.4,9.5,9.6,10,11,12,13
+user_defined-types	ordering_routine_name	sql_identifier		Applies to a feature not available in PostgreSQL	9.2,9.3,9.4,9.5,9.6,10,11,12,13
+user_defined-types	ordering_routine_schema	sql_identifier		Applies to a feature not available in PostgreSQL	9.2,9.3,9.4,9.5,9.6,10,11,12,13
+user_defined-types	ref_dtd_identifier	sql_identifier		Applies to a feature not available in PostgreSQL	9.2,9.3,9.4,9.5,9.6,10,11,12,13
+user_defined-types	reference_type	character_data		Applies to a feature not available in PostgreSQL	9.2,9.3,9.4,9.5,9.6,10,11,12,13
+user_defined-types	source_dtd_identifier	sql_identifier		Applies to a feature not available in PostgreSQL	9.2,9.3,9.4,9.5,9.6,10,11,12,13
+user_defined-types	user_defined_type_catalog	sql_identifier		Name of the database that contains the type (always the current database)	9.2,9.3,9.4,9.5,9.6,10,11,12,13
+user_defined-types	user_defined_type_category	character_data		Currently always STRUCTURED	9.2,9.3,9.4,9.5,9.6,10,11,12,13
+user_defined-types	user_defined_type_name	sql_identifier		Name of the type	9.2,9.3,9.4,9.5,9.6,10,11,12,13
+user_defined-types	user_defined_type_schema	sql_identifier		Name of the schema that contains the type	9.2,9.3,9.4,9.5,9.6,10,11,12,13
+user_mapping-options	authorization_identifier	sql_identifier		Name of the user being mapped, or PUBLIC if the mapping is public	8.4,9.0,9.1,9.2,9.3,9.4,9.5,9.6,10,11,12,13
+user_mapping-options	foreign_server_catalog	sql_identifier		Name of the database that the foreign server used by this mapping is defined in (always the current database)	8.4,9.0,9.1,9.2,9.3,9.4,9.5,9.6,10,11,12,13
+user_mapping-options	foreign_server_name	sql_identifier		Name of the foreign server used by this mapping	8.4,9.0,9.1,9.2,9.3,9.4,9.5,9.6,10,11,12,13
+user_mapping-options	option_name	sql_identifier		Name of an option	8.4,9.0,9.1,9.2,9.3,9.4,9.5,9.6,10,11,12,13
+user_mapping-options	option_value	character_data		Value of the option. This column will show as null unless the current user is the user being mapped, or the mapping is for PUBLIC and the current user is the server owner, or the current user is a superuser. The intent is to protect password information stored as user mapping option	8.4,9.0,9.1,9.2,9.3,9.4,9.5,9.6,10,11,12,13
+user_mappings	authorization_identifier	sql_identifier		Name of the user being mapped, or PUBLIC if the mapping is public	8.4,9.0,9.1,9.2,9.3,9.4,9.5,9.6,10,11,12,13
+user_mappings	foreign_server_catalog	sql_identifier		Name of the database that the foreign server used by this mapping is defined in (always the current database)	8.4,9.0,9.1,9.2,9.3,9.4,9.5,9.6,10,11,12,13
+user_mappings	foreign_server_name	sql_identifier		Name of the foreign server used by this mapping	8.4,9.0,9.1,9.2,9.3,9.4,9.5,9.6,10,11,12,13
+view_column-usage	column_name	sql_identifier		Name of the column that is used by the view	7.4,8.0,8.1,8.2,8.3,8.4,9.0,9.1,9.2,9.3,9.4,9.5,9.6,10,11,12,13
+view_column-usage	table_catalog	sql_identifier		Name of the database that contains the table that contains the column that is used by the view (always the current database)	7.4,8.0,8.1,8.2,8.3,8.4,9.0,9.1,9.2,9.3,9.4,9.5,9.6,10,11,12,13
+view_column-usage	table_name	sql_identifier		Name of the table that contains the column that is used by the view	7.4,8.0,8.1,8.2,8.3,8.4,9.0,9.1,9.2,9.3,9.4,9.5,9.6,10,11,12,13
+view_column-usage	table_schema	sql_identifier		Name of the schema that contains the table that contains the column that is used by the view	7.4,8.0,8.1,8.2,8.3,8.4,9.0,9.1,9.2,9.3,9.4,9.5,9.6,10,11,12,13
+view_column-usage	view_catalog	sql_identifier		Name of the database that contains the view (always the current database)	7.4,8.0,8.1,8.2,8.3,8.4,9.0,9.1,9.2,9.3,9.4,9.5,9.6,10,11,12,13
+view_column-usage	view_name	sql_identifier		Name of the view	7.4,8.0,8.1,8.2,8.3,8.4,9.0,9.1,9.2,9.3,9.4,9.5,9.6,10,11,12,13
+view_column-usage	view_schema	sql_identifier		Name of the schema that contains the view	7.4,8.0,8.1,8.2,8.3,8.4,9.0,9.1,9.2,9.3,9.4,9.5,9.6,10,11,12,13
+view_routine-usage	specific_catalog	sql_identifier		Name of the database containing the function (always the current database)	8.2,8.3,8.4,9.0,9.1,9.2,9.3,9.4,9.5,9.6,10,11,12,13
+view_routine-usage	specific_name	sql_identifier		The "specific name" of the function. See Section 32.29 for more information	8.2
+view_routine-usage	specific_name	sql_identifier		The "specific name" of the function. See Section 33.29 for more information	8.3
+view_routine-usage	specific_name	sql_identifier		The "specific name" of the function. See Section 33.33 for more information	8.4
+view_routine-usage	specific_name	sql_identifier		The "specific name" of the function. See Section 34.33 for more information	9.0
+view_routine-usage	specific_name	sql_identifier		The "specific name" of the function. See Section 34.38 for more information	9.1
+view_routine-usage	specific_name	sql_identifier		The "specific name" of the function. See Section 34.40 for more information	9.2,9.3,9.4,9.5
+view_routine-usage	specific_name	sql_identifier		The "specific name" of the function. See Section 35.40 for more information	9.6
+view_routine-usage	specific_name	sql_identifier		The "specific name" of the function. See Section 36.40 for more information	10
+view_routine-usage	specific_name	sql_identifier		The "specific name" of the function. See Section 36.41 for more information	12,13
+view_routine-usage	specific_name	sql_identifier		The "specific name" of the function. See Section 37.40 for more information	11
+view_routine-usage	specific_schema	sql_identifier		Name of the schema containing the function	8.2,8.3,8.4,9.0,9.1,9.2,9.3,9.4,9.5,9.6,10,11,12,13
+view_routine-usage	table_catalog	sql_identifier		Name of the database containing the view (always the current database)	8.2,8.3,8.4,9.0,9.1,9.2,9.3,9.4,9.5,9.6,10,11,12,13
+view_routine-usage	table_name	sql_identifier		Name of the view	8.2,8.3,8.4,9.0,9.1,9.2,9.3,9.4,9.5,9.6,10,11,12,13
+view_routine-usage	table_schema	sql_identifier		Name of the schema containing the view	8.2,8.3,8.4,9.0,9.1,9.2,9.3,9.4,9.5,9.6,10,11,12,13
+view_table-usage	table_catalog	sql_identifier		Name of the database that contains the table that is used by the view (always the current database)	7.4,8.0,8.1,8.2,8.3,8.4,9.0,9.1,9.2,9.3,9.4,9.5,9.6,10,11,12,13
+view_table-usage	table_name	sql_identifier		Name of the table that is used by the view	7.4,8.0,8.1,8.2,8.3,8.4,9.0,9.1,9.2,9.3,9.4,9.5,9.6,10,11,12,13
+view_table-usage	table_schema	sql_identifier		Name of the schema that contains the table that is used by the view	7.4,8.0,8.1,8.2,8.3,8.4,9.0,9.1,9.2,9.3,9.4,9.5,9.6,10,11,12,13
+view_table-usage	view_catalog	sql_identifier		Name of the database that contains the view (always the current database)	7.4,8.0,8.1,8.2,8.3,8.4,9.0,9.1,9.2,9.3,9.4,9.5,9.6,10,11,12,13
+view_table-usage	view_name	sql_identifier		Name of the view	7.4,8.0,8.1,8.2,8.3,8.4,9.0,9.1,9.2,9.3,9.4,9.5,9.6,10,11,12,13
+view_table-usage	view_schema	sql_identifier		Name of the schema that contains the view	7.4,8.0,8.1,8.2,8.3,8.4,9.0,9.1,9.2,9.3,9.4,9.5,9.6,10,11,12,13
+views	check_option	character_data		Applies to a feature not available in PostgreSQL	7.4,8.0,8.1,8.2,8.3,8.4,9.0,9.1,9.2,9.3
+views	check_option	character_data		CASCADED or LOCAL if the view has a CHECK OPTION defined on it, NONE if not	9.4,9.5,9.6,10,11,12,13
+views	is_insertable_into	character_data		Not yet implemented	7.4,8.0,8.1
+views	is_insertable_into	character_data		YES if the view is insertable into (allows INSERT), NO if not	8.2,8.3,8.4
+views	is_insertable_into	yes_or_no		YES if the view is insertable into (allows INSERT), NO if not	9.0,9.1,9.2,9.3,9.4,9.5,9.6,10,11,12,13
+views	is_trigger_deletable	yes_or_no		Applies to a feature not available in PostgreSQL	9.0
+views	is_trigger_deletable	yes_or_no		YES if the view has an INSTEAD OF DELETE trigger defined on it, NO if not	9.1,9.2,9.3,9.4,9.5,9.6,10,11,12,13
+views	is_trigger_insertable_into	yes_or_no		Applies to a feature not available in PostgreSQL	9.0
+views	is_trigger_insertable_into	yes_or_no		YES if the view has an INSTEAD OF INSERT trigger defined on it, NO if not	9.1,9.2,9.3,9.4,9.5,9.6,10,11,12,13
+views	is_trigger_updatable	yes_or_no		Applies to a feature not available in PostgreSQL	9.0
+views	is_trigger_updatable	yes_or_no		YES if the view has an INSTEAD OF UPDATE trigger defined on it, NO if not	9.1,9.2,9.3,9.4,9.5,9.6,10,11,12,13
+views	is_updatable	character_data		Not yet implemented	7.4,8.0,8.1
+views	is_updatable	character_data		YES if the view is updatable (allows UPDATE and DELETE), NO if not	8.2,8.3,8.4
+views	is_updatable	yes_or_no		YES if the view is updatable (allows UPDATE and DELETE), NO if not	9.0,9.1,9.2,9.3,9.4,9.5,9.6,10,11,12,13
+views	table_catalog	sql_identifier		Name of the database that contains the view (always the current database)	7.4,8.0,8.1,8.2,8.3,8.4,9.0,9.1,9.2,9.3,9.4,9.5,9.6,10,11,12,13
+views	table_name	sql_identifier		Name of the view	7.4,8.0,8.1,8.2,8.3,8.4,9.0,9.1,9.2,9.3,9.4,9.5,9.6,10,11,12,13
+views	table_schema	sql_identifier		Name of the schema that contains the view	7.4,8.0,8.1,8.2,8.3,8.4,9.0,9.1,9.2,9.3,9.4,9.5,9.6,10,11,12,13
+views	view definition	character_data		Query expression defining the view (null if the current user is not the owner of the view)	7.4,8.0,8.1
+views	view_definition	character_data		Query expression defining the view (null if the view is not owned by a currently enabled role)	8.2,8.3,8.4,9.0,9.1,9.2,9.3,9.4,9.5,9.6,10,11,12,13

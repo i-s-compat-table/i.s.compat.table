@@ -1,0 +1,5 @@
+{
+    "yaml.schemas": {
+      "./schema.json": ["./data/information_schema/*.yaml"] 
+    }
+}

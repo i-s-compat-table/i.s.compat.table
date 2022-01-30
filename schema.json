@@ -1,0 +1,77 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema",
+  "$id": "temp",
+  "title": "information_schema schema",
+  "description": "a schema for listing compatibility data of information_schema tables",
+  "type": "object",
+  "properties": {
+    "description": {
+      "type": "string",
+      "description": "the description of the table (should hold across implementors)"
+    },
+    "implementors": {
+      "type": "object",
+      "description": "names of dbs -> docs of db versions that support this table",
+      "patternProperties": { "^[a-z_]$": {"$ref": "#DbCompatibilityReport"} }
+    },
+    "columns": {
+      "type": "object",
+      "patternProperties": {
+        "[^a-z_$]": { "$ref": "#ColumnImplementation" }
+      }
+    }
+  },
+  "definitions": {
+    "ImplementationCaveats": {
+      "type":"array",
+      "description": "caveats about this database version's implementation",
+      "items": { "type": "string" }
+    },
+    "DbCompatibilitySource": {
+      "type": "object",
+      "properties": {
+        "url": {
+          "description": "a link proving documenting this database version's support for the relevant table + column.",
+          "type": "string",
+          "pattern": "^https?://(www\\.)?[-a-zA-Z0-9@:%._\\+~#=]{1,256}\\.[a-zA-Z0-9()]{1,6}\\b([-a-zA-Z0-9()@:%_\\+.~#?&//=]*)"
+        },
+        "version": {
+          "type": "string",
+          "description": "the name of the database version"
+        },
+        "notes": { "$ref": "#ImplementationCaveats" }
+      },
+      "required": ["url", "version"],
+      "additionalProperties": false
+    },
+    "DbCompatibilityReport": {
+      "type":"array",
+      "items": { "$ref": "#DbCompatibilitySource" },
+      "description": "each element should correspond to a db version; newest -> oldest."
+    },
+    "ColumnImplementation": {
+      "type": "object",
+      "properties": {
+        "description": {
+          "type": "string",
+          "description": "a description of the column which holds across implementors"
+        },
+        "patternProperties": {
+          "^[a-z_]$": {
+            "description": "a database name mapping to an array of implementations",
+            "type": "array",
+            "items": {
+              "type": "object",
+              "description": "maps to top-level implementor -> version",
+              "properties": {
+                "version": {"type": "string"},
+                "type": {"type": "string"}
+              }
+            }
+          }
+        }
+      },
+      "additionalProperties": false
+    }
+  }
+}

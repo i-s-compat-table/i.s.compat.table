@@ -1,0 +1,304 @@
+db_name	table_name	column_name	column_type	column_nullable	url	notes	versions
+snowflakedb	applicable_roles	grantee	text		https://docs.snowflake.com/en/sql-reference/info-schema/applicable_roles.html	role or user to whom the privilege is granted	
+snowflakedb	applicable_roles	role_name	text		https://docs.snowflake.com/en/sql-reference/info-schema/applicable_roles.html	name of the role	
+snowflakedb	applicable_roles	role_owner	text		https://docs.snowflake.com/en/sql-reference/info-schema/applicable_roles.html	owner of the role	
+snowflakedb	applicable_roles	is_grantable	text		https://docs.snowflake.com/en/sql-reference/info-schema/applicable_roles.html	whether this role can be granted to others	
+snowflakedb	columns	table_catalog	text		https://docs.snowflake.com/en/sql-reference/info-schema/columns.html	database that the table belongs to	
+snowflakedb	columns	table_schema	text		https://docs.snowflake.com/en/sql-reference/info-schema/columns.html	schema that the table belongs to	
+snowflakedb	columns	table_name	text		https://docs.snowflake.com/en/sql-reference/info-schema/columns.html	table or view that the column belongs to	
+snowflakedb	columns	column_name	text		https://docs.snowflake.com/en/sql-reference/info-schema/columns.html	name of the column	
+snowflakedb	columns	ordinal_position	number		https://docs.snowflake.com/en/sql-reference/info-schema/columns.html	ordinal position of the column in the table	
+snowflakedb	columns	column_default	text		https://docs.snowflake.com/en/sql-reference/info-schema/columns.html	default value of the column	
+snowflakedb	columns	is_nullable	text		https://docs.snowflake.com/en/sql-reference/info-schema/columns.html	‘yes’ if the column may contain null, ‘no’ otherwise	
+snowflakedb	columns	data_type	text		https://docs.snowflake.com/en/sql-reference/info-schema/columns.html	data type of the column	
+snowflakedb	columns	character_maximum_length	number		https://docs.snowflake.com/en/sql-reference/info-schema/columns.html	maximum length in characters of string columns	
+snowflakedb	columns	character_octet_length	number		https://docs.snowflake.com/en/sql-reference/info-schema/columns.html	maximum length in bytes of string columns	
+snowflakedb	columns	numeric_precision	number		https://docs.snowflake.com/en/sql-reference/info-schema/columns.html	numeric precision of numeric columns	
+snowflakedb	columns	numeric_precision_radix	number		https://docs.snowflake.com/en/sql-reference/info-schema/columns.html	radix of precision of numeric columns	
+snowflakedb	columns	numeric_scale	number		https://docs.snowflake.com/en/sql-reference/info-schema/columns.html	scale of numeric columns	
+snowflakedb	columns	datetime_precision	number		https://docs.snowflake.com/en/sql-reference/info-schema/columns.html	not applicable for snowflake.	
+snowflakedb	columns	interval_type	text		https://docs.snowflake.com/en/sql-reference/info-schema/columns.html	not applicable for snowflake.	
+snowflakedb	columns	interval_precision	number		https://docs.snowflake.com/en/sql-reference/info-schema/columns.html	not applicable for snowflake.	
+snowflakedb	columns	character_set_catalog	text		https://docs.snowflake.com/en/sql-reference/info-schema/columns.html	not applicable for snowflake.	
+snowflakedb	columns	character_set_schema	text		https://docs.snowflake.com/en/sql-reference/info-schema/columns.html	not applicable for snowflake.	
+snowflakedb	columns	character_set_name	text		https://docs.snowflake.com/en/sql-reference/info-schema/columns.html	not applicable for snowflake.	
+snowflakedb	columns	collation_catalog	text		https://docs.snowflake.com/en/sql-reference/info-schema/columns.html	not applicable for snowflake.	
+snowflakedb	columns	collation_schema	text		https://docs.snowflake.com/en/sql-reference/info-schema/columns.html	not applicable for snowflake.	
+snowflakedb	columns	collation_name	text		https://docs.snowflake.com/en/sql-reference/info-schema/columns.html	the collation specification for this column	
+snowflakedb	columns	domain_catalog	text		https://docs.snowflake.com/en/sql-reference/info-schema/columns.html	not applicable for snowflake.	
+snowflakedb	columns	domain_schema	text		https://docs.snowflake.com/en/sql-reference/info-schema/columns.html	not applicable for snowflake.	
+snowflakedb	columns	domain_name	text		https://docs.snowflake.com/en/sql-reference/info-schema/columns.html	not applicable for snowflake.	
+snowflakedb	columns	udt_catalog	text		https://docs.snowflake.com/en/sql-reference/info-schema/columns.html	not applicable for snowflake.	
+snowflakedb	columns	udt_schema	text		https://docs.snowflake.com/en/sql-reference/info-schema/columns.html	not applicable for snowflake.	
+snowflakedb	columns	udt_name	text		https://docs.snowflake.com/en/sql-reference/info-schema/columns.html	not applicable for snowflake.	
+snowflakedb	columns	scope_catalog	text		https://docs.snowflake.com/en/sql-reference/info-schema/columns.html	not applicable for snowflake.	
+snowflakedb	columns	scope_schema	text		https://docs.snowflake.com/en/sql-reference/info-schema/columns.html	not applicable for snowflake.	
+snowflakedb	columns	scope_name	text		https://docs.snowflake.com/en/sql-reference/info-schema/columns.html	not applicable for snowflake.	
+snowflakedb	columns	maximum_cardinality	number		https://docs.snowflake.com/en/sql-reference/info-schema/columns.html	not applicable for snowflake.	
+snowflakedb	columns	dtd_identifier	text		https://docs.snowflake.com/en/sql-reference/info-schema/columns.html	not applicable for snowflake.	
+snowflakedb	columns	is_self_referencing	text		https://docs.snowflake.com/en/sql-reference/info-schema/columns.html	not applicable for snowflake.	
+snowflakedb	columns	is_identity	text		https://docs.snowflake.com/en/sql-reference/info-schema/columns.html	whether this column is an identity column	
+snowflakedb	columns	identity_generation	text		https://docs.snowflake.com/en/sql-reference/info-schema/columns.html	whether an identity column’s value is always generated or only generated by default.  snowflake only supports by default	
+snowflakedb	columns	identity_start	text		https://docs.snowflake.com/en/sql-reference/info-schema/columns.html	the start value from create table ... (columnx ... autoincrement start <#> ...).	
+snowflakedb	columns	identity_increment	text		https://docs.snowflake.com/en/sql-reference/info-schema/columns.html	the increment value from create table ... (columnx ... autoincrement increment <#> ...).	
+snowflakedb	columns	identity_maximum	text		https://docs.snowflake.com/en/sql-reference/info-schema/columns.html	not applicable for snowflake.	
+snowflakedb	columns	identity_minimum	text		https://docs.snowflake.com/en/sql-reference/info-schema/columns.html	not applicable for snowflake.	
+snowflakedb	columns	identity_cycle	text		https://docs.snowflake.com/en/sql-reference/info-schema/columns.html	whether the value of an identity column may cycle.  snowflake only supports no cycle.	
+snowflakedb	columns	comment	text		https://docs.snowflake.com/en/sql-reference/info-schema/columns.html	comment for this column	
+snowflakedb	databases	database_name	text		https://docs.snowflake.com/en/sql-reference/info-schema/databases.html	name of the database	
+snowflakedb	databases	database_owner	text		https://docs.snowflake.com/en/sql-reference/info-schema/databases.html	name of the role that owns the schema	
+snowflakedb	databases	is_transient	text		https://docs.snowflake.com/en/sql-reference/info-schema/databases.html	whether this is a transient database	
+snowflakedb	databases	comment	text		https://docs.snowflake.com/en/sql-reference/info-schema/databases.html	comment for this database	
+snowflakedb	databases	created	timestamp_ltz		https://docs.snowflake.com/en/sql-reference/info-schema/databases.html	creation time of the database	
+snowflakedb	databases	last_altered	timestamp_ltz		https://docs.snowflake.com/en/sql-reference/info-schema/databases.html	last altered time of the database	
+snowflakedb	databases	retention_time	number		https://docs.snowflake.com/en/sql-reference/info-schema/databases.html	number of days that historical data is retained for time travel	
+snowflakedb	enabled_roles	role_name	text		https://docs.snowflake.com/en/sql-reference/info-schema/enabled_roles.html	name of the role	
+snowflakedb	enabled_roles	role_owner	text		https://docs.snowflake.com/en/sql-reference/info-schema/enabled_roles.html	owner of the role	
+snowflakedb	external_tables	table_catalog	text		https://docs.snowflake.com/en/sql-reference/info-schema/external_tables.html	database that the table belongs to	
+snowflakedb	external_tables	table_schema	text		https://docs.snowflake.com/en/sql-reference/info-schema/external_tables.html	schema that the table belongs to	
+snowflakedb	external_tables	table_name	text		https://docs.snowflake.com/en/sql-reference/info-schema/external_tables.html	name of the table	
+snowflakedb	external_tables	table_owner	text		https://docs.snowflake.com/en/sql-reference/info-schema/external_tables.html	name of the role that owns the table	
+snowflakedb	external_tables	created	timestamp_ltz		https://docs.snowflake.com/en/sql-reference/info-schema/external_tables.html	creation time of the table	
+snowflakedb	external_tables	last_altered	timestamp_ltz		https://docs.snowflake.com/en/sql-reference/info-schema/external_tables.html	last altered time of the table	
+snowflakedb	external_tables	auto_clustering_on	boolean		https://docs.snowflake.com/en/sql-reference/info-schema/external_tables.html	whether automatic clustering is enabled for the table	
+snowflakedb	external_tables	comment	text		https://docs.snowflake.com/en/sql-reference/info-schema/external_tables.html	comment for this table	
+snowflakedb	external_tables	location	text		https://docs.snowflake.com/en/sql-reference/info-schema/external_tables.html	external stage where the files containing data to be read are staged	
+snowflakedb	external_tables	file_format_name	text		https://docs.snowflake.com/en/sql-reference/info-schema/external_tables.html	named file format that describes the staged data files to scan when querying the external table	
+snowflakedb	external_tables	file_format_type	text		https://docs.snowflake.com/en/sql-reference/info-schema/external_tables.html	format type of the staged data files to scan when querying the external table	
+snowflakedb	file formats	file_format_catalog	text		https://docs.snowflake.com/en/sql-reference/info-schema/file_formats.html	database that the file format belongs to	
+snowflakedb	file formats	file_format_schema	text		https://docs.snowflake.com/en/sql-reference/info-schema/file_formats.html	schema that the file format belongs to	
+snowflakedb	file formats	file_format_name	text		https://docs.snowflake.com/en/sql-reference/info-schema/file_formats.html	name of the file format	
+snowflakedb	file formats	file_format_owner	text		https://docs.snowflake.com/en/sql-reference/info-schema/file_formats.html	name of the role that owns the file format	
+snowflakedb	file formats	file_format_type	text		https://docs.snowflake.com/en/sql-reference/info-schema/file_formats.html	type of the file format	
+snowflakedb	file formats	record_delimiter	text		https://docs.snowflake.com/en/sql-reference/info-schema/file_formats.html	character that separates records	
+snowflakedb	file formats	field_delimiter	text		https://docs.snowflake.com/en/sql-reference/info-schema/file_formats.html	character that separates fields	
+snowflakedb	file formats	skip_header	number		https://docs.snowflake.com/en/sql-reference/info-schema/file_formats.html	number of lines skipped at the start of the file	
+snowflakedb	file formats	date_format	text		https://docs.snowflake.com/en/sql-reference/info-schema/file_formats.html	date format	
+snowflakedb	file formats	time_format	text		https://docs.snowflake.com/en/sql-reference/info-schema/file_formats.html	time format	
+snowflakedb	file formats	timestamp_format	text		https://docs.snowflake.com/en/sql-reference/info-schema/file_formats.html	timestamp format	
+snowflakedb	file formats	binary_format	text		https://docs.snowflake.com/en/sql-reference/info-schema/file_formats.html	binary format	
+snowflakedb	file formats	escape	text		https://docs.snowflake.com/en/sql-reference/info-schema/file_formats.html	string used as the escape character for any field values	
+snowflakedb	file formats	escape_unenclosed_field	text		https://docs.snowflake.com/en/sql-reference/info-schema/file_formats.html	string used as the escape character for unenclosed field values	
+snowflakedb	file formats	trim_space	text		https://docs.snowflake.com/en/sql-reference/info-schema/file_formats.html	whether whitespace is removed from fields	
+snowflakedb	file formats	field_optionally_enclosed_by	text		https://docs.snowflake.com/en/sql-reference/info-schema/file_formats.html	character used to enclose strings	
+snowflakedb	file formats	null_if	text		https://docs.snowflake.com/en/sql-reference/info-schema/file_formats.html	a list of strings to be replaced by null	
+snowflakedb	file formats	compression	text		https://docs.snowflake.com/en/sql-reference/info-schema/file_formats.html	compression method for the data file	
+snowflakedb	file formats	error_on_column_count_mismatch	text		https://docs.snowflake.com/en/sql-reference/info-schema/file_formats.html	whether to generate a parsing error if the number of fields in an input file does not match the number of columns in the corresponding table	
+snowflakedb	file formats	created	timestamp_ltz		https://docs.snowflake.com/en/sql-reference/info-schema/file_formats.html	creation time of the file format	
+snowflakedb	file formats	last_altered	timestamp_ltz		https://docs.snowflake.com/en/sql-reference/info-schema/file_formats.html	last altered time of the file format	
+snowflakedb	file formats	comment	text		https://docs.snowflake.com/en/sql-reference/info-schema/file_formats.html	comment for this file format	
+snowflakedb	functions	function_catalog	text		https://docs.snowflake.com/en/sql-reference/info-schema/functions.html	database which the function belongs to	
+snowflakedb	functions	function_schema	text		https://docs.snowflake.com/en/sql-reference/info-schema/functions.html	schema which the function belongs to	
+snowflakedb	functions	function_name	text		https://docs.snowflake.com/en/sql-reference/info-schema/functions.html	name of the function	
+snowflakedb	functions	function_owner	text		https://docs.snowflake.com/en/sql-reference/info-schema/functions.html	name of the role that owns the function	
+snowflakedb	functions	argument_signature	text		https://docs.snowflake.com/en/sql-reference/info-schema/functions.html	type signature of the function’s arguments	
+snowflakedb	functions	data_type	text		https://docs.snowflake.com/en/sql-reference/info-schema/functions.html	return value data type	
+snowflakedb	functions	character_maximum_length	number		https://docs.snowflake.com/en/sql-reference/info-schema/functions.html	maximum length in characters of string return value	
+snowflakedb	functions	character_octet_length	number		https://docs.snowflake.com/en/sql-reference/info-schema/functions.html	maximum length in bytes of string return value	
+snowflakedb	functions	numeric_precision	number		https://docs.snowflake.com/en/sql-reference/info-schema/functions.html	numeric precision of numeric return value	
+snowflakedb	functions	numeric_precision_radix	number		https://docs.snowflake.com/en/sql-reference/info-schema/functions.html	radix of precision of numeric return value	
+snowflakedb	functions	numeric_scale	number		https://docs.snowflake.com/en/sql-reference/info-schema/functions.html	scale of numeric return value	
+snowflakedb	functions	function_language	text		https://docs.snowflake.com/en/sql-reference/info-schema/functions.html	language of the function	
+snowflakedb	functions	function_definition	text		https://docs.snowflake.com/en/sql-reference/info-schema/functions.html	function definition	
+snowflakedb	functions	volatility	text		https://docs.snowflake.com/en/sql-reference/info-schema/functions.html	whether the function is volatile or immutable	
+snowflakedb	functions	is_null_call	text		https://docs.snowflake.com/en/sql-reference/info-schema/functions.html	whether the function is called on null input	
+snowflakedb	functions	created	timestamp_ltz		https://docs.snowflake.com/en/sql-reference/info-schema/functions.html	creation time of the function	
+snowflakedb	functions	last_altered	timestamp_ltz		https://docs.snowflake.com/en/sql-reference/info-schema/functions.html	last altered time of the function	
+snowflakedb	functions	comment	text		https://docs.snowflake.com/en/sql-reference/info-schema/functions.html	comment for this function	
+snowflakedb	functions	is_external 1	boolean		https://docs.snowflake.com/en/sql-reference/info-schema/functions.html	true if the function is an external function.	
+snowflakedb	functions	api_integration 1	varchar		https://docs.snowflake.com/en/sql-reference/info-schema/functions.html	the name of the api integration object to authenticate the call to the proxy service.	
+snowflakedb	functions	context_headers 1	object		https://docs.snowflake.com/en/sql-reference/info-schema/functions.html	the context header information for the external function.	
+snowflakedb	functions	max_batch_rows 1	number		https://docs.snowflake.com/en/sql-reference/info-schema/functions.html	the maximum number of rows in each batch sent to the proxy service.	
+snowflakedb	functions	compression 1	string		https://docs.snowflake.com/en/sql-reference/info-schema/functions.html	the type of compression.	
+snowflakedb	information_schema_catalog_name	catalog_name	text		https://docs.snowflake.com/en/sql-reference/info-schema/information_schema_catalog_name.html	the name of the database in which this information_schema resides.	
+snowflakedb	load_history	schema_name	text		https://docs.snowflake.com/en/sql-reference/info-schema/load_history.html	schema of target table	
+snowflakedb	load_history	file_name	text		https://docs.snowflake.com/en/sql-reference/info-schema/load_history.html	name of source file	
+snowflakedb	load_history	table_name	text		https://docs.snowflake.com/en/sql-reference/info-schema/load_history.html	name of target table	
+snowflakedb	load_history	last_load_time	timestamp_ltz		https://docs.snowflake.com/en/sql-reference/info-schema/load_history.html	timestamp of the load record	
+snowflakedb	load_history	status	text		https://docs.snowflake.com/en/sql-reference/info-schema/load_history.html	status: loaded, load failed, or partially loaded	
+snowflakedb	load_history	row_count	number		https://docs.snowflake.com/en/sql-reference/info-schema/load_history.html	number of rows loaded from the source file	
+snowflakedb	load_history	row_parsed	number		https://docs.snowflake.com/en/sql-reference/info-schema/load_history.html	number of rows parsed from the source file	
+snowflakedb	load_history	first_error_message	text		https://docs.snowflake.com/en/sql-reference/info-schema/load_history.html	first error of the source file	
+snowflakedb	load_history	first_error_line_number	number		https://docs.snowflake.com/en/sql-reference/info-schema/load_history.html	line number of the first error	
+snowflakedb	load_history	first_error_character_position	number		https://docs.snowflake.com/en/sql-reference/info-schema/load_history.html	position of the first error character	
+snowflakedb	load_history	first_error_col_name	text		https://docs.snowflake.com/en/sql-reference/info-schema/load_history.html	column name of the first error	
+snowflakedb	load_history	error_count	number		https://docs.snowflake.com/en/sql-reference/info-schema/load_history.html	number of error rows in the source file	
+snowflakedb	load_history	error_limit	number		https://docs.snowflake.com/en/sql-reference/info-schema/load_history.html	if the number of errors reaches this limit, then abort	
+snowflakedb	object_privileges	grantor	text		https://docs.snowflake.com/en/sql-reference/info-schema/object_privileges.html	role who granted the privilege	
+snowflakedb	object_privileges	grantee	text		https://docs.snowflake.com/en/sql-reference/info-schema/object_privileges.html	role to whom the privilege is granted	
+snowflakedb	object_privileges	object_catalog	text		https://docs.snowflake.com/en/sql-reference/info-schema/object_privileges.html	database containing the object on which the privilege is granted	
+snowflakedb	object_privileges	object_schema	text		https://docs.snowflake.com/en/sql-reference/info-schema/object_privileges.html	schema containing the object on which the privilege is granted	
+snowflakedb	object_privileges	object_name	text		https://docs.snowflake.com/en/sql-reference/info-schema/object_privileges.html	name of the object on which the privilege is granted	
+snowflakedb	object_privileges	object_type	text		https://docs.snowflake.com/en/sql-reference/info-schema/object_privileges.html	type of the object on which the privilege is granted	
+snowflakedb	object_privileges	privilege_type	text		https://docs.snowflake.com/en/sql-reference/info-schema/object_privileges.html	type of the granted privilege	
+snowflakedb	object_privileges	is_grantable	text		https://docs.snowflake.com/en/sql-reference/info-schema/object_privileges.html	whether the privilege was granted with grant option	
+snowflakedb	object_privileges	created	timestamp_ltz		https://docs.snowflake.com/en/sql-reference/info-schema/object_privileges.html	creation time of the privilege	
+snowflakedb	pipes	pipe_catalog	text		https://docs.snowflake.com/en/sql-reference/info-schema/pipes.html	database that the pipe belongs to	
+snowflakedb	pipes	pipe_schema	text		https://docs.snowflake.com/en/sql-reference/info-schema/pipes.html	schema that the pipe belongs to	
+snowflakedb	pipes	pipe_name	text		https://docs.snowflake.com/en/sql-reference/info-schema/pipes.html	name of the pipe	
+snowflakedb	pipes	pipe_owner	text		https://docs.snowflake.com/en/sql-reference/info-schema/pipes.html	name of the role that owns the pipe	
+snowflakedb	pipes	definition	text		https://docs.snowflake.com/en/sql-reference/info-schema/pipes.html	copy statement used to load data from queued files into a snowflake table.	
+snowflakedb	pipes	is_autoingest_enabled	text		https://docs.snowflake.com/en/sql-reference/info-schema/pipes.html	whether auto-ingest is enabled for the pipe. represents future functionality.	
+snowflakedb	pipes	notification_channel_name	text		https://docs.snowflake.com/en/sql-reference/info-schema/pipes.html	amazon resource name of the amazon sqs queue for the stage named in the definition column. represents future functionality.	
+snowflakedb	pipes	created	timestamp_ltz		https://docs.snowflake.com/en/sql-reference/info-schema/pipes.html	creation time of the pipe	
+snowflakedb	pipes	last_altered	timestamp_ltz		https://docs.snowflake.com/en/sql-reference/info-schema/pipes.html	last altered time of the pipe	
+snowflakedb	pipes	comment	text		https://docs.snowflake.com/en/sql-reference/info-schema/pipes.html	comment for this pipe	
+snowflakedb	pipes	pattern	text		https://docs.snowflake.com/en/sql-reference/info-schema/pipes.html	pattern copy option value in the copy into <table> statement in the pipe definition, if the copy option was specified.	
+snowflakedb	procedures	procedure_catalog	text		https://docs.snowflake.com/en/sql-reference/info-schema/procedures.html	database which the stored procedure belongs to	
+snowflakedb	procedures	procedure_schema	text		https://docs.snowflake.com/en/sql-reference/info-schema/procedures.html	schema which the stored procedure belongs to	
+snowflakedb	procedures	procedure_name	text		https://docs.snowflake.com/en/sql-reference/info-schema/procedures.html	name of the stored procedure	
+snowflakedb	procedures	procedure_owner	text		https://docs.snowflake.com/en/sql-reference/info-schema/procedures.html	name of the role that owns the stored procedure	
+snowflakedb	procedures	argument_signature	text		https://docs.snowflake.com/en/sql-reference/info-schema/procedures.html	type signature of the stored procedure’s arguments	
+snowflakedb	procedures	data_type	text		https://docs.snowflake.com/en/sql-reference/info-schema/procedures.html	return value data type	
+snowflakedb	procedures	character_maximum_length	number		https://docs.snowflake.com/en/sql-reference/info-schema/procedures.html	maximum length in characters of string return value	
+snowflakedb	procedures	character_octet_length	number		https://docs.snowflake.com/en/sql-reference/info-schema/procedures.html	maximum length in bytes of string return value	
+snowflakedb	procedures	numeric_precision	number		https://docs.snowflake.com/en/sql-reference/info-schema/procedures.html	numeric precision of numeric return value	
+snowflakedb	procedures	numeric_precision_radix	number		https://docs.snowflake.com/en/sql-reference/info-schema/procedures.html	radix of precision of numeric return value	
+snowflakedb	procedures	numeric_scale	number		https://docs.snowflake.com/en/sql-reference/info-schema/procedures.html	scale of numeric return value	
+snowflakedb	procedures	procedure_language	text		https://docs.snowflake.com/en/sql-reference/info-schema/procedures.html	language of the stored procedure	
+snowflakedb	procedures	procedure_definition	text		https://docs.snowflake.com/en/sql-reference/info-schema/procedures.html	stored procedure definition	
+snowflakedb	procedures	created	timestamp_ltz		https://docs.snowflake.com/en/sql-reference/info-schema/procedures.html	creation time of the stored procedure	
+snowflakedb	procedures	last_altered	timestamp_ltz		https://docs.snowflake.com/en/sql-reference/info-schema/procedures.html	last altered time of the stored procedure	
+snowflakedb	procedures	comment	text		https://docs.snowflake.com/en/sql-reference/info-schema/procedures.html	comment for this stored procedure	
+snowflakedb	referential_constraints	constraint_catalog	text		https://docs.snowflake.com/en/sql-reference/info-schema/referential_constraints.html	database that the constraint belongs to	
+snowflakedb	referential_constraints	constraint_schema	text		https://docs.snowflake.com/en/sql-reference/info-schema/referential_constraints.html	schema that the constraint belongs to	
+snowflakedb	referential_constraints	constraint_name	text		https://docs.snowflake.com/en/sql-reference/info-schema/referential_constraints.html	name of the constraint	
+snowflakedb	referential_constraints	unique_constraint_catalog	text		https://docs.snowflake.com/en/sql-reference/info-schema/referential_constraints.html	database of the unique constraint referenced by the current constraint	
+snowflakedb	referential_constraints	unique_constraint_schema	text		https://docs.snowflake.com/en/sql-reference/info-schema/referential_constraints.html	schema of the unique constraint referenced by the current constraint	
+snowflakedb	referential_constraints	unique_constraint_name	text		https://docs.snowflake.com/en/sql-reference/info-schema/referential_constraints.html	name of the unique constraint referenced by the current constraint	
+snowflakedb	referential_constraints	match_option	text		https://docs.snowflake.com/en/sql-reference/info-schema/referential_constraints.html	match option for the constraint	
+snowflakedb	referential_constraints	update_rule	text		https://docs.snowflake.com/en/sql-reference/info-schema/referential_constraints.html	update rule for the current constraint	
+snowflakedb	referential_constraints	delete_rule	text		https://docs.snowflake.com/en/sql-reference/info-schema/referential_constraints.html	delete rule for the current constraint	
+snowflakedb	referential_constraints	comment	text		https://docs.snowflake.com/en/sql-reference/info-schema/referential_constraints.html	comment for this constraint	
+snowflakedb	referential_constraints	created	timestamp_ltz		https://docs.snowflake.com/en/sql-reference/info-schema/referential_constraints.html	creation time of the constraint	
+snowflakedb	referential_constraints	last_altered	timestamp_ltz		https://docs.snowflake.com/en/sql-reference/info-schema/referential_constraints.html	last altered time of the constraint	
+snowflakedb	replication_databases	snowflake_region	text		https://docs.snowflake.com/en/sql-reference/info-schema/replication_databases.html	snowflake region where the account that stores the database is located. a snowflake region is a distinct location within a cloud platform region that is isolated from other snowflake regions. a snowflake region can be either multi-tenant or single-tenant (for a virtual private snowflake account).	
+snowflakedb	replication_databases	created_on	timestamp_ltz		https://docs.snowflake.com/en/sql-reference/info-schema/replication_databases.html	date and time when the database was created.	
+snowflakedb	replication_databases	account_name	text		https://docs.snowflake.com/en/sql-reference/info-schema/replication_databases.html	name of the account in which the database is stored.	
+snowflakedb	replication_databases	name	text		https://docs.snowflake.com/en/sql-reference/info-schema/replication_databases.html	name of the database.	
+snowflakedb	replication_databases	comment	text		https://docs.snowflake.com/en/sql-reference/info-schema/replication_databases.html	comment for the database.	
+snowflakedb	replication_databases	is_primary	text		https://docs.snowflake.com/en/sql-reference/info-schema/replication_databases.html	whether the database is a primary database; otherwise, is a secondary database.	
+snowflakedb	replication_databases	region_group	text		https://docs.snowflake.com/en/sql-reference/info-schema/replication_databases.html	virtual private snowflake customers only: region group where the account that stores the database is located.	
+snowflakedb	schemata	catalog_name	text		https://docs.snowflake.com/en/sql-reference/info-schema/schemata.html	database that the schema belongs to	
+snowflakedb	schemata	schema_name	text		https://docs.snowflake.com/en/sql-reference/info-schema/schemata.html	name of the schema	
+snowflakedb	schemata	schema_owner	text		https://docs.snowflake.com/en/sql-reference/info-schema/schemata.html	name of the role that owns the schema	
+snowflakedb	schemata	is_transient	text		https://docs.snowflake.com/en/sql-reference/info-schema/schemata.html	whether this is a transient schema	
+snowflakedb	schemata	is_managed_access	text		https://docs.snowflake.com/en/sql-reference/info-schema/schemata.html	whether the schema is a managed access schema	
+snowflakedb	schemata	retention_time	number		https://docs.snowflake.com/en/sql-reference/info-schema/schemata.html	number of days that historical data is retained for time travel	
+snowflakedb	schemata	default_character_set_catalog	text		https://docs.snowflake.com/en/sql-reference/info-schema/schemata.html	not applicable for snowflake.	
+snowflakedb	schemata	default_character_set_schema	text		https://docs.snowflake.com/en/sql-reference/info-schema/schemata.html	not applicable for snowflake.	
+snowflakedb	schemata	default_character_set_name	text		https://docs.snowflake.com/en/sql-reference/info-schema/schemata.html	not applicable for snowflake.	
+snowflakedb	schemata	sql_path	text		https://docs.snowflake.com/en/sql-reference/info-schema/schemata.html	not applicable for snowflake.	
+snowflakedb	schemata	created	timestamp_ltz		https://docs.snowflake.com/en/sql-reference/info-schema/schemata.html	creation time of the schema	
+snowflakedb	schemata	last_altered	timestamp_ltz		https://docs.snowflake.com/en/sql-reference/info-schema/schemata.html	last altered time of the schema	
+snowflakedb	schemata	comment	text		https://docs.snowflake.com/en/sql-reference/info-schema/schemata.html	comment for this schema	
+snowflakedb	sequences	sequence_catalog	text		https://docs.snowflake.com/en/sql-reference/info-schema/sequences.html	database that the sequence belongs to	
+snowflakedb	sequences	sequence_schema	text		https://docs.snowflake.com/en/sql-reference/info-schema/sequences.html	schema that the sequence belongs to	
+snowflakedb	sequences	sequence_name	text		https://docs.snowflake.com/en/sql-reference/info-schema/sequences.html	name of the sequence	
+snowflakedb	sequences	sequence_owner	text		https://docs.snowflake.com/en/sql-reference/info-schema/sequences.html	name of the role that owns the sequence	
+snowflakedb	sequences	data_type	text		https://docs.snowflake.com/en/sql-reference/info-schema/sequences.html	data type of the sequence	
+snowflakedb	sequences	numeric_precision	number		https://docs.snowflake.com/en/sql-reference/info-schema/sequences.html	numeric precision of the data type of the sequence	
+snowflakedb	sequences	numeric_precision_radix	number		https://docs.snowflake.com/en/sql-reference/info-schema/sequences.html	radix of the numeric precision of the data type of the sequence	
+snowflakedb	sequences	numeric_scale	number		https://docs.snowflake.com/en/sql-reference/info-schema/sequences.html	scale of the data type of the sequence	
+snowflakedb	sequences	start_value	text		https://docs.snowflake.com/en/sql-reference/info-schema/sequences.html	initial value of the sequence	
+snowflakedb	sequences	minimum_value	text		https://docs.snowflake.com/en/sql-reference/info-schema/sequences.html	not applicable for snowflake.	
+snowflakedb	sequences	maximum_value	text		https://docs.snowflake.com/en/sql-reference/info-schema/sequences.html	not applicable for snowflake.	
+snowflakedb	sequences	next_value	text		https://docs.snowflake.com/en/sql-reference/info-schema/sequences.html	next value that the sequence will produce	
+snowflakedb	sequences	increment	text		https://docs.snowflake.com/en/sql-reference/info-schema/sequences.html	increment of the sequence generator	
+snowflakedb	sequences	cycle_option	text		https://docs.snowflake.com/en/sql-reference/info-schema/sequences.html	not applicable for snowflake.	
+snowflakedb	sequences	created	timestamp_ltz		https://docs.snowflake.com/en/sql-reference/info-schema/sequences.html	creation time of the sequence	
+snowflakedb	sequences	last_altered	timestamp_ltz		https://docs.snowflake.com/en/sql-reference/info-schema/sequences.html	last altered time of the sequence	
+snowflakedb	sequences	comment	text		https://docs.snowflake.com/en/sql-reference/info-schema/sequences.html	comment for this sequence	
+snowflakedb	stages	stage_catalog	text		https://docs.snowflake.com/en/sql-reference/info-schema/stages.html	database that the stage belongs to	
+snowflakedb	stages	stage_schema	text		https://docs.snowflake.com/en/sql-reference/info-schema/stages.html	schema that the stage belongs to	
+snowflakedb	stages	stage_name	text		https://docs.snowflake.com/en/sql-reference/info-schema/stages.html	name of the stage	
+snowflakedb	stages	stage_url	text		https://docs.snowflake.com/en/sql-reference/info-schema/stages.html	location of an external stage	
+snowflakedb	stages	stage_region	text		https://docs.snowflake.com/en/sql-reference/info-schema/stages.html	region where the stage resides	
+snowflakedb	stages	stage_type	text		https://docs.snowflake.com/en/sql-reference/info-schema/stages.html	type of stage: user, table, internal named or external named	
+snowflakedb	stages	stage_owner	text		https://docs.snowflake.com/en/sql-reference/info-schema/stages.html	name of the role that owns the stage	
+snowflakedb	stages	comment	text		https://docs.snowflake.com/en/sql-reference/info-schema/stages.html	comment for this stage	
+snowflakedb	stages	created	timestamp_ltz		https://docs.snowflake.com/en/sql-reference/info-schema/stages.html	creation time of the stage	
+snowflakedb	stages	last_altered	timestamp_ltz		https://docs.snowflake.com/en/sql-reference/info-schema/stages.html	last altered time of the stage	
+snowflakedb	table_constraints	constraint_catalog	text		https://docs.snowflake.com/en/sql-reference/info-schema/table_constraints.html	database that the constraint belongs to	
+snowflakedb	table_constraints	constraint_schema	text		https://docs.snowflake.com/en/sql-reference/info-schema/table_constraints.html	schema that the constraint belongs to	
+snowflakedb	table_constraints	constraint_name	text		https://docs.snowflake.com/en/sql-reference/info-schema/table_constraints.html	name of the constraint	
+snowflakedb	table_constraints	table_catalog	text		https://docs.snowflake.com/en/sql-reference/info-schema/table_constraints.html	name of the database of the current table	
+snowflakedb	table_constraints	table_schema	text		https://docs.snowflake.com/en/sql-reference/info-schema/table_constraints.html	name of the schema of the current table	
+snowflakedb	table_constraints	table_name	text		https://docs.snowflake.com/en/sql-reference/info-schema/table_constraints.html	name of the current table	
+snowflakedb	table_constraints	constraint_type	text		https://docs.snowflake.com/en/sql-reference/info-schema/table_constraints.html	type of the constraint	
+snowflakedb	table_constraints	is_deferrable	text		https://docs.snowflake.com/en/sql-reference/info-schema/table_constraints.html	whether evaluation of the constraint can be deferred	
+snowflakedb	table_constraints	initially_deferred	text		https://docs.snowflake.com/en/sql-reference/info-schema/table_constraints.html	whether evaluation of the constraint is deferrable and initially deferred	
+snowflakedb	table_constraints	enforced	text		https://docs.snowflake.com/en/sql-reference/info-schema/table_constraints.html	whether the constraint is enforced	
+snowflakedb	table_constraints	comment	text		https://docs.snowflake.com/en/sql-reference/info-schema/table_constraints.html	comment for this constraint	
+snowflakedb	table_constraints	created	timestamp_ltz		https://docs.snowflake.com/en/sql-reference/info-schema/table_constraints.html	creation time of the constraint	
+snowflakedb	table_constraints	last_altered	timestamp_ltz		https://docs.snowflake.com/en/sql-reference/info-schema/table_constraints.html	last altered time of the constraint	
+snowflakedb	table_privileges	grantor	text		https://docs.snowflake.com/en/sql-reference/info-schema/table_privileges.html	role who granted the table privilege	
+snowflakedb	table_privileges	grantee	text		https://docs.snowflake.com/en/sql-reference/info-schema/table_privileges.html	role to whom the table privilege is granted	
+snowflakedb	table_privileges	table_catalog	text		https://docs.snowflake.com/en/sql-reference/info-schema/table_privileges.html	database containing the table on which the privilege is granted	
+snowflakedb	table_privileges	table_schema	text		https://docs.snowflake.com/en/sql-reference/info-schema/table_privileges.html	schema containing the table on which the privilege is granted	
+snowflakedb	table_privileges	table_name	text		https://docs.snowflake.com/en/sql-reference/info-schema/table_privileges.html	name of the table on which the privilege is granted	
+snowflakedb	table_privileges	privilege_type	text		https://docs.snowflake.com/en/sql-reference/info-schema/table_privileges.html	type of the granted privilege	
+snowflakedb	table_privileges	is_grantable	text		https://docs.snowflake.com/en/sql-reference/info-schema/table_privileges.html	whether the privilege was granted with grant option	
+snowflakedb	table_privileges	with_hierarchy	text		https://docs.snowflake.com/en/sql-reference/info-schema/table_privileges.html	not applicable for snowflake.	
+snowflakedb	table_privileges	created	timestamp_ltz		https://docs.snowflake.com/en/sql-reference/info-schema/table_privileges.html	creation time of the privilege	
+snowflakedb	table_storage_metrics	table_catalog	text		https://docs.snowflake.com/en/sql-reference/info-schema/table_storage_metrics.html	database that the table belongs to.	
+snowflakedb	table_storage_metrics	table_schema	text		https://docs.snowflake.com/en/sql-reference/info-schema/table_storage_metrics.html	schema that the table belongs to.	
+snowflakedb	table_storage_metrics	table_name	text		https://docs.snowflake.com/en/sql-reference/info-schema/table_storage_metrics.html	name of the table.	
+snowflakedb	table_storage_metrics	id	number		https://docs.snowflake.com/en/sql-reference/info-schema/table_storage_metrics.html	unique identifier for the table.	
+snowflakedb	table_storage_metrics	clone_group_id	number		https://docs.snowflake.com/en/sql-reference/info-schema/table_storage_metrics.html	unique identifier for the oldest clone ancestor of this table. same as id if the table is not a clone.	
+snowflakedb	table_storage_metrics	is_transient	text		https://docs.snowflake.com/en/sql-reference/info-schema/table_storage_metrics.html	‘yes’ if table is transient or temporary, otherwise ‘no’. transient and temporary tables have no fail-safe period.	
+snowflakedb	table_storage_metrics	active_bytes	number		https://docs.snowflake.com/en/sql-reference/info-schema/table_storage_metrics.html	bytes owned by (and billed to) this table that are in the active state for the table.	
+snowflakedb	table_storage_metrics	time_travel_bytes	number		https://docs.snowflake.com/en/sql-reference/info-schema/table_storage_metrics.html	bytes owned by (and billed to) this table that are in the time travel state for the table.	
+snowflakedb	table_storage_metrics	failsafe_bytes	number		https://docs.snowflake.com/en/sql-reference/info-schema/table_storage_metrics.html	bytes owned by (and billed to) this table that are in the fail-safe state for the table.	
+snowflakedb	table_storage_metrics	retained_for_clone_bytes	number		https://docs.snowflake.com/en/sql-reference/info-schema/table_storage_metrics.html	bytes owned by (and billed to) this table that are retained after deletion because they are referenced by one or more clones of this table.	
+snowflakedb	table_storage_metrics	table_created	timestamp_ltz		https://docs.snowflake.com/en/sql-reference/info-schema/table_storage_metrics.html	date and time at which the table was created.	
+snowflakedb	table_storage_metrics	table_dropped	timestamp_ltz		https://docs.snowflake.com/en/sql-reference/info-schema/table_storage_metrics.html	date and time at which the table was dropped. null if table has not been dropped.	
+snowflakedb	table_storage_metrics	table_entered_failsafe	timestamp_ltz		https://docs.snowflake.com/en/sql-reference/info-schema/table_storage_metrics.html	date and time at which the table, if dropped, entered the fail-safe state, or null. in this state, the table cannot be restored using undrop.	
+snowflakedb	table_storage_metrics	catalog_created	timestamp_ltz		https://docs.snowflake.com/en/sql-reference/info-schema/table_storage_metrics.html	date and time at which the database containing the table was created.	
+snowflakedb	table_storage_metrics	catalog_dropped	timestamp_ltz		https://docs.snowflake.com/en/sql-reference/info-schema/table_storage_metrics.html	date and time at which the database containing the table was dropped.	
+snowflakedb	table_storage_metrics	schema_created	timestamp_ltz		https://docs.snowflake.com/en/sql-reference/info-schema/table_storage_metrics.html	date and time at which the schema containing the table was created.	
+snowflakedb	table_storage_metrics	schema_dropped	timestamp_ltz		https://docs.snowflake.com/en/sql-reference/info-schema/table_storage_metrics.html	date and time at which the schema containing the table was dropped.	
+snowflakedb	table_storage_metrics	comment	text		https://docs.snowflake.com/en/sql-reference/info-schema/table_storage_metrics.html	comment for the table.	
+snowflakedb	tables	table_catalog	text		https://docs.snowflake.com/en/sql-reference/info-schema/tables.html	database that the table belongs to	
+snowflakedb	tables	table_schema	text		https://docs.snowflake.com/en/sql-reference/info-schema/tables.html	schema that the table belongs to	
+snowflakedb	tables	table_name	text		https://docs.snowflake.com/en/sql-reference/info-schema/tables.html	name of the table	
+snowflakedb	tables	table_owner	text		https://docs.snowflake.com/en/sql-reference/info-schema/tables.html	name of the role that owns the table	
+snowflakedb	tables	table_type	text		https://docs.snowflake.com/en/sql-reference/info-schema/tables.html	whether the table is a base table, temporary table, or view	
+snowflakedb	tables	is_transient	text		https://docs.snowflake.com/en/sql-reference/info-schema/tables.html	whether this is a transient table	
+snowflakedb	tables	clustering_key	text		https://docs.snowflake.com/en/sql-reference/info-schema/tables.html	clustering key for the table	
+snowflakedb	tables	row_count	number		https://docs.snowflake.com/en/sql-reference/info-schema/tables.html	number of rows in the table	
+snowflakedb	tables	bytes	number		https://docs.snowflake.com/en/sql-reference/info-schema/tables.html	number of bytes accessed by a scan of the table	
+snowflakedb	tables	retention_time	number		https://docs.snowflake.com/en/sql-reference/info-schema/tables.html	number of days that historical data is retained for time travel	
+snowflakedb	tables	self_referencing_column_name	text		https://docs.snowflake.com/en/sql-reference/info-schema/tables.html	not applicable for snowflake.	
+snowflakedb	tables	reference_generation	text		https://docs.snowflake.com/en/sql-reference/info-schema/tables.html	not applicable for snowflake.	
+snowflakedb	tables	user_defined_type_catalog	text		https://docs.snowflake.com/en/sql-reference/info-schema/tables.html	not applicable for snowflake.	
+snowflakedb	tables	user_defined_type_schema	text		https://docs.snowflake.com/en/sql-reference/info-schema/tables.html	not applicable for snowflake.	
+snowflakedb	tables	user_defined_type_name	text		https://docs.snowflake.com/en/sql-reference/info-schema/tables.html	not applicable for snowflake.	
+snowflakedb	tables	is_insertable_into	text		https://docs.snowflake.com/en/sql-reference/info-schema/tables.html	not applicable for snowflake.	
+snowflakedb	tables	is_typed	text		https://docs.snowflake.com/en/sql-reference/info-schema/tables.html	not applicable for snowflake.	
+snowflakedb	tables	commit_action	text		https://docs.snowflake.com/en/sql-reference/info-schema/tables.html	not applicable for snowflake.	
+snowflakedb	tables	created	timestamp_ltz		https://docs.snowflake.com/en/sql-reference/info-schema/tables.html	creation time of the table	
+snowflakedb	tables	last_altered	timestamp_ltz		https://docs.snowflake.com/en/sql-reference/info-schema/tables.html	last altered time of the table	
+snowflakedb	tables	auto_clustering_on	boolean		https://docs.snowflake.com/en/sql-reference/info-schema/tables.html	whether automatic clustering is enabled for the table	
+snowflakedb	tables	comment	text		https://docs.snowflake.com/en/sql-reference/info-schema/tables.html	comment for this table	
+snowflakedb	usage_privileges	grantor	text		https://docs.snowflake.com/en/sql-reference/info-schema/usage_privileges.html	role who granted the usage privilege	
+snowflakedb	usage_privileges	grantee	text		https://docs.snowflake.com/en/sql-reference/info-schema/usage_privileges.html	role to whom the usage privilege is granted	
+snowflakedb	usage_privileges	object_catalog	text		https://docs.snowflake.com/en/sql-reference/info-schema/usage_privileges.html	database containing the object on which the privilege is granted	
+snowflakedb	usage_privileges	object_schema	text		https://docs.snowflake.com/en/sql-reference/info-schema/usage_privileges.html	schema containing the object on which the privilege is granted	
+snowflakedb	usage_privileges	object_name	text		https://docs.snowflake.com/en/sql-reference/info-schema/usage_privileges.html	name of the object on which the privilege is granted	
+snowflakedb	usage_privileges	object_type	text		https://docs.snowflake.com/en/sql-reference/info-schema/usage_privileges.html	type of the object on which the privilege is granted	
+snowflakedb	usage_privileges	privilege_type	text		https://docs.snowflake.com/en/sql-reference/info-schema/usage_privileges.html	type of the granted privilege	
+snowflakedb	usage_privileges	is_grantable	text		https://docs.snowflake.com/en/sql-reference/info-schema/usage_privileges.html	whether the privilege was granted with grant option	
+snowflakedb	usage_privileges	created	timestamp_ltz		https://docs.snowflake.com/en/sql-reference/info-schema/usage_privileges.html	creation time of the privilege	
+snowflakedb	views	table_catalog	text		https://docs.snowflake.com/en/sql-reference/info-schema/views.html	database that the view belongs to.	
+snowflakedb	views	table_schema	text		https://docs.snowflake.com/en/sql-reference/info-schema/views.html	schema that the view belongs to.	
+snowflakedb	views	table_name	text		https://docs.snowflake.com/en/sql-reference/info-schema/views.html	name of the view.	
+snowflakedb	views	table_owner	text		https://docs.snowflake.com/en/sql-reference/info-schema/views.html	name of the role that owns the view.	
+snowflakedb	views	view_definition	text		https://docs.snowflake.com/en/sql-reference/info-schema/views.html	text of the view’s query expression.	
+snowflakedb	views	check_option	text		https://docs.snowflake.com/en/sql-reference/info-schema/views.html	not applicable for snowflake.	
+snowflakedb	views	is_updatable	text		https://docs.snowflake.com/en/sql-reference/info-schema/views.html	not applicable for snowflake.	
+snowflakedb	views	insertable_into	text		https://docs.snowflake.com/en/sql-reference/info-schema/views.html	not applicable for snowflake.	
+snowflakedb	views	is_secure	text		https://docs.snowflake.com/en/sql-reference/info-schema/views.html	specifies whether the view is secure.	
+snowflakedb	views	created	timestamp_ltz		https://docs.snowflake.com/en/sql-reference/info-schema/views.html	creation time of the view.	
+snowflakedb	views	last_altered	timestamp_ltz		https://docs.snowflake.com/en/sql-reference/info-schema/views.html	last altered time of the view.	
+snowflakedb	views	comment	text		https://docs.snowflake.com/en/sql-reference/info-schema/views.html	comment for this view.	

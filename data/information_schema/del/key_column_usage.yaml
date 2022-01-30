@@ -1,0 +1,216 @@
+description: "identifies all columns in the current database that are restricted by some unique, primary key, or foreign key constraint. Check constraints are not included in this view. Only those columns are shown that the current user has access to, by way of being the owner or having some privilege."
+implementors:
+  postgres:
+    - {version: "13", url: https://www.postgresql.org/docs/13/infoschema-key-column-usage.html }
+    - {version: "12", url: https://www.postgresql.org/docs/12/infoschema-key-column-usage.html }
+    - {version: "11", url: https://www.postgresql.org/docs/11/infoschema-key-column-usage.html }
+    - {version: "10", url: https://www.postgresql.org/docs/10/infoschema-key-column-usage.html }
+    - {version: "9.6", url: https://www.postgresql.org/docs/9.6/infoschema-key-column-usage.html }
+    - {version: "9.5", url: https://www.postgresql.org/docs/9.5/infoschema-key-column-usage.html }
+    - {version: "9.4", url: https://www.postgresql.org/docs/9.4/infoschema-key-column-usage.html }
+    - {version: "9.3", url: https://www.postgresql.org/docs/9.3/infoschema-key-column-usage.html }
+    - {version: "9.2", url: https://www.postgresql.org/docs/9.2/infoschema-key-column-usage.html }
+    - {version: "9.1", url: https://www.postgresql.org/docs/9.1/infoschema-key-column-usage.html }
+    - {version: "9.0", url: https://www.postgresql.org/docs/9.0/infoschema-key-column-usage.html }
+    - {version: "8.4", url: https://www.postgresql.org/docs/8.4/infoschema-key-column-usage.html }
+    - {version: "8.3", url: https://www.postgresql.org/docs/8.3/infoschema-key-column-usage.html }
+    - {version: "8.2", url: https://www.postgresql.org/docs/8.2/infoschema-key-column-usage.html }
+    - {version: "8.1", url: https://www.postgresql.org/docs/8.1/infoschema-key-column-usage.html }
+    - {version: "8.0", url: https://www.postgresql.org/docs/8.0/infoschema-key-column-usage.html }
+    - {version: "7.4", url: https://www.postgresql.org/docs/7.4/infoschema-key-column-usage.html }
+columns:
+  constraint_catalog:
+    description: Name of the database that contains the constraint (always the current database)
+    implementors:
+      postgres:
+        - version: "13"
+          type: sql_identifier
+        - version: "12"
+        - version: "11"
+        - version: "10"
+        - version: "9.6"
+        - version: "9.5"
+        - version: "9.4"
+        - version: "9.3"
+        - version: "9.2"
+        - version: "9.1"
+        - version: "9.0"
+        - version: "8.4"
+        - version: "8.3"
+        - version: "8.2"
+        - version: "8.1"
+        - version: "8.0"
+        - version: "7.4"
+  constraint_schema:
+    description: Name of the schema that contains the constraint
+    implementors:
+      postgres:
+        - version: "13"
+          type: sql_identifier
+        - version: "12"
+        - version: "11"
+        - version: "10"
+        - version: "9.6"
+        - version: "9.5"
+        - version: "9.4"
+        - version: "9.3"
+        - version: "9.2"
+        - version: "9.1"
+        - version: "9.0"
+        - version: "8.4"
+        - version: "8.3"
+        - version: "8.2"
+        - version: "8.1"
+        - version: "8.0"
+        - version: "7.4"
+  constraint_name:
+    description: Name of the constraint
+    implementors:
+      postgres:
+        - version: "13"
+          type: sql_identifier
+        - version: "12"
+        - version: "11"
+        - version: "10"
+        - version: "9.6"
+        - version: "9.5"
+        - version: "9.4"
+        - version: "9.3"
+        - version: "9.2"
+        - version: "9.1"
+        - version: "9.0"
+        - version: "8.4"
+        - version: "8.3"
+        - version: "8.2"
+        - version: "8.1"
+        - version: "8.0"
+        - version: "7.4"
+  table_catalog:
+    description: Name of the database that contains the table that contains the column that is restricted by this constraint (always the current database)
+    implementors:
+      postgres:
+        - version: "13"
+          type: sql_identifier
+        - version: "12"
+        - version: "11"
+        - version: "10"
+        - version: "9.6"
+        - version: "9.5"
+        - version: "9.4"
+        - version: "9.3"
+        - version: "9.2"
+        - version: "9.1"
+        - version: "9.0"
+        - version: "8.4"
+        - version: "8.3"
+        - version: "8.2"
+        - version: "8.1"
+        - version: "8.0"
+        - version: "7.4"
+  table_schema:
+    description: Name of the schema that contains the table that contains the column that is restricted by this constraint
+    implementors:
+      postgres:
+        - version: "13"
+          type: sql_identifier
+        - version: "12"
+        - version: "11"
+        - version: "10"
+        - version: "9.6"
+        - version: "9.5"
+        - version: "9.4"
+        - version: "9.3"
+        - version: "9.2"
+        - version: "9.1"
+        - version: "9.0"
+        - version: "8.4"
+        - version: "8.3"
+        - version: "8.2"
+        - version: "8.1"
+        - version: "8.0"
+        - version: "7.4"
+  table_name:
+    description: Name of the table that contains the column that is restricted by this constraint
+    implementors:
+      postgres:
+        - version: "13"
+          type: sql_identifier
+        - version: "12"
+        - version: "11"
+        - version: "10"
+        - version: "9.6"
+        - version: "9.5"
+        - version: "9.4"
+        - version: "9.3"
+        - version: "9.2"
+        - version: "9.1"
+        - version: "9.0"
+        - version: "8.4"
+        - version: "8.3"
+        - version: "8.2"
+        - version: "8.1"
+        - version: "8.0"
+        - version: "7.4"
+  column_name:
+    description: Name of the column that is restricted by this constraint
+    implementors:
+      postgres:
+        - version: "13"
+          type: sql_identifier
+        - version: "12"
+        - version: "11"
+        - version: "10"
+        - version: "9.6"
+        - version: "9.5"
+        - version: "9.4"
+        - version: "9.3"
+        - version: "9.2"
+        - version: "9.1"
+        - version: "9.0"
+        - version: "8.4"
+        - version: "8.3"
+        - version: "8.2"
+        - version: "8.1"
+        - version: "8.0"
+        - version: "7.4"
+  ordinal_position:
+    description: Ordinal position of the column within the constraint key (count starts at 1)
+    implementors:
+      postgres:
+        - version: "13"
+          type: cardinal_number
+        - version: "12"
+        - version: "11"
+        - version: "10"
+        - version: "9.6"
+        - version: "9.5"
+        - version: "9.4"
+        - version: "9.3"
+        - version: "9.2"
+        - version: "9.1"
+        - version: "9.0"
+        - version: "8.4"
+        - version: "8.3"
+        - version: "8.2"
+        - version: "8.1"
+        - version: "8.0"
+        - version: "7.4"
+  position_in_unique_constraint:
+    description: For a foreign-key constraint, ordinal position of the referenced column within its unique constraint (count starts at 1); otherwise null
+    implementors:
+      postgres:
+        - version: "13"
+          type: cardinal_number
+        - version: "12"
+        - version: "11"
+        - version: "10"
+        - version: "9.6"
+        - version: "9.5"
+        - version: "9.4"
+        - version: "9.3"
+        - version: "9.2"
+        - version: "9.1"
+        - version: "9.0"
+        - version: "8.4"
+        - version: "8.3"
+        - version: "8.2"
