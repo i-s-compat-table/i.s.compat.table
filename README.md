@@ -6,12 +6,12 @@
 
 Compares the information_schema of some of [the major databases that implement][implementors] the information_schema standard:
 
+<!-- https://insights.stackoverflow.com/survey/2021#section-most-popular-technologies-databases -->
 - MySQL
 - Mariadb
 - Postgres
 - CockroachDB
 - Microsoft SQL Server
-- flink?
   <!-- materialize: no information_schema _documented_; it should be postgres, right? -->
   <!-- dolt? -->
   <!-- ksqldb? -->
@@ -24,6 +24,7 @@ Compares the information_schema of some of [the major databases that implement][
 ## Methodology
 
 I looked at the public docs of each of these projects to check if they documented each of the information_schema tables.
+I went as far as scraping the documentation sites that had permissive licenses (postgres, MariaDB, MSSQL, CockroachDB).
 I added all the information_schema tables with at least 2-3 implementors to the comparison table.
 
 ### Caveats
@@ -37,7 +38,7 @@ I added all the information_schema tables with at least 2-3 implementors to the 
 ## The standard
 
 According to wikipedia, the information schema (`information_schema`) **is an ANSI-standard** set of read-only views that provide information about all of the **tables, views, columns**, and **procedures** in a database.
-Specifically, the specification for the information_schema views are published in ISO/IEC 9075 pg26, section 4. [This standard has several versions][version history].
+Specifically, the specification for the information_schema views are published in [ISO/IEC 9075][iso/iec-9057]. [This standard has several versions][version history].
 
 This implies several crucial points:
 
@@ -141,7 +142,7 @@ MDN's fantastic compatibility tables efforts!
 <!-- general links -->
 
 [implementors]: https://en.wikipedia.org/wiki/Information_schema#Implementation
-[iso/iec-9pg26]: https://www.iso.org/standard/63555.html
+[iso/iec-9075]: https://www.iso.org/standard/63555.html
 [version history]: https://en.wikipedia.org/wiki/SQL#Standardization_history
 
 <!-- reference links -->

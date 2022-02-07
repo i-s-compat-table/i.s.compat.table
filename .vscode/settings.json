@@ -1,5 +1,4 @@
 {
-    "yaml.schemas": {
-      "./schema.json": ["./data/information_schema/*.yaml"] 
-    }
+    "editor.trimAutoWhitespace": false,
+    "files.trimTrailingWhitespace": false
 }
