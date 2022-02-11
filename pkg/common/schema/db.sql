@@ -1,40 +1,37 @@
-CREATE TABLE information_schema_columns(
-    db_name         TEXT NOT NULL
-  , table_name      TEXT NOT NULL
-  , column_name     TEXT NOT NULL
-  , column_type     TEXT     NULL
-  , column_nullable TEXT     NULL
-  , url             TEXT     NULL
-  , notes           TEXT     NULL
-  , versions        TEXT     NULL
-  , CONSTRAINT info_schema_columns_pk PRIMARY KEY (
-        db_name
-      , table_name
-      , column_name
-      , column_type
-      , column_nullable
-    )
-  -- should depend on column_type and column_nullable, too :/
+-- TODO: set & check https://www.sqlite.org/pragma.html#pragma_user_version
+CREATE TABLE columns(
+    id INTEGER PRIMARY KEY
+    -- Always the xxhash3_64 of at least db_name, table_name, and column_name.
+    -- If more information is scrapable, `id` might depend on column_type,
+    -- column_nullable, and maybe even notes.
+  , db_name         TEXT    NOT NULL -- always lowercase
+  , table_name      TEXT    NOT NULL -- always lowercase
+  , column_name     TEXT    NOT NULL -- always lowercase
+  , column_type     TEXT        NULL -- always lowercase
+  , column_nullable BOOLEAN     NULL
+    -- true if the column is nullable, false if the column is not nullable,
+    -- and null if we don't know whether the column is nullable.
+  , notes           TEXT        NULL -- no leading/trailing whitespace.
 );
 
--- CREATE VIEW information_schema_table_support AS
---   SELECT db_name, table_name, url, notes
---   FROM information_schema_columns
---   ORDER BY db_name ASC, table_name ASC;
+CREATE TABLE versions (
+    id INTEGER PRIMARY KEY     -- xxhash3_64 of db_name, version
+  , db_name TEXT               -- implicitly references columns.db_name
+  , version TEXT      NOT NULL
+  , release_date TEXT     NULL -- iso-8601 date, manually supplied
+);
 
--- CREATE VIEW latest_information_schema_support AS
---   SELECT db_name, '[' ||  table_name || '](' || url || ')', notes
---   FROM information_schema_table_support
---   ORDER BY db_name ASC, table_name ASC;
- 
--- -- TODO: copy into individual dbs, attach those dbs, then
--- -- insert into main.information_schema_columns values
--- -- (select * from $other.information_schema_columns)
--- -- on conflict do update set versions = ? || ',' || excluded.versions 
--- .mode tabs
--- .import ./data/cockroachdb.tsv information_schema_columns
--- .import ./data/mariadb.tsv information_schema_columns
--- .import ./data/mssql.tsv information_schema_columns
--- .import ./data/mysql.tsv information_schema_columns
--- .import ./data/postgres.tsv information_schema_columns
--- .import ./data/snowflakedb.tsv information_schema_columns
+CREATE TABLE urls(id INTEGER PRIMARY KEY, url TEXT);
+
+CREATE TABLE version_columns(
+    version_id    INTEGER REFERENCES versions(id)
+  , column_id     INTEGER REFERENCES columns(id)
+  , column_number INTEGER -- order of the column in this version of the table
+);
+
+CREATE TABLE column_reference_urls(
+    column_id INTEGER REFERENCES columns(id)
+  , url_id    INTEGER REFERENCES urls(id)
+);
+
+-- TODO: create collation for semver-ish version-number strings
