@@ -57,6 +57,14 @@ func Connect(path string) (db *sql.DB, err error) {
 	return db, err
 }
 
+func MustConnect(path string) *sql.DB {
+	db, err := Connect(path)
+	if err != nil {
+		panic(err)
+	}
+	return db
+}
+
 // func BulkInsert(txn *sql.Tx, columns *[]Column, onConflict string) (error) {
 // 	s := strings.Builder{}
 // 	s.WriteString("INSERT INTO columns ")

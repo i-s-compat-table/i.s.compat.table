@@ -15,7 +15,7 @@ import (
 	_ "github.com/cheggaaa/pb/v3"
 	"github.com/gocolly/colly/v2"
 	commonSchema "github.com/i-s-compat-table/i.s.compat.table/pkg/common/schema"
-	"github.com/i-s-compat-table/i.s.compat.table/pkg/common/utils"
+	. "github.com/i-s-compat-table/i.s.compat.table/pkg/common/utils"
 	_ "github.com/mattn/go-sqlite3"
 )
 
@@ -45,8 +45,9 @@ type col struct {
 	column     string
 	notes      string
 	columnType string
-	url        string
-	version    string
+
+	url     string
+	version string
 
 	index    uint8
 	nullable commonSchema.Nullability
@@ -107,7 +108,7 @@ func scrape12Minus(html *colly.HTMLElement, tableName string, version string) []
 	ths := tableEl.Find("thead").First().Find("th")
 	headers := make([]string, ths.Length())
 	ths.Each(func(i int, th *goquery.Selection) {
-		headers[i] = utils.NormalizeString(th.Text())
+		headers[i] = NormalizeString(th.Text())
 	})
 	trs := tableEl.Find("tbody tr")
 	if trs.Length() == 0 {
@@ -121,7 +122,7 @@ func scrape12Minus(html *colly.HTMLElement, tableName string, version string) []
 		cols[i].version = version
 		cols[i].nullable = commonSchema.Unknown
 		tr.Find("td").Each(func(j int, td *goquery.Selection) {
-			text := utils.NormalizeString(td.Text())
+			text := NormalizeString(td.Text())
 			switch headers[j] {
 			case "Name":
 				cols[i].column = strings.ToLower(text)
@@ -146,9 +147,9 @@ func scrape13Plus(page *colly.HTMLElement, tableName string, version string) []c
 	rows.Each(func(i int, tr *goquery.Selection) {
 		row := tr.Find(".column_definition").First()
 		colNames := row.Find(".structfield")
-		colName := strings.ToLower(utils.NormalizeString(colNames.First().Text()))
+		colName := strings.ToLower(NormalizeString(colNames.First().Text()))
 		columnType := tr.Find(".type").First().Text()
-		notes := utils.NormalizeString(row.NextAll().Filter("p").Text())
+		notes := NormalizeString(row.NextAll().Filter("p").Text())
 		notes = dedentRe.ReplaceAllString(notes, " ")
 		cols[i] = col{
 			table:      tableName,
@@ -176,70 +177,68 @@ func BulkInsert(db *sql.DB, inputs <-chan []col) {
 	}
 	defer txn.Commit()
 
-	insertCol, err := txn.Prepare(
-		"INSERT INTO columns(id, db_name, table_name, column_name, column_type, column_nullable, notes) " +
+	insertCol := MustPrepare(txn,
+		"INSERT INTO columns(id, db_name, table_name, column_name, column_type, column_nullable, notes) "+
 			"VALUES (?, 'postgres', ?, ?, ?, ?, ?) ON CONFLICT DO NOTHING;",
 	)
-	if err != nil {
-		panic(err)
-	}
 	defer insertCol.Close()
 
-	insertVersion, err := txn.Prepare(
-		"INSERT INTO versions(id, db_name, version) " +
+	insertVersion := MustPrepare(txn,
+		"INSERT INTO versions(id, db_name, version) "+
 			"VALUES (?, 'postgres', ?) ON CONFLICT DO NOTHING;",
 	)
-	if err != nil {
-		panic(err)
-	}
 	defer insertVersion.Close()
 
-	insertColVersion, err := txn.Prepare(
-		"INSERT INTO version_columns(version_id, column_id, column_number) " +
+	insertColVersion := MustPrepare(txn,
+		"INSERT INTO version_columns(version_id, column_id, column_number) "+
 			"VALUES (?, ?, ?) ON CONFLICT DO NOTHING;",
 	)
-	if err != nil {
-		panic(err)
-	}
-	defer insertCol.Close()
+	defer insertColVersion.Close()
 
+	insertUrl := MustPrepare(txn,
+		"INSERT INTO urls(id, url) VALUES (?, ?) ON CONFLICT DO NOTHING;")
+	defer insertUrl.Close()
+
+	insertUrlRef := MustPrepare(txn,
+		"INSERT INTO column_reference_urls(column_id, url_id) VALUES (?, ?) "+
+			"ON CONFLICT DO NOTHING;")
+	defer insertUrlRef.Close()
+
+	urls := make(map[string]int8, len(allPgVersions))
 	versions := make(map[string]int16, len(allPgVersions))
 	for {
 		if cols, ok := <-inputs; ok {
 			for _, col := range cols {
 				id := col.Id()
+				var nullable *bool = nil
+				if col.nullable != commonSchema.Unknown {
+					_nullable := col.nullable == commonSchema.Nullable
+					nullable = &_nullable
+				}
 				// nullable := col.nullable == commonSchema.Nullable
-				if col.nullable == commonSchema.Unknown {
-
-					_, err = insertCol.Exec(
-						id, col.Table(), col.Column(), col.Type(), nil, col.Notes())
-					if err != nil {
-						fmt.Println(versions)
-						fmt.Println(id, col.Table(), col.Column(), col.Type(), nil, col.Notes())
-						panic(err)
-					}
-				} else {
-					nullable := col.nullable == commonSchema.Nullable
-					_, err = insertCol.Exec(
-						id, col.Table(), col.Column(), col.Type(), &nullable, col.Notes())
-					if err != nil {
-						panic(err)
-					}
+				_, err = insertCol.Exec(
+					id, col.Table(), col.Column(), col.Type(), nullable, col.Notes())
+				if err != nil {
+					fmt.Println(versions)
+					fmt.Println(id, col.Table(), col.Column(), col.Type(), nil, col.Notes())
+					panic(err)
 				}
 				// xxh3_64 is roughly as fast as memcpy, so hashing every row's version id
 				// is affordable
 				versionId := int64(xxhash.Sum64([]byte("postgres" + col.version)))
 				versions[col.version]++
 				if versions[col.version] <= 1 {
-					_, err = insertVersion.Exec(versionId, col.version)
-					if err != nil {
+					MustExec(insertVersion, versionId, col.version)
+				}
+				MustExec(insertColVersion, versionId, id, col.index)
+				urlId := int64(xxhash.Sum64([]byte(col.url)))
+				if _, ok := urls[col.url]; !ok {
+					if _, err := insertUrl.Exec(urlId, col.url); err != nil {
 						panic(err)
 					}
 				}
-				_, err := insertColVersion.Exec(versionId, id, col.index)
-				if err != nil {
-					panic(err)
-				}
+				urls[col.url]++
+				MustExec(insertUrlRef, id, urlId)
 			}
 		} else {
 			fmt.Println(versions)
