@@ -10,4 +10,5 @@ require (
 	github.com/gocolly/colly/v2 v2.1.0 // indirect
 	github.com/mattn/go-sqlite3 v1.14.11 // indirect
 	github.com/sirupsen/logrus v1.8.1
+	golang.org/x/net v0.0.0-20200602114024-627f9648deb9 // indirect
 )

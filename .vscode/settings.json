@@ -2,7 +2,14 @@
     "editor.trimAutoWhitespace": false,
     "files.trimTrailingWhitespace": false,
     "cSpell.words": [
+        "Debugf",
         "gocolly",
-        "goquery"
+        "goquery",
+        "Infof",
+        "mssql",
+        "Warnf"
+    ],
+    "shellcheck.customArgs": [
+        "-x"
     ]
 }

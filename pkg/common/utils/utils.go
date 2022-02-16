@@ -13,6 +13,7 @@ func NormalizeString(input string) (normalized string) {
 	normalized = strings.ReplaceAll(normalized, `‘`, `'`)
 	normalized = strings.ReplaceAll(normalized, `’`, `'`)
 	normalized = strings.ReplaceAll(normalized, "\u00A0", ` `) // nonbreaking space
+	normalized = strings.ReplaceAll(normalized, "\u200B", "")  // 0-width space
 	return normalized
 }
 

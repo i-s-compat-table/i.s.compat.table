@@ -5,5 +5,5 @@ import (
 )
 
 func main() {
-	docs.Scrape("./pkg/dbs/postgres/.cache", "./data/postgres/docs/db.sqlite")
+	docs.Scrape("./pkg/dbs/postgres/.cache", "./data/postgres/docs.sqlite", false)
 }

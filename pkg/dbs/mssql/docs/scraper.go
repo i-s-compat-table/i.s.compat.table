@@ -6,20 +6,18 @@ import (
 	"sort"
 	"sync"
 
-	// "log"
-
 	"strings"
 
 	"github.com/PuerkitoBio/goquery"
-	"github.com/cespare/xxhash/v2"
 	log "github.com/sirupsen/logrus"
+	"golang.org/x/net/html"
 
 	// "github.com/cespare/xxhash/v2"
 	// // _ "github.com/cheggaaa/pb/v3"
 	"github.com/gocolly/colly/v2"
 	"github.com/gocolly/colly/v2/debug"
 	commonSchema "github.com/i-s-compat-table/i.s.compat.table/pkg/common/schema"
-	. "github.com/i-s-compat-table/i.s.compat.table/pkg/common/utils"
+	"github.com/i-s-compat-table/i.s.compat.table/pkg/common/utils"
 	_ "github.com/mattn/go-sqlite3"
 )
 
@@ -28,52 +26,6 @@ const basePath = "https://docs.microsoft.com/en-us/sql/"
 // "relational-databases/system-information-schema-views"
 const familyTreesByMonikerUrl = "https://docs.microsoft.com/_api/familyTrees/bymoniker/sql-server-ver15"
 const tocJsonUrl = "https://docs.microsoft.com/en-us/sql/toc.json"
-
-func normalize(s string) string {
-	return strings.Trim(strings.ToLower(s), " \t\n\r")
-}
-
-type col struct {
-	tableName  string
-	columnName string
-	columnType string
-	url        string
-	versions   []string
-	notes      string
-}
-
-func getVersionId(version string) int64 {
-	return int64(xxhash.Sum64([]byte("mssql" + version)))
-}
-func (c *col) Id() int64 {
-	sum := xxhash.Digest{}
-	sum.WriteString("mssql")
-	sum.WriteString(c.Table())
-	sum.WriteString(c.Column())
-	sum.WriteString(c.Notes())
-	return int64(sum.Sum64())
-}
-func (c *col) Table() string {
-	return c.tableName
-}
-func (c *col) Column() string {
-	return c.columnName
-}
-func (c *col) Type() *string {
-	if c.columnType != "" {
-		return &c.columnType
-	} else {
-		log.Panicf("missing column type for %s.%s in %s", c.Table(), c.Column(), c.Url())
-		return nil
-	}
-}
-
-func (c *col) Notes() string {
-	return c.notes
-}
-func (c *col) Url() string {
-	return c.url
-}
 
 type FamilyMember struct {
 	MonikerName        string
@@ -111,7 +63,6 @@ func scrapeToc(base *colly.Collector) []Content {
 	toc := TocTree{}
 	result := []Content{}
 	collector.OnResponse(func(r *colly.Response) {
-		log.Info("...")
 		if err := json.Unmarshal(r.Body, &toc); err != nil {
 			panic(err)
 		}
@@ -130,54 +81,133 @@ func scrapeToc(base *colly.Collector) []Content {
 	return result
 }
 
+func scrapeFamilyTree(base *colly.Collector) map[string][]string {
+	collector := base.Clone()
+	tree := FamilyTree{}
+	collector.OnResponse(func(r *colly.Response) {
+		if err := json.Unmarshal(r.Body, &tree); err != nil {
+			panic(err)
+		}
+	})
+	collector.Visit(familyTreesByMonikerUrl)
+	collector.Wait()
+	result := map[string][]string{}
+
+	set := map[string]bool{}
+	for _, product := range tree.Products {
+		packages := []string{}
+		for _, pkg := range product.Packages {
+			result[pkg.MonikerDisplayName] = []string{pkg.MonikerName}
+			packages = append(packages, pkg.MonikerName)
+		}
+		result[product.ProductName] = packages
+		if strings.Split(product.ProductName, " ")[0] == "SQL" {
+			for _, pkg := range packages {
+				set[pkg] = true
+			}
+		}
+	}
+	allSql := make([]string, 0, len(set))
+	for pkg := range set {
+		allSql = append(allSql, pkg)
+	}
+	result["SQL Server (all supported versions)"] = allSql
+	return result
+}
+
 var dedentRe *regexp.Regexp = regexp.MustCompile(`[ \r\n\t]+`)
+var mssql = &commonSchema.Database{Name: "mssql"}
+var license = &commonSchema.License{
+	License:     "CC BY 4.0",
+	Attribution: "© Microsoft 2022",
+	Url: &commonSchema.Url{
+		Url: "https://github.com/MicrosoftDocs/sql-docs/blob/live/LICENSE",
+	},
+}
+
+func getVersions(page *colly.HTMLElement, fam map[string][]string) (result []string) {
+	imgs := page.DOM.Find("p>img").First()
+	if imgs.Length() == 0 {
+		panic("unable to find versions on " + page.Request.URL.String())
+	}
+	for n := imgs.Parent().Nodes[0].FirstChild; n != nil; n = n.NextSibling {
+		if n.Type == html.TextNode {
+			name := utils.NormalizeString(n.Data)
+			if name == "" {
+				continue
+			}
+			if monikers, ok := fam[name]; ok {
+				result = append(result, monikers...)
+			} else {
+				log.Panicf("unknown name %s", name)
+			}
+		}
+	}
+	return result
+}
 
 func scrapePage(
 	doc *colly.HTMLElement,
 	tableName string,
 	versions []string,
-) []col {
-	url := doc.Request.URL.String()
+	fam map[string][]string,
+) []commonSchema.ColVersion {
+	url := &commonSchema.Url{Url: doc.Request.URL.String()}
 	if len(versions) == 0 {
-		log.Warnf("no versions for %s", url)
+		versions = getVersions(doc, fam)
 	}
-	tableName = normalize(tableName)
-	// TODO: check passed versions match passed versions in page
-	table := doc.DOM.Find("main table").First()
-	headers := table.Find("thead > tr > th").
+	table := &commonSchema.Table{Name: utils.NormalizeString(tableName)}
+	data := doc.DOM.Find("main table").First()
+	headers := data.Find("thead > tr > th").
 		Map(func(i int, tr *goquery.Selection) string {
-			return normalize(tr.Text())
+			return strings.ToLower(utils.NormalizeString(tr.Text()))
 		})
-	rows := table.Find("tbody > tr").
+	rows := data.Find("tbody > tr").
 		FilterFunction(func(i int, tr *goquery.Selection) bool {
 			return tr.Find("td").Length() > 0 && tr.Find("th").Length() == 0
 		})
-	resultRows := make([]col, rows.Length())
+	resultRows := []commonSchema.ColVersion{} // TODO: pre-allocate
 	rows.Each(func(i int, tr *goquery.Selection) {
-		resultRow := col{tableName: tableName, url: url, versions: versions}
+
 		columns := tr.Find("td").Map(func(i int, td *goquery.Selection) string {
-			return strings.Trim(td.Text(), " \t\n\r")
+			return utils.NormalizeString(td.Text())
 		})
+		if len(columns) == 0 {
+			log.Panicf("no columns in " + url.Url)
+		}
+		result := commonSchema.ColVersion{Url: url}
 		for j, col := range columns {
-			col = NormalizeString(col)
+			col = strings.ToLower(utils.NormalizeString(col))
 			switch headers[j] {
 			case "column", "field", "column name":
-				resultRow.columnName = strings.ToLower(col)
+				result.Column = &commonSchema.Column{
+					Table: table, Name: strings.ToLower(col),
+				}
 			case "description", "notes":
-				resultRow.notes = dedentRe.ReplaceAllString(col, " ")
+				result.Notes = &commonSchema.Note{
+					Note:    dedentRe.ReplaceAllString(col, " "),
+					License: license,
+				}
 			case "type", "data type":
-				resultRow.columnType = col
+				result.Type = &commonSchema.Type{Name: strings.ToLower(col)}
 			default:
 				log.Warnf("unknown header '%s' with value '%s'", headers[j], col)
 			}
+			if result.Column == nil {
+				log.Panicf("%+v <- %s", result, url.Url)
+			}
+
+			for _, version := range versions {
+				colVersion := result.Clone()
+				colVersion.DbVersion = &commonSchema.Version{Db: mssql, Version: version}
+				resultRows = append(resultRows, colVersion)
+			}
 		}
-		resultRows[i] = resultRow
 	})
 	return resultRows
 }
 
 func Scrape(cacheDir string, dbPath string, dbg bool) {
-	db := commonSchema.MustConnect(dbPath)
 	collector := colly.NewCollector(
 		colly.CacheDir(cacheDir),
 		colly.Async(true),
@@ -187,76 +217,12 @@ func Scrape(cacheDir string, dbPath string, dbg bool) {
 		collector.SetDebugger(&debug.LogDebugger{})
 	}
 	items := scrapeToc(collector)
+	fam := scrapeFamilyTree(collector)
 	log.Infof("%d items", len(items))
 	wg := sync.WaitGroup{}
 	wg.Add(1)
-	colChan := make(chan []col)
-	go func() {
-		defer wg.Done()
-		txn, err := db.Begin()
-		if err != nil {
-			panic(err)
-		}
-		defer txn.Commit()
-
-		insertCol := MustPrepare(txn,
-			"INSERT INTO columns(id, db_name, table_name, column_name, column_type, notes) "+
-				"VALUES (?, 'mssql', ?, ?, ?, ?) ON CONFLICT DO NOTHING;",
-		)
-		defer insertCol.Close()
-
-		insertVersion := MustPrepare(txn,
-			"INSERT INTO versions(id, db_name, version) "+
-				"VALUES (?, 'mssql', ?) ON CONFLICT DO NOTHING;",
-		)
-		defer insertVersion.Close()
-
-		insertColVersion := MustPrepare(txn,
-			"INSERT INTO version_columns(version_id, column_id, column_number) "+
-				"VALUES (?, ?, ?) ON CONFLICT DO NOTHING;",
-		)
-		defer insertColVersion.Close()
-
-		insertUrl := MustPrepare(txn,
-			"INSERT INTO urls(id, url) VALUES (?, ?) ON CONFLICT DO NOTHING;")
-		defer insertUrl.Close()
-
-		insertUrlRef := MustPrepare(txn,
-			"INSERT INTO column_reference_urls(column_id, url_id) VALUES (?, ?) "+
-				"ON CONFLICT DO NOTHING;")
-		defer insertUrlRef.Close()
-
-		versions := map[int64]bool{}
-		urls := map[int64]bool{}
-
-		for {
-			if cols, ok := <-colChan; ok {
-
-				for _, c := range cols {
-					id := c.Id()
-					MustExec(insertCol, id, c.Table(), c.Column(), c.Type(), c.Notes())
-
-					urlId := int64(xxhash.Sum64([]byte(c.Url())))
-					if _, ok := urls[urlId]; !ok {
-						urls[urlId] = true
-						MustExec(insertUrl, urlId, c.url)
-					}
-					MustExec(insertUrlRef, id, urlId)
-
-					for _, v := range c.versions {
-						versionId := getVersionId(v)
-						if _, ok := versions[versionId]; !ok {
-							versions[versionId] = true
-							MustExec(insertVersion, versionId, v)
-						}
-						MustExec(insertColVersion, versionId, id, nil)
-					}
-				}
-			} else {
-				break
-			}
-		}
-	}()
+	colChan := make(chan []commonSchema.ColVersion)
+	go commonSchema.BulkInsert(dbPath, colChan, &wg)
 	lookup := func(url string) (viewName string, versions []string) {
 		for i := 0; i < len(items); i++ {
 			if items[i].Href == url {
@@ -270,7 +236,7 @@ func Scrape(cacheDir string, dbPath string, dbg bool) {
 	collector.OnHTML("html", func(html *colly.HTMLElement) {
 		url := html.Request.URL
 		tableName, versions := lookup(url.Scheme + "://" + url.Host + url.Path)
-		colChan <- scrapePage(html, tableName, versions)
+		colChan <- scrapePage(html, tableName, versions, fam)
 	})
 	for _, item := range items {
 		sort.Strings(item.Monikers)
