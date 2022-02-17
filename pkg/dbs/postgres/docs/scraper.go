@@ -195,6 +195,7 @@ func Scrape(cacheDir string, dbPath string, dbg bool) {
 	rowChan := make(chan []commonSchema.ColVersion)
 	wg.Add(1)
 	go commonSchema.BulkInsert(dbPath, rowChan, &wg)
+	nRows := 0
 
 	re := regexp.MustCompile(`[a-zA-Z_]+$`)
 	collector.OnHTML("html", func(html *colly.HTMLElement) {
@@ -203,9 +204,13 @@ func Scrape(cacheDir string, dbPath string, dbg bool) {
 		tableName := strings.Trim(strings.ToLower(re.FindString(title)), " ")
 		if v, err := strconv.ParseFloat(version, 32); err == nil {
 			if v >= 13 {
-				rowChan <- scrape13Plus(html, tableName, version)
+				rows := scrape13Plus(html, tableName, version)
+				nRows += len(rows)
+				rowChan <- rows
 			} else {
-				rowChan <- scrape12Minus(html, tableName, version)
+				rows := scrape12Minus(html, tableName, version)
+				nRows += len(rows)
+				rowChan <- rows
 			}
 		} else {
 			panic(err)
@@ -215,6 +220,7 @@ func Scrape(cacheDir string, dbPath string, dbg bool) {
 		collector.Visit(url)
 	}
 	collector.Wait()
+	log.Infof("scraped %d column-versions", nRows)
 	close(rowChan)
 	wg.Wait()
 }

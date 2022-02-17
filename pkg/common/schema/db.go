@@ -8,10 +8,10 @@ import (
 	"strings"
 	"sync"
 
-	log "github.com/sirupsen/logrus"
-
 	"github.com/cespare/xxhash/v2"
 	"github.com/i-s-compat-table/i.s.compat.table/pkg/common/utils"
+	_ "github.com/mattn/go-sqlite3"
+	log "github.com/sirupsen/logrus"
 )
 
 //go:embed db.sql
@@ -32,6 +32,28 @@ func (n Nullability) ToBool() *bool {
 	nullable := (n == Nullable)
 	return &nullable
 }
+func FromBool(nullable *bool) Nullability {
+	if nullable == nil {
+		return Unknown
+	} else if *nullable {
+		return Nullable
+	} else {
+		return NotNullable
+	}
+}
+func FromString(nullable string) Nullability {
+	s := strings.ToLower(utils.NormalizeString(nullable))
+	switch s {
+	case "yes":
+		return Nullable
+	case "no":
+		return NotNullable
+	case "":
+		return Unknown
+	}
+	log.Panicf("unknown value: '%s'", s)
+	return Unknown
+}
 
 func xxhash3_64(text ...string) int64 {
 	d := xxhash.Digest{}
@@ -41,7 +63,7 @@ func xxhash3_64(text ...string) int64 {
 	return int64(d.Sum64())
 }
 
-func digestInt64(digest xxhash.Digest, i int64) {
+func digestInt64(digest *xxhash.Digest, i int64) {
 	b := make([]byte, 8)
 	binary.BigEndian.PutUint64(b, uint64(i))
 	digest.Write(b)
@@ -54,13 +76,13 @@ func DeriveNoteId(note string) int64   { return xxhash3_64(note) }
 func DeriveTypeId(name string) int64   { return xxhash3_64(name) }
 func DeriveVersionId(dbId int64, version string) int64 {
 	d := xxhash.Digest{}
-	digestInt64(d, dbId)
+	digestInt64(&d, dbId)
 	d.WriteString(version)
 	return int64(d.Sum64())
 }
 func DeriveColumnId(tableId int64, colName string) int64 {
 	d := xxhash.Digest{}
-	digestInt64(d, tableId)
+	digestInt64(&d, tableId)
 	d.WriteString(colName)
 	return int64(d.Sum64())
 }
@@ -69,8 +91,8 @@ func DeriveLicenseId(license string, attribution string) int64 {
 }
 func DeriveColumnVersionId(colId int64, versionId int64) int64 {
 	d := xxhash.Digest{}
-	digestInt64(d, colId)
-	digestInt64(d, versionId)
+	digestInt64(&d, colId)
+	digestInt64(&d, versionId)
 	return int64(d.Sum64())
 }
 
@@ -85,7 +107,7 @@ const (
 		"ON CONFLICT DO NOTHING;"
 
 	InsertVersionQ = "INSERT INTO versions(id, db_id, version, is_current) " +
-		"VALUES (?, ?, ?, ?) ON CONFLICT(id) DO UPDATE " +
+		"VALUES (?, ?, ?, ?) ON CONFLICT DO UPDATE " +
 		"SET is_current = coalesce(excluded.is_current, is_current);"
 	InsertLicenseQ = "INSERT INTO licenses(id, license, attribution, link_id) " +
 		"VALUES (?, ?, ?, ?) ON CONFLICT DO NOTHING;" // ?
@@ -194,13 +216,22 @@ func (c ColVersion) Clone() ColVersion {
 
 func BulkInsert(outputPath string, cols <-chan []ColVersion, wg *sync.WaitGroup) {
 	db := MustConnect(outputPath)
-	defer db.Close()
 	txn, err := db.Begin()
 	if err != nil {
 		panic(err)
 	}
-	defer txn.Commit()
-	defer wg.Done()
+	count := 0
+
+	defer func() {
+		if err := txn.Commit(); err != nil {
+			panic(err)
+		}
+		if err := db.Close(); err != nil {
+			panic(err)
+		}
+		wg.Done()
+		log.Infof("done; inserted %d column-versions into %s", count, outputPath)
+	}()
 
 	insertDb := utils.MustPrepare(txn, InsertDbQ)
 	insertVersion := utils.MustPrepare(txn, InsertVersionQ)
@@ -213,14 +244,15 @@ func BulkInsert(outputPath string, cols <-chan []ColVersion, wg *sync.WaitGroup)
 	insertColVersion := utils.MustPrepare(txn, InsertColumnVersionQ)
 	for {
 		if batch, ok := <-cols; ok {
-
 			for _, col := range batch {
+				count++
 				dbId := col.DbVersion.Db.Id()
+
 				utils.MustExec(insertDb, dbId, col.DbVersion.Db.Name)
 
 				versionId := DeriveVersionId(dbId, col.DbVersion.Version)
 				utils.MustExec(insertVersion,
-					dbId, versionId, col.DbVersion.Version, col.DbVersion.IsCurrent)
+					versionId, dbId, col.DbVersion.Version, col.DbVersion.IsCurrent)
 
 				tableId := col.Column.Table.Id()
 				utils.MustExec(insertTable, tableId, col.Column.Table.Name)
@@ -262,8 +294,7 @@ func BulkInsert(outputPath string, cols <-chan []ColVersion, wg *sync.WaitGroup)
 				}
 				colVersionId := DeriveColumnVersionId(colId, versionId)
 
-				utils.MustExec(
-					insertColVersion,
+				utils.MustExec(insertColVersion,
 					colVersionId,
 					colId,
 					versionId,

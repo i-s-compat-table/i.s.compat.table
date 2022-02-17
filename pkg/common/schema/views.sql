@@ -1,10 +1,11 @@
 CREATE VIEW cols AS
-  SELECT printf('%016x', id) AS id
-    -- , db_name
+  SELECT
+      printf('%016x', id) AS id
+    , db_name
     , table_name
     , column_name
     , column_type
-    , notes
+    , note
     , group_concat(distinct version) AS versions
     , (
         SELECT url
@@ -18,36 +19,30 @@ CREATE VIEW cols AS
   FROM
     (
       SELECT
-          col.id
-        , col.table_name
-        , col.column_name
-        , col.column_type
-        , col.notes
-        , link.id AS url_id
-        , v.version
+          cv.id
+        , db.name "db_name"
+        , v.version "version"
+        , t.name table_name
+        , col.name column_name
+        , column_type.name column_type
+        , cv.nullable
+        , note.note
+        , link.id url_id
         , v.is_current
         , license.license
-        , license.link
+        , license_url.url
         , license.attribution
-      FROM columns AS col
-      JOIN version_columns vc ON col.id = vc.column_id
-      JOIN urls AS link ON vc.url_id = link.id
-      LEFT OUTER JOIN licenses AS license ON link.license_id = license.id
-      JOIN versions v ON vc.version_id = v.id
-      ORDER BY col.table_name, col.column_name, cast(v.version AS REAL), v.version
+      FROM column_versions AS cv
+      JOIN versions AS v ON v.id = cv.version_id
+      JOIN dbs AS db ON db.id = v.db_id
+      JOIN columns AS col ON col.id = cv.column_id
+      JOIN tables AS t ON t.id = col.table_id
+      JOIN types AS column_type ON column_type.id = cv.type_id
+      LEFT OUTER JOIN urls AS link ON cv.url_id = link.id
+      LEFT OUTER JOIN notes AS note ON cv.note_id = note.id
+      LEFT OUTER JOIN licenses AS license ON cv.note_license_id = license.id
+      LEFT OUTER JOIN urls AS license_url ON license.link_id = license_url.url
+      ORDER BY 2, 4, 5, cast(v.version AS REAL), v.version
     ) AS col
   GROUP BY col.id
   ORDER BY table_name, column_name;
-
---
--- SELECT
---     table_name
---   , column_name
---   , url
---   , is_current
--- FROM columns AS col
--- JOIN version_columns vc ON col.id = vc.column_id
--- JOIN urls AS link ON vc.url_id = link.id
--- JOIN versions v ON vc.version_id = v.id
--- WHERE is_current
--- ORDER BY table_name, column_name;
