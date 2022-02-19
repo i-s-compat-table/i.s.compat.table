@@ -4,8 +4,8 @@ import (
 	"fmt"
 	"sync"
 
-	"github.com/i-s-compat-table/i.s.compat.table/pkg/common/observer"
-	commonSchema "github.com/i-s-compat-table/i.s.compat.table/pkg/common/schema"
+	"github.com/i-s-compat-table/i.s.compat.table/pkg/observer"
+	commonSchema "github.com/i-s-compat-table/i.s.compat.table/pkg/schema"
 	_ "github.com/lib/pq"
 	log "github.com/sirupsen/logrus"
 )

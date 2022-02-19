@@ -5,8 +5,8 @@ import (
 	"sync"
 
 	_ "github.com/go-sql-driver/mysql"
-	"github.com/i-s-compat-table/i.s.compat.table/pkg/common/observer"
-	commonSchema "github.com/i-s-compat-table/i.s.compat.table/pkg/common/schema"
+	"github.com/i-s-compat-table/i.s.compat.table/pkg/observer"
+	commonSchema "github.com/i-s-compat-table/i.s.compat.table/pkg/schema"
 )
 
 const outputPath = "./data/mariadb/observed.sqlite"

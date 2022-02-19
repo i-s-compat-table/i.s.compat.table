@@ -9,7 +9,7 @@ import (
 	"sync"
 
 	"github.com/cespare/xxhash/v2"
-	"github.com/i-s-compat-table/i.s.compat.table/pkg/common/utils"
+	"github.com/i-s-compat-table/i.s.compat.table/pkg/utils"
 	_ "github.com/mattn/go-sqlite3"
 	log "github.com/sirupsen/logrus"
 )

@@ -19,8 +19,8 @@ import (
 	"github.com/gocolly/colly/v2/debug"
 	log "github.com/sirupsen/logrus"
 
-	commonSchema "github.com/i-s-compat-table/i.s.compat.table/pkg/common/schema"
-	"github.com/i-s-compat-table/i.s.compat.table/pkg/common/utils"
+	commonSchema "github.com/i-s-compat-table/i.s.compat.table/pkg/schema"
+	"github.com/i-s-compat-table/i.s.compat.table/pkg/utils"
 	_ "github.com/mattn/go-sqlite3"
 )
 

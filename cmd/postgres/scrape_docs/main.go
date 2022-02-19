@@ -12,9 +12,8 @@ import (
 	_ "github.com/cheggaaa/pb/v3"
 	"github.com/gocolly/colly/v2"
 	"github.com/gocolly/colly/v2/debug"
-	commonSchema "github.com/i-s-compat-table/i.s.compat.table/pkg/common/schema"
-	"github.com/i-s-compat-table/i.s.compat.table/pkg/common/utils"
-	"github.com/i-s-compat-table/i.s.compat.table/pkg/dbs/mssql/docs"
+	commonSchema "github.com/i-s-compat-table/i.s.compat.table/pkg/schema"
+	"github.com/i-s-compat-table/i.s.compat.table/pkg/utils"
 	_ "github.com/mattn/go-sqlite3"
 	log "github.com/sirupsen/logrus"
 )
@@ -227,5 +226,5 @@ func Scrape(cacheDir string, dbPath string, dbg bool) {
 }
 
 func main() {
-	docs.Scrape("./pkg/dbs/postgres/.cache", "./data/postgres/docs.sqlite", false)
+	Scrape("./.cache", "./data/postgres/docs.sqlite", false)
 }

@@ -6,7 +6,7 @@ import (
 	"fmt"
 	"time"
 
-	commonSchema "github.com/i-s-compat-table/i.s.compat.table/pkg/common/schema"
+	commonSchema "github.com/i-s-compat-table/i.s.compat.table/pkg/schema"
 	log "github.com/sirupsen/logrus"
 )
 
