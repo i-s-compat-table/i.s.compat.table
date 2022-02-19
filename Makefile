@@ -14,7 +14,7 @@ _common_backend=pkg/common/schema/db.go pkg/common/schema/db.sql
 	go build -o ./bin/scrape_postgres_docs ./cmd/scrape_postgres_docs/main.go
 
 # build the observer binaries
-_observer_common=pkg/common/observer/temp.go pkg/common/observer/columns.sql
+_observer_common=pkg/common/observer/observer.go pkg/common/observer/columns.sql
 ./bin/observe_mariadb: ./cmd/observe_mariadb/main.go $(_common_backend) $(_observer_common)
 	go build -o ./bin/observe_mariadb ./cmd/observe_mariadb/main.go
 ./bin/observe_mssql: ./pkg/dbs/mssql/docs/observer.go $(_common_backend) $(_observer_common)
@@ -38,8 +38,18 @@ SCRAPER_DBS+=./data/mssql/docs.sqlite
 SCRAPER_DBS+=./data/postgres/docs.sqlite
 
 # run the observer binaries
-./data/mariadb/observed.sqlite:./bin/observe_mariadb_docs
-	./bin/observe_mariadb_docs
+mariadb_services=mariadb-10.2
+mariadb_services+=mariadb-10.3
+mariadb_services+=mariadb-10.4
+mariadb_services+=mariadb-10.5
+mariadb_services+=mariadb-10.6
+mariadb_services+=mariadb-10.7
+mariadb-observations:./data/mariadb/observed.sqlite
+./data/mariadb/observed.sqlite:./bin/observe_mariadb
+	docker-compose up -d $(mariadb_services)
+	./bin/observe_mariadb
+	docker-compose down
+
 pg-observations: ./data/postgres/observed.sqlite
 pg_services=postgres-10 postgres-11 postgres-12 postgres-13 postgres-14
 ./data/postgres/observed.sqlite:./bin/observe_postgres
