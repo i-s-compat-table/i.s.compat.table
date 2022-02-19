@@ -19,7 +19,6 @@ import (
 	"github.com/gocolly/colly/v2/debug"
 	log "github.com/sirupsen/logrus"
 
-	"github.com/i-s-compat-table/i.s.compat.table/pkg/dbs/mariadb/docs"
 	commonSchema "github.com/i-s-compat-table/i.s.compat.table/pkg/schema"
 	"github.com/i-s-compat-table/i.s.compat.table/pkg/utils"
 	_ "github.com/mattn/go-sqlite3"
@@ -264,5 +263,5 @@ func Scrape(cacheDir string, dbPath string, dbg bool) {
 }
 
 func main() {
-	docs.Scrape("./.cache", "./data/mariadb/docs.sqlite", false)
+	Scrape("./.cache", "./data/mariadb/docs.sqlite", false)
 }

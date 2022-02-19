@@ -12,7 +12,7 @@ bulk_merge_sql_file="$here/merge.sql"
 # shellcheck source=../common.sh
 . "$here/../common.sh"
 
-db_init_script="$repo_root/pkg/common/schema/db.sql"
+db_init_script="$repo_root/pkg/schema/db.sql"
 current_db_version="$(
   grep -ie 'pragma user_version' "$db_init_script" |
     awk -F'( |=|;)' '{ print $5 }'
@@ -73,7 +73,7 @@ main() {
 
   for input_db in "${input_paths[@]}"; do
     sql="ATTACH DATABASE '$input_db' AS other; $bulk_merge_sql; DETACH other;"
-    printf "starting %s..." "$input_db"
+    printf "ingesting %s..." "$input_db"
     sqlite3 "$output_path" "$sql"
     echo "done"
   done

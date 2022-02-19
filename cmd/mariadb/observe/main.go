@@ -13,14 +13,14 @@ const outputPath = "./data/mariadb/observed.sqlite"
 const driver = "mysql"
 const dsnTemplate = "root:password@tcp(127.0.0.1:%d)/"
 
-var dbRecord = &commonSchema.Database{Name: ""}
+var dbRecord = &commonSchema.Database{Name: "mariadb"}
 var versionPorts = map[string]int{
 	// needs to keep in sync with docker-compose.yaml
-	// "10.2": 3038,
-	// "10.3": 3039,
-	// "10.4": 3040,
-	// "10.5": 3041,
-	// "10.6": 3042,
+	"10.2": 3038,
+	"10.3": 3039,
+	"10.4": 3040,
+	"10.5": 3041,
+	"10.6": 3042,
 	"10.7": 3043,
 }
 
@@ -37,7 +37,7 @@ func main() {
 			defer waitForObservations.Done()
 			dbVersion := &commonSchema.Version{Db: dbRecord, Version: version}
 			dsn := fmt.Sprintf(dsnTemplate, portNumber)
-			db := observer.WaitFor(driver, dsn)
+			db := observer.WaitFor(driver, dsn, 15)
 			colChan <- observer.Observe(db, dbVersion, nil)
 		}(version, port)
 	}
