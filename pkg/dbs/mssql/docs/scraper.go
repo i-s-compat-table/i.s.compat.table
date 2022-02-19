@@ -177,7 +177,7 @@ func scrapePage(
 		}
 		result := commonSchema.ColVersion{Url: url}
 		for j, col := range columns {
-			col = strings.ToLower(utils.NormalizeString(col))
+			col = utils.NormalizeString(col)
 			switch headers[j] {
 			case "column", "field", "column name":
 				result.Column = &commonSchema.Column{
@@ -189,7 +189,7 @@ func scrapePage(
 					License: license,
 				}
 			case "type", "data type":
-				result.Type = &commonSchema.Type{Name: strings.ToLower(col)}
+				result.Type = &commonSchema.Type{Name: strings.ToUpper(col)}
 			default:
 				log.Warnf("unknown header '%s' with value '%s'", headers[j], col)
 			}
@@ -236,7 +236,7 @@ func Scrape(cacheDir string, dbPath string, dbg bool) {
 	collector.OnHTML("html", func(html *colly.HTMLElement) {
 		url := html.Request.URL
 		tableName, versions := lookup(url.Scheme + "://" + url.Host + url.Path)
-		colChan <- scrapePage(html, tableName, versions, fam)
+		colChan <- scrapePage(html, strings.ToLower(tableName), versions, fam)
 	})
 	for _, item := range items {
 		sort.Strings(item.Monikers)

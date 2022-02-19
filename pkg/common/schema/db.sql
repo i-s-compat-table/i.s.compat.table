@@ -18,7 +18,7 @@ CREATE TABLE versions (
 
 CREATE TABLE tables(
     id INTEGER PRIMARY KEY --xxhash3_64(name)
-  , name TEXT NOT NULL
+  , name TEXT NOT NULL -- always lowercase
 );
 CREATE TABLE columns(
     id INTEGER PRIMARY KEY -- xxhash3_64 of table_id, name.
@@ -27,7 +27,7 @@ CREATE TABLE columns(
 );
 CREATE TABLE types(
     id INTEGER PRIMARY KEY -- xxhash3_64(name)
-  , name TEXT NOT NULL     -- always lowercase
+  , name TEXT NOT NULL     -- always uppercase
 ); 
 CREATE TABLE urls(
     id INTEGER PRIMARY KEY

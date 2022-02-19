@@ -111,7 +111,7 @@ func scrapePage(
 	if dl := doc.Find("#sidebar-first div.node_info dl"); dl.Length() == 1 {
 		txt := dl.Find("dt + dd").Text()
 		if !strings.Contains(txt, "CC BY-SA") {
-			log.Warn(pageUrl, "is missing cc-by-sa -license")
+			log.Warnf("%s is missing cc-by-sa -license", pageUrl)
 		}
 	} else {
 		log.Warnf("dl missing: %s", pageUrl)
@@ -149,6 +149,9 @@ func scrapePage(
 	rows := data.Find("tr").FilterFunction(func(i int, tr *goquery.Selection) bool {
 		return tr.Find("td").Length() > 0 && tr.Find("th").Length() == 0
 	})
+	if rows.Length() == 0 {
+		log.Warnf("%s : no rows", pageUrl)
+	}
 	resultRows := []commonSchema.ColVersion{}
 
 	table := &commonSchema.Table{Name: tableName}
@@ -162,20 +165,16 @@ func scrapePage(
 		})
 		for j, col := range columns {
 			thisCol.Number = j
-			col = strings.Trim(col, " \t\n\r")
+			col = utils.NormalizeString(col)
 			switch headers[j] {
 			case "column", "field", "column name":
 				thisCol.Column = &commonSchema.Column{
-					Table: table,
-					Name:  strings.ToLower(utils.NormalizeString(col)),
+					Table: table, Name: strings.ToLower(col),
 				}
 			case "description", "notes":
-				thisCol.Notes = &commonSchema.Note{
-					Note:    utils.NormalizeString(col),
-					License: &license,
-				}
+				thisCol.Notes = &commonSchema.Note{Note: col, License: &license}
 			case "type":
-				thisCol.Type = &commonSchema.Type{Name: utils.NormalizeString(col)}
+				thisCol.Type = &commonSchema.Type{Name: strings.ToUpper(col)}
 			case "null":
 				switch strings.Trim(strings.ToLower(col), " \t\r\n") {
 				case "yes":

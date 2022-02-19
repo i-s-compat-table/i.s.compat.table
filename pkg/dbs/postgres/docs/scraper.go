@@ -110,7 +110,8 @@ func scrape13Plus(page *colly.HTMLElement, tableName string, version string) []c
 		row := tr.Find(".column_definition").First()
 		colNames := row.Find(".structfield")
 		colName := strings.ToLower(NormalizeString(colNames.First().Text()))
-		columnType := tr.Find(".type").First().Text()
+		columnType := strings.ToUpper(
+			utils.NormalizeString(tr.Find(".type").First().Text()))
 		notes := NormalizeString(row.NextAll().Filter("p").Text())
 		notes = dedentRe.ReplaceAllString(notes, " ")
 		notes = sectionRef.ReplaceAllString(notes, "")
