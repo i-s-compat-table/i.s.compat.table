@@ -1,4 +1,4 @@
-package docs
+package main
 
 import (
 	"encoding/json"
@@ -18,6 +18,7 @@ import (
 	"github.com/gocolly/colly/v2/debug"
 	commonSchema "github.com/i-s-compat-table/i.s.compat.table/pkg/common/schema"
 	"github.com/i-s-compat-table/i.s.compat.table/pkg/common/utils"
+	"github.com/i-s-compat-table/i.s.compat.table/pkg/dbs/mssql/docs"
 	_ "github.com/mattn/go-sqlite3"
 )
 
@@ -248,4 +249,8 @@ func Scrape(cacheDir string, dbPath string, dbg bool) {
 	collector.Wait()
 	close(colChan)
 	wg.Wait()
+}
+
+func main() {
+	docs.Scrape("./pkg/dbs/mssql/.cache", "./data/mssql/docs.sqlite", false)
 }

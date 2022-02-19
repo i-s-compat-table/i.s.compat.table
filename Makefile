@@ -6,21 +6,21 @@ TSVS+=./data/mssql.tsv
 
 # build the scraper binaries
 _common_backend=pkg/common/schema/db.go pkg/common/schema/db.sql
-./bin/scrape_mariadb_docs: ./pkg/dbs/mariadb/docs/scraper.go $(_common_backend)
-	go build -o ./bin/scrape_mariadb_docs ./cmd/scrape_mariadb_docs/main.go
-./bin/scrape_mssql_docs: ./pkg/dbs/mssql/docs/scraper.go $(_common_backend)
-	go build -o ./bin/scrape_mssql_docs ./cmd/scrape_mssql_docs/main.go
-./bin/scrape_postgres_docs: ./pkg/dbs/postgres/docs/scraper.go $(_common_backend)
-	go build -o ./bin/scrape_postgres_docs ./cmd/scrape_postgres_docs/main.go
+./bin/scrape_mariadb_docs: ./cmd/mariadb/scrape_docs/main.go $(_common_backend)
+	go build -o ./bin/scrape_mariadb_docs ./cmd/mariadb/scrape_docs/main.go
+./bin/scrape_mssql_docs: ./cmd/mssql/scrape_docs/main.go $(_common_backend)
+	go build -o ./bin/scrape_mssql_docs ./cmd/mssql/scrape_docs/main.go
+./bin/scrape_postgres_docs: ./cmd/postgres/scrape_docs/main.go $(_common_backend)
+	go build -o ./bin/scrape_postgres_docs ./cmd/postgres/scrape_docs/main.go
 
 # build the observer binaries
 _observer_common=pkg/common/observer/observer.go pkg/common/observer/columns.sql
-./bin/observe_mariadb: ./cmd/observe_mariadb/main.go $(_common_backend) $(_observer_common)
-	go build -o ./bin/observe_mariadb ./cmd/observe_mariadb/main.go
-./bin/observe_mssql: ./pkg/dbs/mssql/docs/observer.go $(_common_backend) $(_observer_common)
-	go build -o ./bin/observe_mssql ./cmd/observe_mssql/main.go
-./bin/observe_postgres: ./cmd/observe_postgres/main.go $(_common_backend) $(_observer_common)
-	go build -o ./bin/observe_postgres ./cmd/observe_postgres/main.go
+./bin/observe_mariadb: ./cmd/mariadb/observe/main.go $(_common_backend) $(_observer_common)
+	go build -o ./bin/observe_mariadb ./cmd/mariadb/observe/main.go
+./bin/observe_mssql: ./cmd/mssql/observe/main.go $(_common_backend) $(_observer_common)
+	go build -o ./bin/observe_mssql ./cmd/mssql/observe/main.go
+./bin/observe_postgres: ./cmd/postgres/observe/main.go $(_common_backend) $(_observer_common)
+	go build -o ./bin/observe_postgres ./cmd/postgres/observe/main.go
 
 # run the scaper binaries
 mariadb-docs: ./data/mariadb/docs.sqlite

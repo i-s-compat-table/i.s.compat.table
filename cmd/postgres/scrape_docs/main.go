@@ -1,4 +1,4 @@
-package docs
+package main
 
 import (
 	"regexp"
@@ -14,7 +14,7 @@ import (
 	"github.com/gocolly/colly/v2/debug"
 	commonSchema "github.com/i-s-compat-table/i.s.compat.table/pkg/common/schema"
 	"github.com/i-s-compat-table/i.s.compat.table/pkg/common/utils"
-	. "github.com/i-s-compat-table/i.s.compat.table/pkg/common/utils"
+	"github.com/i-s-compat-table/i.s.compat.table/pkg/dbs/mssql/docs"
 	_ "github.com/mattn/go-sqlite3"
 	log "github.com/sirupsen/logrus"
 )
@@ -53,7 +53,7 @@ func scrape12Minus(html *colly.HTMLElement, tableName string, version string) []
 	ths := tableEl.Find("thead").First().Find("th")
 	headers := make([]string, ths.Length())
 	ths.Each(func(i int, th *goquery.Selection) {
-		headers[i] = NormalizeString(th.Text())
+		headers[i] = utils.NormalizeString(th.Text())
 	})
 	trs := tableEl.Find("tbody tr")
 	if trs.Length() == 0 {
@@ -72,7 +72,7 @@ func scrape12Minus(html *colly.HTMLElement, tableName string, version string) []
 		cols[i].Url = url
 		cols[i].Nullable = commonSchema.Unknown
 		tr.Find("td").Each(func(j int, td *goquery.Selection) {
-			text := NormalizeString(td.Text())
+			text := utils.NormalizeString(td.Text())
 			switch headers[j] {
 			case "Name":
 				cols[i].Column = &commonSchema.Column{
@@ -109,10 +109,10 @@ func scrape13Plus(page *colly.HTMLElement, tableName string, version string) []c
 	rows.Each(func(i int, tr *goquery.Selection) {
 		row := tr.Find(".column_definition").First()
 		colNames := row.Find(".structfield")
-		colName := strings.ToLower(NormalizeString(colNames.First().Text()))
+		colName := strings.ToLower(utils.NormalizeString(colNames.First().Text()))
 		columnType := strings.ToUpper(
 			utils.NormalizeString(tr.Find(".type").First().Text()))
-		notes := NormalizeString(row.NextAll().Filter("p").Text())
+		notes := utils.NormalizeString(row.NextAll().Filter("p").Text())
 		notes = dedentRe.ReplaceAllString(notes, " ")
 		notes = sectionRef.ReplaceAllString(notes, "")
 		cols[i] = commonSchema.ColVersion{
@@ -201,7 +201,7 @@ func Scrape(cacheDir string, dbPath string, dbg bool) {
 	re := regexp.MustCompile(`[a-zA-Z_]+$`)
 	collector.OnHTML("html", func(html *colly.HTMLElement) {
 		version := deriveVersion(html)
-		title := NormalizeString(html.DOM.Find("title").Text()) // 13+ sometimes have 0-width or nonbreaking spaces thrown in
+		title := utils.NormalizeString(html.DOM.Find("title").Text()) // 13+ sometimes have 0-width or nonbreaking spaces thrown in
 		tableName := strings.Trim(strings.ToLower(re.FindString(title)), " ")
 		if v, err := strconv.ParseFloat(version, 32); err == nil {
 			if v >= 13 {
@@ -224,4 +224,8 @@ func Scrape(cacheDir string, dbPath string, dbg bool) {
 	log.Infof("scraped %d column-versions", nRows)
 	close(rowChan)
 	wg.Wait()
+}
+
+func main() {
+	docs.Scrape("./pkg/dbs/postgres/.cache", "./data/postgres/docs.sqlite", false)
 }

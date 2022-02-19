@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 scripts_dir="${BASH_SOURCE[0]%/*}"
-repo_root="$(cd "$scripts_dir/.." && pwd)"
+repo_root=""; repo_root="$(cd "$scripts_dir/.." && pwd)"; export repo_root;
 usage() { grep '^###' "$0"  | sed 's/^### //g; s/^###//g'; }
 
 fail() {

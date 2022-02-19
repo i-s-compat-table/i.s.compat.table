@@ -38,7 +38,7 @@ func main() {
 			dbVersion := &commonSchema.Version{Db: dbRecord, Version: version}
 			dsn := fmt.Sprintf(dsnTemplate, portNumber)
 			db := observer.WaitFor(driver, dsn)
-			colChan <- observer.Observe(db, dbVersion)
+			colChan <- observer.Observe(db, dbVersion, nil)
 		}(version, port)
 	}
 	waitForObservations.Wait()

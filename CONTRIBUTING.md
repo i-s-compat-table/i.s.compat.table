@@ -18,17 +18,16 @@ Directories, files in the order you should visit them:
 ├── README.md
 ├── CONTRIBUTING.md
 ├── pkg
-│   ├── common
-│   │   ├── observer/*.{sql,go}
-│   │   ├── schema/*.{sql,go}
-│   │   └── utils/*.go
-│   └── dbs
-│       └── ${DB}
-│           ├── docs/scraper.go
-│           └── live/observer.go
+│   └── common
+│       ├── observer/*.{sql,go}
+│       ├── schema/*.{sql,go}
+│       └── utils/*.go
 ├── Makefile
+├── cmd
+│   └── ${DB}
+│       ├── observer/*.go
+│       └── scrape_docs/*.go
 ├── bin/* # built binaries
-├── cmd/scrape_${DB}_docs/main.go
 ├── scripts
 │   ├── scrape/${DB}_docs.sh
 │   ├── observe/${DB}.sh
