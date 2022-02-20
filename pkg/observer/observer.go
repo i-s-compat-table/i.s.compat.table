@@ -4,9 +4,11 @@ import (
 	"database/sql"
 	_ "embed"
 	"fmt"
+	"strings"
 	"time"
 
 	commonSchema "github.com/i-s-compat-table/i.s.compat.table/pkg/schema"
+	"github.com/i-s-compat-table/i.s.compat.table/pkg/utils"
 	log "github.com/sirupsen/logrus"
 )
 
@@ -44,6 +46,9 @@ func Observe(db *sql.DB, dbVersion *commonSchema.Version, query *string) []commo
 		err := rows.Scan(
 			&table.Name, &column.Name, &colVersion.Number, &nullable, &type_.Name,
 		)
+		table.Name = strings.ToLower(utils.NormalizeString(table.Name))
+		column.Name = strings.ToLower(utils.NormalizeString(column.Name))
+		type_.Name = strings.ToUpper(utils.NormalizeString(type_.Name))
 		if err != nil {
 			panic(err)
 		}

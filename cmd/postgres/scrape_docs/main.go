@@ -80,7 +80,7 @@ func scrape12Minus(html *colly.HTMLElement, tableName string, version string) []
 				}
 			case "Data Type":
 				cols[i].Type = &commonSchema.Type{
-					Name: strings.ToLower(utils.NormalizeString(text)),
+					Name: strings.ToUpper(utils.NormalizeString(text)),
 				}
 			case "Description":
 				cols[i].Notes = &commonSchema.Note{

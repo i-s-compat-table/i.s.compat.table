@@ -143,7 +143,7 @@ func scrapePage(
 	}
 	data := doc.Find("table").First()
 	headers := data.Find(tableHeader).Map(func(i int, tr *goquery.Selection) string {
-		return strings.Trim(strings.ToLower(tr.Text()), " \t\n\r")
+		return utils.NormalizeString(strings.ToLower(tr.Text()))
 	})
 
 	rows := data.Find("tr").FilterFunction(func(i int, tr *goquery.Selection) bool {
