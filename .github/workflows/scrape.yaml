@@ -34,7 +34,11 @@ jobs:
       - name: build ./bin/scrape_mariadb_docs
         if: steps.cache-scrape_mariadb_docs.outputs.cache-hit != 'true'
         run: make scrape_mariadb_docs
+      - name: upload scrape_mariadb_docs
         uses: actions/upload-artifact@v2
+        with:
+          name: scrape_mariadb_docs
+          path: ./bin/scrape_mariadb_docs
     ### ./bin/scrape_mssql_docs
       - name: cache scrape_mssql_docs
         uses: actions/cache@v2
@@ -493,5 +497,7 @@ jobs:
       - run: make ./data/columns.tsv
       - name: check in ./data/columns.tsv if it changed
         run: |
-          
-      # check in ./data/columns.tsv if it changed
+          git config user.name "Automated"
+          git config user.email "actions@users.noreply.github.com"
+          git add ./data/columns.tsv || exit 0
+          git commit -m "chore: update $(date '+%Y-%m-%dT%H:%M:%S%z')"
