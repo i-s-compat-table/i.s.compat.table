@@ -152,27 +152,33 @@ jobs:
       mariadb-10.2:
         env: {MYSQL_ROOT_PASSWORD: password}
         image: docker.io/library/mariadb:10.2
-        ports: [3038:3036]
+        ports: 
+          - 3038:3036
       mariadb-10.3:
         env: {MYSQL_ROOT_PASSWORD: password}
         image: docker.io/library/mariadb:10.3
-        ports: [3039:3036]
+        ports: 
+          - 3039:3036
       mariadb-10.4:
         env: {MYSQL_ROOT_PASSWORD: password}
         image: docker.io/library/mariadb:10.4
-        ports: [3040:3036]
+        ports: 
+          - 3040:3036
       mariadb-10.5:
         env: {MYSQL_ROOT_PASSWORD: password}
         image: docker.io/library/mariadb:10.5
-        ports: [3041:3036]
+        ports: 
+          - 3041:3036
       mariadb-10.6:
         env: {MYSQL_ROOT_PASSWORD: password}
         image: docker.io/library/mariadb:10.6
-        ports: [3042:3036]
+        ports: 
+          - 3042:3036
       mariadb-10.7:
         env: {MYSQL_ROOT_PASSWORD: password}
         image: docker.io/library/mariadb:10.7
-        ports: [3043:3306]
+        ports: 
+          - 3043:3306
     runs-on: ubuntu-latest
     steps:
       - name: pref fs
@@ -202,11 +208,13 @@ jobs:
     services:
       mysql-5.7:
         image: docker.io/library/mysql:5.7
-        ports: [3306:3306]
+        ports: 
+          - 3306:3306
         env: {MYSQL_ROOT_PASSWORD: password}
       mysql-8.0:
         image: docker.io/library/mysql:8.0
-        ports: [3307:3306]
+        ports:
+          - 3307:3306
         env: {MYSQL_ROOT_PASSWORD: password}
     runs-on: ubuntu-latest
     steps:
@@ -238,27 +246,32 @@ jobs:
         image: docker.io/library/postgres:10-alpine
         env:
           POSTGRES_PASSWORD: password
-        ports: [5432:5432]
+        ports:
+          - 5432:5432
       postgres-11:
         image: docker.io/library/postgres:11-alpine
         env:
           POSTGRES_PASSWORD: password
-        ports: [5433:5432]
+        ports:
+          - 5433:5432
       postgres-12:
         image: docker.io/library/postgres:12-alpine
         env:
           POSTGRES_PASSWORD: password
-        ports: [5434:5432]
+        ports:
+          - 5434:5432
       postgres-13:
         image: docker.io/library/postgres:13-alpine
         env:
           POSTGRES_PASSWORD: password
-        ports: [5435:5432]
+        ports:
+          - 5435:5432
       postgres-14:
         image: docker.io/library/postgres:13-alpine
         env:
           POSTGRES_PASSWORD: password
-        ports: [5436:5432]
+        ports:
+          - 5436:5432
     runs-on: ubuntu-latest
     steps:
       - name: pref fs

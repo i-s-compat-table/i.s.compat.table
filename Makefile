@@ -1,6 +1,6 @@
 # build the scraper binaries
 .PHONY: all
-all: ./data/columns.tsv
+all: ./data/columns.tsv ./data/mariadb/columns.tsv ./data/mssql/columns.tsv ./data/mysql/columns.tsv ./data/postgres/columns.tsv
 _common_backend=pkg/schema/db.go pkg/schema/db.sql
 ./bin/scrape_mariadb_docs: ./cmd/mariadb/scrape_docs/main.go $(_common_backend)
 	go build -o ./bin/scrape_mariadb_docs ./cmd/mariadb/scrape_docs/main.go
@@ -105,7 +105,7 @@ tsv_dump_scripts= ./scripts/dump_tsv.sh ./pkg/schema/views.sql
 ./data/postgres/columns.tsv: $(tsv_dump_scripts) ./data/postgres/merged.sqlite
 	./scripts/dump_tsv.sh --output=./data/postgres/columns.tsv ./data/postgres/merged.sqlite
 ./data/mysql/columns.tsv: $(tsv_dump_scripts) ./data/mysql/observed.sqlite
-	./scripts/dump_tsv.sh --output=./data/mysql/columns.tsv ./data/mysql/merged.sqlite
+	./scripts/dump_tsv.sh --output=./data/mysql/columns.tsv ./data/mysql/observed.sqlite
 ./data/mariadb/columns.tsv: $(tsv_dump_scripts) ./data/mariadb/merged.sqlite
 	./scripts/dump_tsv.sh --output=./data/mariadb/columns.tsv ./data/mariadb/merged.sqlite
 ./data/columns.sqlite: $(merge_scripts) ./data/merged.observations.sqlite ./data/merged.docs.sqlite
