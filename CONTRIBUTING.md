@@ -3,6 +3,7 @@
 ## Reporting incorrect information
 
 <!-- where? issue tracker -->
+
 As with all open-source, the only way to ensure a fix gets written is to write it yourself.
 
 ## Adding a new database
@@ -11,6 +12,7 @@ Gathering and maintaining correct, license-compliant information on a new databa
 Thus, adding a new database requires writing at least one of a documentation-scraper or a database-observer.
 
 ### Repo structure
+
 Directories, files in the order you should visit them:
 
 ```tree
@@ -44,6 +46,7 @@ Directories, files in the order you should visit them:
 ```
 
 ### required development tools
+
 - `go >= 1.17`
 - `sqlite3`
 - `make`
@@ -53,17 +56,18 @@ Directories, files in the order you should visit them:
 
 ```mermaid
 graph TD
-  remote_docs[remote docs] -->|scrape | data/db/docs.sqlite
-  data/db/patch.sql        -->|correct| data/db/docs.sqlite
+  remote_docs[remote docs] -->|scrape | docs.sqlite
+  patch.sql        -->|correct| docs.sqlite
 
-  docker_db[live database] --> |observe| data/db/observed.sqlite
-  data/db/observed.sqlite  --> |merge  | data/columns.sqlite
-  data/db/docs.sqlite      --> |merge  | data/columns.sqlite
-  data/columns.sqlite      --> |render | data/columns.tsv
-  data/columns.tsv         --> |inform | data/db/patch.sql
+  docker_db[live database] --> |observe| observed.sqlite
+  observed.sqlite  --> |merge  | merged.sqlite
+  docs.sqlite      --> |merge  | merged.sqlite
+  merged.sqlite    --> |render | columns.tsv
+  columns.tsv      --> |inform | patch.sql
 ```
 
 ### When to add a documentation scraper
+
 If the database's documentation is offered under a creative commons license, consider writing a new scraper for it.
 
 ### How to create a new documentation scraper
@@ -76,11 +80,11 @@ If the database's documentation is offered under a creative commons license, con
   - the package should be named `docs`
   - the package should export a function named `Scrape`
   <!-- that implements the common/scraper.Scrape interface -->
-- [ ] Create `cmd/scrape_${DB}_docs/main.go` to run your `docs.Scrape` function 
+- [ ] Create `cmd/scrape_${DB}_docs/main.go` to run your `docs.Scrape` function
 - [ ] Create a target in `Makefile` to compile `cmd/scrape_${DB}_docs/main.go` into `bin/scrape_${DB}_docs`
 - [ ] Create a target in `Makefile` to run your scraper to create `data/${DB}/docs/db.sqlite`
-<!-- - [ ] Run automated documentation-updates  -->
-<!-- - [ ] run automated output-updates -->
+  <!-- - [ ] Run automated documentation-updates  -->
+  <!-- - [ ] run automated output-updates -->
 - [ ] Update the README to list support for the new database!
 
 ```diff
