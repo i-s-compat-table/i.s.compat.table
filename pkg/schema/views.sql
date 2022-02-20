@@ -4,7 +4,13 @@ CREATE VIEW cols AS
     , db_name
     , table_name
     , column_name
-    , column_type
+    , group_concat(distinct column_type) AS column_type
+    , (
+        SELECT urls.url
+        FROM urls
+        WHERE urls.id = url_id
+        LIMIT 1
+      ) AS url
     , note
     , group_concat(distinct version) AS versions
     , col.license
@@ -43,7 +49,7 @@ CREATE VIEW cols AS
       -- ^ observed columns don't come with reference urls
       LEFT OUTER JOIN notes AS note ON cv.note_id = note.id
       LEFT OUTER JOIN licenses AS license ON cv.note_license_id = license.id
-      ORDER BY 2, 4, 5, cast(v.version AS REAL), v.version
+      ORDER BY 2, 4, 5, cast(v.version AS REAL) DESC, v.version
     ) AS col
-  GROUP BY col.column_id, col.column_type, col.note
+  GROUP BY col.column_id, col.note
   ORDER BY table_name, column_name, db_name, 7; -- 7 = versions

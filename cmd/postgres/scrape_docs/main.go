@@ -96,7 +96,7 @@ func scrape12Minus(html *colly.HTMLElement, tableName string, version string) []
 }
 
 func scrape13Plus(page *colly.HTMLElement, tableName string, version string) []commonSchema.ColVersion {
-	isCurrent := version == allPgVersions[len(allPgVersions)-1]
+	isCurrent := version == allPgVersions[0]
 	dbVersion := &commonSchema.Version{Db: postgres, Version: version, IsCurrent: &isCurrent}
 	table := &commonSchema.Table{Name: tableName}
 	rows := page.DOM.Find("table.table, table.CALSTABLE").First().Find("table tbody tr")

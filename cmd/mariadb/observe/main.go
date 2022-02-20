@@ -16,12 +16,12 @@ const dsnTemplate = "root:password@tcp(127.0.0.1:%d)/"
 var dbRecord = &commonSchema.Database{Name: "mariadb"}
 var versionPorts = map[string]int{
 	// needs to keep in sync with docker-compose.yaml
-	"10.2": 3308,
-	"10.3": 3309,
-	"10.4": 3310,
-	"10.5": 3311,
-	"10.6": 3312,
-	"10.7": 3313,
+	"10.2.41": 3308,
+	"10.3.32": 3309,
+	"10.4.22": 3310,
+	"10.5.13": 3311,
+	"10.6.5":  3312,
+	"10.7.1":  3313,
 }
 
 type myLogger struct {

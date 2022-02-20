@@ -286,11 +286,13 @@ func BulkInsert(outputPath string, cols <-chan []ColVersion, wg *sync.WaitGroup)
 							licenseUrlId = &id
 							utils.MustExec(insertUrl, id, notes.License.Url.Url)
 						}
-						utils.MustExec(insertLicense, licenseId, notes.License.License, notes.License.Attribution, licenseUrlId)
+						if notes.Note != "" {
+							utils.MustExec(insertLicense, licenseId, notes.License.License, notes.License.Attribution, licenseUrlId)
+							id := notes.Id()
+							noteId = &id
+							utils.MustExec(insertNote, id, notes.Note)
+						}
 					}
-					id := notes.Id()
-					noteId = &id
-					utils.MustExec(insertNote, id, notes.Note)
 				}
 				colVersionId := DeriveColumnVersionId(colId, versionId)
 
