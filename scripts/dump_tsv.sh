@@ -49,7 +49,10 @@ main() {
       dry_run=true
       ;;
     -h | --help) usage && exit 0 ;;
-    -o=* | --output=*) output_path="" ;;
+    -o=* | --output=*)
+      output_path="${1##*=}"
+      shift
+      ;;
     -o | --output)
       shift
       if test -z "${1:-}"; then fail; fi
@@ -61,7 +64,7 @@ main() {
       ;;
     --focus=*)
       should_focus=true
-      _editor="${1%*/}"
+      _editor="${1##*=}"
       echo "$_editor"
       shift
       ;;
