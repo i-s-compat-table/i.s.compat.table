@@ -1,4 +1,6 @@
 # build the scraper binaries
+.PHONY: all
+all: ./data/columns.tsv
 _common_backend=pkg/schema/db.go pkg/schema/db.sql
 ./bin/scrape_mariadb_docs: ./cmd/mariadb/scrape_docs/main.go $(_common_backend)
 	go build -o ./bin/scrape_mariadb_docs ./cmd/mariadb/scrape_docs/main.go
@@ -22,14 +24,17 @@ observer_binaries=./bin/observe_mariadb ./bin/observe_mssql ./bin/observe_mysql 
 # run the scaper binaries
 mariadb-docs: ./data/mariadb/docs.sqlite
 ./data/mariadb/docs.sqlite: ./bin/scrape_mariadb_docs
+	mkdir -p ./data/mariadb
 	./bin/scrape_mariadb_docs
 	touch -m ./data/mariadb/docs.sqlite
 mssql-docs: ./data/mssql/docs.sqlite
 ./data/mssql/docs.sqlite: ./bin/scrape_mssql_docs
+	mkdir -p ./data/mssql
 	./bin/scrape_mssql_docs
 	touch -m ./data/mssql/docs.sqlite
 pg-docs: ./data/postgres/docs.sqlite
 ./data/postgres/docs.sqlite: ./bin/scrape_postgres_docs
+	mkdir -p ./data/postgres
 	./bin/scrape_postgres_docs
 	touch -m ./data/postgres/docs.sqlite
 
@@ -43,21 +48,28 @@ mariadb_services+=mariadb-10.6
 mariadb_services+=mariadb-10.7
 mariadb-observations:./data/mariadb/observed.sqlite
 ./data/mariadb/observed.sqlite:./bin/observe_mariadb
+	mkdir -p ./data/mariadb
 	docker-compose up -d $(mariadb_services)
 	./bin/observe_mariadb
 	docker-compose down
+	touch -m ./data/mariadb/observed.sqlite
 
-mysql-observations: ./bin/observe_mysql
+mysql-observations: ./data/mysql/observed.sqlite
+./data/mysql/observed.sqlite: ./bin/observe_mysql
+	mkdir -p ./data/mysql
 	docker-compose up -d mysql-5.7 mysql-8.0
 	./bin/observe_mysql
 	docker-compose down
+	touch -m ./data/mysql/observed.sqlite
 
 pg-observations: ./data/postgres/observed.sqlite
 pg_services=postgres-10 postgres-11 postgres-12 postgres-13 postgres-14
 ./data/postgres/observed.sqlite:./bin/observe_postgres
+	mkdir -p ./data/postgres
 	docker-compose up -d $(pg_services)
 	./bin/observe_postgres
 	docker-compose down
+	touch -m ./data/postgres/observed.sqlite
 
 .PHONY: doc_dbs
 doc_dbs=./data/mariadb/docs.sqlite ./data/mssql/docs.sqlite ./data/postgres/docs.sqlite
