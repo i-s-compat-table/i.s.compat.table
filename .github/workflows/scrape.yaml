@@ -1,0 +1,497 @@
+name: Scrape
+
+on:
+  push:
+    branches: [ main ]
+  workflow_dispatch:
+
+jobs:
+  build_binaries:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: cache golang artifacts
+        uses: actions/cache@v2
+        with:
+          path: |
+            ~/.cache/go-build
+            ~/go/pkg/mod
+          key: ${{ runner.os }}-go-${{ hashFiles('**/go.sum') }}
+          restore-keys: |
+            ${{ runner.os }}-go-1.17
+      - name: Set up Go
+        uses: actions/setup-go@v2
+        with:
+          go-version: 1.17
+      # TODO: lint go
+    ### ./bin/scrape_mariadb_docs
+      - name: cache ./bin/scrape_mariadb_docs
+        uses: actions/cache@v2
+        id: cache-scrape_mariadb_docs
+        with:
+          path: ./bin/scrape_mariadb_docs
+          key: "scrape_mariadb_docs-${{hashFiles('pkg/schema/*', 'pkg/utils/*', 'cmd/mariadb/scrape_docs/*')}}"
+      - name: build ./bin/scrape_mariadb_docs
+        if: steps.cache-scrape_mariadb_docs.outputs.cache-hit != 'true'
+        run: make scrape_mariadb_docs
+        uses: actions/upload-artifact@v2
+    ### ./bin/scrape_mssql_docs
+      - name: cache scrape_mssql_docs
+        uses: actions/cache@v2
+        id: cache-scrape_mssql_docs
+        with:
+          path: ./bin/scrape_mssql_docs
+          key: "scrape_mssql_docs-${{hashFiles('pkg/schema/*', 'pkg/utils/*', 'cmd/')}}"
+      - name: build scrape_mssql_docs
+        if: steps.cache-scrape_mssql_docs.outputs.cache-hit != 'true'
+        run: make ./bin/scrape_mssql_docs 
+      - name: upload scrape_mssql_docs
+        uses: actions/upload-artifact@v2
+        with:
+          name: scrape_mssql_docs
+          path: ./bin/scrape_mssql_docs
+    ### ./bin/scrape_postgres_docs
+      - name: cache scrape_postgres_docs
+        uses: actions/cache@v2
+        id: cache-scrape_postgres_docs
+        with:
+          path: ./bin/scrape_postgres_docs
+          key: "scrape_postgres_docs-${{hashFiles('pkg/schema/*', 'pkg/utils/*', 'cmd/')}}"
+      - name: build scrape_postgres_docs
+        if: steps.cache-scrape_postgres_docs.outputs.cache-hit != 'true'
+        run: make ./bin/scrape_postgres_docs 
+      - name: upload scrape_postgres_docs
+        uses: actions/upload-artifact@v2
+        with:
+          name: scrape_postgres_docs
+          path: ./bin/scrape_postgres_docs
+    ### ./bin/observe_mariadb
+      - name: cache observe_mariadb
+        uses: actions/cache@v2
+        id: cache-observe_mariadb
+        with:
+          path: ./bin/observe_mariadb
+          key: "observe_mariadb-${{hashFiles('pkg/schema/*', 'pkg/utils/*', 'cmd/')}}"
+      - name: build observe_mariadb
+        if: steps.cache-observe_mariadb.outputs.cache-hit != 'true'
+        run: make ./bin/observe_mariadb 
+      - name: upload observe_mariadb
+        uses: actions/upload-artifact@v2
+        with:
+          name: observe_mariadb
+          path: ./bin/observe_mariadb
+    ### ./bin/observe_mysql
+      - name: cache observe_mysql
+        uses: actions/cache@v2
+        id: cache-observe_mysql
+        with:
+          path: ./bin/observe_mysql
+          key: "observe_mysql-${{hashFiles('pkg/schema/*', 'pkg/utils/*', 'cmd/')}}"
+      - name: build observe_mysql
+        if: steps.cache-observe_mysql.outputs.cache-hit != 'true'
+        run: make ./bin/observe_mysql 
+      - name: upload observe_mysql
+        uses: actions/upload-artifact@v2
+        with:
+          name: observe_mysql
+          path: ./bin/observe_mysql
+    ### ./bin/observe_mysql
+      - name: cache observe_mysql
+        uses: actions/cache@v2
+        id: cache-observe_mysql
+        with:
+          path: ./bin/observe_mysql
+          key: "observe_mysql-${{hashFiles('pkg/schema/*', 'pkg/utils/*', 'cmd/')}}"
+      - name: build observe_mysql
+        if: steps.cache-observe_mysql.outputs.cache-hit != 'true'
+        run: make ./bin/observe_mysql 
+      - name: upload observe_mysql
+        uses: actions/upload-artifact@v2
+        with:
+          name: observe_mysql
+          path: ./bin/observe_mysql
+    ### ./bin/observe_postgres
+      - name: cache observe_postgres
+        uses: actions/cache@v2
+        id: cache-observe_postgres
+        with:
+          path: ./bin/observe_postgres
+          key: "observe_postgres-${{hashFiles('pkg/schema/*', 'pkg/utils/*', 'cmd/')}}"
+      - name: build observe_postgres
+        if: steps.cache-observe_postgres.outputs.cache-hit != 'true'
+        run: make ./bin/observe_postgres 
+      - name: upload observe_postgres
+        uses: actions/upload-artifact@v2
+        with:
+          name: observe_postgres
+          path: ./bin/observe_postgres
+    
+    # ### ./bin/{}
+    #   - name: cache {}
+    #     uses: actions/cache@v2
+    #     id: cache-{}
+    #     with:
+    #       path: ./bin/{}
+    #       key: "{}-${{hashFiles('pkg/schema/*', 'pkg/utils/*', 'cmd/')}}"
+    #   - name: build {}
+    #     if: steps.cache-{}.outputs.cache-hit != 'true'
+    #     run: make ./bin/{} 
+    #   - name: upload {}
+    #     uses: actions/upload-artifact@v2
+    #     with:
+    #       name: {}
+    #       path: ./bin/{}
+
+  observe_mariadb:
+    needs: [build_binaries]
+    services:
+      mariadb-10.2:
+        env: {MYSQL_ROOT_PASSWORD: password}
+        image: docker.io/library/mariadb:10.2
+        ports: [3038:3036]
+      mariadb-10.3:
+        env: {MYSQL_ROOT_PASSWORD: password}
+        image: docker.io/library/mariadb:10.3
+        ports: [3039:3036]
+      mariadb-10.4:
+        env: {MYSQL_ROOT_PASSWORD: password}
+        image: docker.io/library/mariadb:10.4
+        ports: [3040:3036]
+      mariadb-10.5:
+        env: {MYSQL_ROOT_PASSWORD: password}
+        image: docker.io/library/mariadb:10.5
+        ports: [3041:3036]
+      mariadb-10.6:
+        env: {MYSQL_ROOT_PASSWORD: password}
+        image: docker.io/library/mariadb:10.6
+        ports: [3042:3036]
+      mariadb-10.7:
+        env: {MYSQL_ROOT_PASSWORD: password}
+        image: docker.io/library/mariadb:10.7
+        ports: [3043:3306]
+    runs-on: ubuntu-latest
+    steps:
+      - name: pref fs
+        run: mkdir -p ./bin ./data/mariadb
+      - name: pull observe_mariadb binary
+        uses: actions/download-artifact@v2
+        with:
+          name: observe_mariadb
+          path: ./bin/observe_mariadb
+      - name: cache mariadb observations
+        uses: actions/cache@v2
+        id: cache-mariadb-observations
+        with:
+          path: ./data/mariadb/observations.sqlite
+          key: mariadb-observations-${{hashFiles('./bin/observe_mariadb')}}
+      - name: observe mariadb information_schemata
+        if: steps.cache-mariadb-observations.outputs.cache-hit != 'true'
+        run: ./bin/observe_mariadb
+      - name: upload mariadb observations
+        uses: actions/upload-artifact@v2
+        with:
+          name: mariadb_observations
+          path: ./data/mariadb/observations.sqlite
+  
+  observe_mysql:
+    needs: [build_binaries]
+    services:
+      mysql-5.7:
+        image: docker.io/library/mysql:5.7
+        ports: [3306:3306]
+        env: {MYSQL_ROOT_PASSWORD: password}
+      mysql-8.0:
+        image: docker.io/library/mysql:8.0
+        ports: [3307:3306]
+        env: {MYSQL_ROOT_PASSWORD: password}
+    runs-on: ubuntu-latest
+    steps:
+      - name: pref fs
+        run: mkdir -p ./bin ./data/mysql
+      - name: pull observe_mysql binary
+        uses: actions/download-artifact@v2
+        with:
+          name: observe_mysql
+          path: ./bin/observe_mysql
+      - name: cache mysql observations
+        uses: actions/cache@v2
+        id: cache-mysql-observations
+        with:
+          path: ./data/mysql/observations.sqlite
+          key: mysql-observations-${{hashFiles('./bin/observe_mysql')}}
+      - name: observe mysql information_schemata
+        if: steps.cache-mysql-observations.outputs.cache-hit != 'true'
+        run: ./bin/observe_mysql
+      - name: upload mysql observations
+        uses: actions/upload-artifact@v2
+        with:
+          name: mysql_observations
+          path: ./data/mysql/observations.sqlite
+
+  observe_postgres:
+    services:
+      postgres-10:
+        image: docker.io/library/postgres:10-alpine
+        env:
+          POSTGRES_PASSWORD: password
+        ports: [5432:5432]
+      postgres-11:
+        image: docker.io/library/postgres:11-alpine
+        env:
+          POSTGRES_PASSWORD: password
+        ports: [5433:5432]
+      postgres-12:
+        image: docker.io/library/postgres:12-alpine
+        env:
+          POSTGRES_PASSWORD: password
+        ports: [5434:5432]
+      postgres-13:
+        image: docker.io/library/postgres:13-alpine
+        env:
+          POSTGRES_PASSWORD: password
+        ports: [5435:5432]
+      postgres-14:
+        image: docker.io/library/postgres:13-alpine
+        env:
+          POSTGRES_PASSWORD: password
+        ports: [5436:5432]
+    runs-on: ubuntu-latest
+    steps:
+      - name: pref fs
+        run: mkdir -p ./bin ./data/postgres
+      - name: pull observe_postgres binary
+        uses: actions/download-artifact@v2
+        with:
+          name: observe_postgres
+          path: ./bin/observe_postgres
+      - name: cache postgres observations
+        uses: actions/cache@v2
+        id: cache-postgres-observations
+        with:
+          path: ./data/postgres/observations.sqlite
+          key: postgres-observations-${{hashFiles('./bin/observe_postgres')}}
+      - name: observe postgres information_schemata
+        if: steps.cache-postgres-observations.outputs.cache-hit != 'true'
+        run: ./bin/observe_postgres
+      - name: upload postgres observations
+        uses: actions/upload-artifact@v2
+        with:
+          name: postgres_observations
+          path: ./data/postgres/observations.sqlite
+
+  # observe_{}:
+  #   needs: [build_binaries]
+  #   services:
+  #   runs-on: ubuntu-latest
+  #   steps:
+  #     - name: pref fs
+  #       run: mkdir -p ./bin ./data/{}
+  #     - name: pull observe_{} binary
+  #       uses: actions/download-artifact@v2
+  #       with:
+  #         name: observe_{}
+  #         path: ./bin/observe_{}
+  #     - name: cache {} observations
+  #       uses: actions/cache@v2
+  #       id: cache-{}-observations
+  #       with:
+  #         path: ./data/{}/observations.sqlite
+  #         key: {}-observations-${{hashFiles('./bin/observe_{}')}}
+  #     - name: observe {} information_schemata
+  #       if: steps.cache-{}-observations.outputs.cache-hit != 'true'
+  #       run: ./bin/observe_{}
+  #     - name: upload {} observations
+  #       uses: actions/upload-artifact@v2
+  #       with:
+  #         name: {}_observations
+  #         path: ./data/{}/observations.sqlite   
+
+  scrape_postgres_docs:
+    needs: [build_binaries]
+    runs-on: ubuntu-latest
+    steps:
+      - name: pref fs
+        run: mkdir -p ./bin ./data/postgres
+      - name: pull scrape_postgres_docs binary
+        uses: actions/download-artifact@v2
+        with:
+          name: scrape_postgres_docs
+          path: ./bin/scrape_postgres_docs
+      - name: cache postgres doc pages
+        uses: actions/cache@v2
+        id: cache-postgres-doc-pages
+        with:
+          path: ./.cache
+          key: postgres-docs-pages
+      - name: cache postgres docs
+        uses: actions/cache@v2
+        id: cache-postgres-docs
+        with:
+          path: ./data/postgres/docs.sqlite
+          key: postgres-docs-${{hashFiles('./bin/scrape_postgres_docs')}}
+      - name: scrape postgres information_schemata
+        if: steps.cache-postgres-docs.outputs.cache-hit != 'true'
+        run: ./bin/scrape_postgres_docs
+      - name: upload postgres docs
+        uses: actions/upload-artifact@v2
+        with:
+          name: postgres_docs
+          path: ./data/postgres/docs.sqlite   
+
+  scrape_mssql_docs:
+    needs: [build_binaries]
+    runs-on: ubuntu-latest
+    steps:
+      - name: pref fs
+        run: mkdir -p ./bin ./data/mssql
+      - name: pull scrape_mssql_docs binary
+        uses: actions/download-artifact@v2
+        with:
+          name: scrape_mssql_docs
+          path: ./bin/scrape_mssql_docs
+      - name: cache mssql doc pages
+        uses: actions/cache@v2
+        id: cache-mssql-doc-pages
+        with:
+          path: ./.cache
+          key: mssql-docs-pages
+      - name: cache mssql docs
+        uses: actions/cache@v2
+        id: cache-mssql-docs
+        with:
+          path: ./data/mssql/docs.sqlite
+          key: mssql-docs-${{hashFiles('./bin/scrape_mssql_docs')}}
+      - name: scrape mssql information_schemata
+        if: steps.cache-mssql-docs.outputs.cache-hit != 'true'
+        run: ./bin/scrape_mssql_docs
+      - name: upload mssql docs
+        uses: actions/upload-artifact@v2
+        with:
+          name: mssql_docs
+          path: ./data/mssql/docs.sqlite
+
+  scrape_mariadb_docs:
+    needs: [build_binaries]
+    runs-on: ubuntu-latest
+    steps:
+      - name: pref fs
+        run: mkdir -p ./bin ./data/mariadb
+      - name: pull scrape_mariadb_docs binary
+        uses: actions/download-artifact@v2
+        with:
+          name: scrape_mariadb_docs
+          path: ./bin/scrape_mariadb_docs
+      - name: cache mariadb doc pages
+        uses: actions/cache@v2
+        id: cache-mariadb-doc-pages
+        with:
+          path: ./.cache
+          key: mariadb-docs-pages
+      - name: cache mariadb docs
+        uses: actions/cache@v2
+        id: cache-mariadb-docs
+        with:
+          path: ./data/mariadb/docs.sqlite
+          key: mariadb-docs-${{hashFiles('./bin/scrape_mariadb_docs')}}
+      - name: scrape mariadb information_schemata
+        if: steps.cache-mariadb-docs.outputs.cache-hit != 'true'
+        run: ./bin/scrape_mariadb_docs
+      - name: upload mariadb docs
+        uses: actions/upload-artifact@v2
+        with:
+          name: mariadb_docs
+          path: ./data/mariadb/docs.sqlite   
+
+  # scrape_{}_docs:
+  #   needs: [build_binaries]
+  #   runs-on: ubuntu-latest
+  #   steps:
+  #     - name: pref fs
+  #       run: mkdir -p ./bin ./data/{}
+  #     - name: pull scrape_{}_docs binary
+  #       uses: actions/download-artifact@v2
+  #       with:
+  #         name: scrape_{}_docs
+  #         path: ./bin/scrape_{}_docs
+  #     - name: cache {} doc pages
+  #       uses: actions/cache@v2
+  #       id: cache-{}-doc-pages
+  #       with:
+  #         path: ./.cache
+  #         key: {}-docs-pages
+  #     - name: cache {} docs
+  #       uses: actions/cache@v2
+  #       id: cache-{}-docs
+  #       with:
+  #         path: ./data/{}/docs.sqlite
+  #         key: {}-docs-${{hashFiles('./bin/scrape_{}_docs')}}
+  #     - name: scrape {} information_schemata
+  #       if: steps.cache-{}-docs.outputs.cache-hit != 'true'
+  #       run: ./bin/scrape_{}_docs
+  #     - name: upload {} docs
+  #       uses: actions/upload-artifact@v2
+  #       with:
+  #         name: {}_docs
+  #         path: ./data/{}/docs.sqlite   
+  
+
+  combine_outputs:
+    needs:
+      - observe_postgres
+      - observe_mariadb
+      - observe_mysql
+      - scrape_mariadb_docs
+      - scrape_postgres_docs
+      - scrape_mssql_docs
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: shellcheck
+        run: |
+          sudo apt update && sudo apt install -y shellcheck
+          make shellcheck
+    ### merge docs
+      - name: retrieve scraped postgres docs
+        uses: actions/download-artifact@v2
+        with:
+          name: postgres_docs
+          path: ./data/postgres/docs.sqlite
+      - name: retrieve scraped mssql docs
+        uses: actions/download-artifact@v2
+        with:
+          name: mssql_docs
+          path: ./data/mssql/docs.sqlite
+      - name: retrieve scraped mariadb docs
+        uses: actions/download-artifact@v2
+        with:
+          name: mariadb_docs
+          path: ./data/mariadb/docs.sqlite
+      - name: merge docs
+        run: make ./data/merged.docs.sqlite
+        # TODO: save artifact
+    ### merge observations
+      - name: retrieve postgres observations
+        uses: actions/download-artifact@v2
+        with:
+          name: postgres_observations
+          path: ./data/postgres/observations.sqlite
+      - name: retrieve mssql observations
+        uses: actions/download-artifact@v2
+        with:
+          name: mssql_observations
+          path: ./data/mssql/observations.sqlite
+      - name: retrieve mariadb observations
+        uses: actions/download-artifact@v2
+        with:
+          name: mariadb_observations
+          path: ./data/mariadb/observations.sqlite
+      - name: merge observations
+        run: make ./data/merged.observations.sqlite
+    ### merge observations + docs => columns.tsv
+      - name: merge docs+observations
+        run: make ./data/columns.sqlite
+      - run: make ./data/columns.tsv
+      - name: check in ./data/columns.tsv if it changed
+        run: |
+          
+      # check in ./data/columns.tsv if it changed
