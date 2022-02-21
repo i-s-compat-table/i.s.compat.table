@@ -109,7 +109,7 @@ const (
 	InsertVersionQ = "INSERT INTO versions(id, db_id, version, is_current) " +
 		"VALUES (?, ?, ?, ?) ON CONFLICT DO UPDATE " +
 		"SET is_current = coalesce(excluded.is_current, is_current);"
-	InsertLicenseQ = "INSERT INTO licenses(id, license, attribution, link_id) " +
+	InsertLicenseQ = "INSERT INTO licenses(id, license, attribution, url_id) " +
 		"VALUES (?, ?, ?, ?) ON CONFLICT DO NOTHING;" // ?
 	InsertColumnVersionQ = "INSERT INTO column_versions(" +
 		"id, column_id, version_id, type_id, nullable, url_id, note_id, note_license_id" +

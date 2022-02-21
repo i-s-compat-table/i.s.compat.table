@@ -42,7 +42,7 @@ CREATE TABLE licenses(
     id INTEGER PRIMARY KEY -- xxhash3_64 of the license text + attribution text
   , license TEXT NOT NULL -- ideally a SPDX expression
   , attribution TEXT NOT NULL -- should always start with a copyright symbol
-  , link_id INTEGER NULL REFERENCES urls(id) -- mutable metadata
+  , url_id INTEGER NULL REFERENCES urls(id) -- mutable metadata
 );
 
 CREATE TABLE column_versions (

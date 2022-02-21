@@ -33,6 +33,7 @@ all_shell_scripts=$(shell find . -type f -name '*.sh')
 # try to keep these in alphabetical order
 .PHONY: all \
 	clean \
+	clean-merged-dbs \
 	clean-observer-binaries  \
 	clean-observations \
 	clean-scraped-docs \
@@ -129,19 +130,19 @@ merge_scripts=./scripts/merge/dbs.sh ./scripts/merge/merge.sql
 
 # dump tsvs ------------------------------------------------------------------
 ./data/mssql/columns.tsv: $(tsv_dump_scripts) ./data/mssql/docs.sqlite
-	./scripts/dump_tsv.sh --output=./data/mssql/columns.tsv ./data/mssql/docs.sqlite
+	./scripts/dump_tsv.sh --output ./data/mssql/columns.tsv ./data/mssql/docs.sqlite
 ./data/postgres/columns.tsv: $(tsv_dump_scripts) ./data/postgres/merged.sqlite
-	./scripts/dump_tsv.sh --output=./data/postgres/columns.tsv ./data/postgres/merged.sqlite
+	./scripts/dump_tsv.sh --output ./data/postgres/columns.tsv ./data/postgres/merged.sqlite
 ./data/mysql/columns.tsv: $(tsv_dump_scripts) ./data/mysql/observed.sqlite
-	./scripts/dump_tsv.sh --output=./data/mysql/columns.tsv ./data/mysql/observed.sqlite
+	./scripts/dump_tsv.sh --output ./data/mysql/columns.tsv ./data/mysql/observed.sqlite
 ./data/mariadb/columns.tsv: $(tsv_dump_scripts) ./data/mariadb/merged.sqlite
-	./scripts/dump_tsv.sh --output=./data/mariadb/columns.tsv ./data/mariadb/merged.sqlite
+	./scripts/dump_tsv.sh --output ./data/mariadb/columns.tsv ./data/mariadb/merged.sqlite
 ./data/columns.sqlite: $(merge_scripts) ./data/merged.observations.sqlite ./data/merged.docs.sqlite
 	./scripts/merge/dbs.sh ./data/columns.sqlite ./data/merged.observations.sqlite ./data/merged.docs.sqlite
 	touch -m ./data/columns.sqlite
 
 ./data/columns.tsv: $(tsv_dump_scripts) ./data/columns.sqlite
-	./scripts/dump_tsv.sh --output=./data/columns.tsv ./data/columns.sqlite
+	./scripts/dump_tsv.sh --output ./data/columns.tsv ./data/columns.sqlite
 
 # TODO: create html/markdown tables out of columns.tsv or columns.sqlite
 
@@ -159,4 +160,6 @@ clean-scraper-binaries:
 	rm -f $(scraper_binaries)
 clean-observer-binaries:
 	rm -f $(observer_binaries)
-clean: clean-scraped-docs clean-observations clean-scraper-binaries clean-observer-binaries
+clean-merged-dbs:
+	find . -name 'merge*.sqlite' -type f | xargs rm -f ./data/columns.sqlite
+clean: clean-scraped-docs clean-observations clean-merged-dbs clean-scraper-binaries clean-observer-binaries

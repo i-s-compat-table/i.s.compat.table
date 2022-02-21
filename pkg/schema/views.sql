@@ -43,7 +43,7 @@ CREATE VIEW cols AS
         , link.id url_id
         , v.is_current
         , license.license
-        , license.link_id AS license_url_id
+        , license.url_id AS license_url_id
         , license.attribution
       FROM column_versions AS cv
       JOIN versions AS v ON v.id = cv.version_id
