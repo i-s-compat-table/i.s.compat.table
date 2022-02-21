@@ -69,6 +69,7 @@ jobs:
         with:
           name: scrape_postgres_docs
           path: ./bin/scrape_postgres_docs
+
     ### ./bin/observe_mariadb
       - name: cache observe_mariadb
         uses: actions/cache@v2
@@ -84,21 +85,6 @@ jobs:
         with:
           name: observe_mariadb
           path: ./bin/observe_mariadb
-    ### ./bin/observe_mysql
-      - name: cache observe_mysql
-        uses: actions/cache@v2
-        id: cache-observe_mysql
-        with:
-          path: ./bin/observe_mysql
-          key: "observe_mysql-${{hashFiles('pkg/schema/*', 'pkg/utils/*', 'cmd/')}}"
-      - name: build observe_mysql
-        if: steps.cache-observe_mysql.outputs.cache-hit != 'true'
-        run: make ./bin/observe_mysql 
-      - name: upload observe_mysql
-        uses: actions/upload-artifact@v2
-        with:
-          name: observe_mysql
-          path: ./bin/observe_mysql
     ### ./bin/observe_mysql
       - name: cache observe_mysql
         uses: actions/cache@v2
