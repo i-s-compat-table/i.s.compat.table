@@ -45,21 +45,28 @@ I prioritize the most popular databases that implement an `information_schema` a
 
 | database name | % of respondents use | documentation scraped | `information_schema` queried directly |
 | ------------- | -------------------: | --------------------- | ------------------------------------- |
-| `postgres`    | 44%                  | YES                   | YES                                   |
-| `mssql`       | 29%                  | YES                   | YES                                   |
-| `mariadb`     | 17%                  | YES                   | YES                                   |
-<!-- | `mysql`       | 48%            | NO                    | YES                           | -->
-<!-- | `oracle`      | 13%            | NO                    | NO                            | -->
-<!-- | `db2`         | 2%             | NO                    | YES                           | -->
+| `postgres`    |                  44% | YES                   | YES                                   |
+| `mssql`       |                  29% | YES                   | NO                                    |
+| `mariadb`     |                  17% | YES                   | YES                                   |
+| `mysql`       |                  48% | NO                    | YES                                   |
 
-  <!-- materialize: no information_schema _documented_; it should be postgres, right? -->
+ <!-- |`oracle` |                  13% | NO                    | NO                                    | -->
+ <!-- |`db2`    |                   2% | NO                    | NO                                    | -->
+
+  <!-- `cockroachdb` -->
+  <!-- `tidb` -->
+  <!-- `presto` -->
+  <!-- `materializedb`: no information_schema _documented_; it should be postgres, right? -->
   <!-- dolt? -->
   <!-- ksqldb? -->
-  <!-- Presto -->
+
   <!-- Apache Hive -->
-  <!-- IBM db2? -->
-  <!-- oracle whatever? -->
   <!-- your database here! -->
+
+  <!-- commercial databases -->
+  <!-- `snowflakedb`? -->
+  <!-- `db2`? -->
+  <!-- `oracle` via oracle cloud's free tier? -->
 
 **If note a missing database that implements `information_schema` or evidence of incorrect information, please create a pull request with a fix!**
 

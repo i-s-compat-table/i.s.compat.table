@@ -41,12 +41,12 @@ pg-docs: ./data/postgres/docs.sqlite
 
 
 # run the observer binaries
-mariadb_services=mariadb-10.2.41
-mariadb_services+=mariadb-10.3.32
-mariadb_services+=mariadb-10.4.22
-mariadb_services+=mariadb-10.5.13
-mariadb_services+=mariadb-10.6.5
-mariadb_services+=mariadb-10.7.1
+mariadb_services=mariadb-10.2.41 \
+ mariadb-10.3.32 \
+ mariadb-10.4.22 \
+ mariadb-10.5.13 \
+ mariadb-10.6.5 \
+ mariadb-10.7.1
 mariadb-observations:./data/mariadb/observed.sqlite
 ./data/mariadb/observed.sqlite:./bin/observe_mariadb
 	mkdir -p ./data/mariadb
@@ -118,6 +118,9 @@ tsv_dump_scripts= ./scripts/dump_tsv.sh ./pkg/schema/views.sql
 # TODO: use cog to write a mermaid+markdown ERD to CONTRIBUTING.md
 # TODO: create html/markdown tables out of columns.tsv or columns.sqlite
 
+.PHONY: update-docs
+update-docs:
+	poetry run cog -PUre ./CONTRIBUTING.md
 
 all_shell_scripts=$(shell find . -type f -name '*.sh')
 .PHONY: shellcheck
