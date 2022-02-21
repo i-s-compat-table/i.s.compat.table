@@ -91,13 +91,14 @@ def get_mermaid_erd() -> str:
         for col in table_from.columns:
             erd += f"\n    {col.data_type} {col.column_name}"
 
-            if col.column_name == "id":
-                erd += " PK"
-            else:
-                for fk in table_from.fks:
-                    if col.column_name == fk.column_from:
-                        erd += " FK"
-            # this is where you'd add a comment to the column:
+            ## this is where you'd add pk/fk markers:
+            # if col.column_name == "id":
+            #     erd += " PK"
+            # else:
+            #     for fk in table_from.fks:
+            #         if col.column_name == fk.column_from:
+            #             erd += " FK"
+            ## this is where you'd add a comment to the column:
             # erd += f'"{comment}"'
         erd += "\n  }"
 

@@ -1,8 +1,7 @@
 <h1 align="center">
   <abbr title="Information Schema Compatibility Table">I.S.Compat.Table</abbr>
 </h1>
-
-**I**nformation **S**chema **Compat**ibility **Table**(s)
+<p align=center><b>I</b>nformation <b>S</b>chema <b>Compat</b>ibility <b>Table</b>(s)</p>
 
 Compares the information_schema of some of [the major databases that implement][implementors] the information_schema standard:
 
@@ -69,6 +68,7 @@ I prioritize the most popular databases that implement an `information_schema` a
   <!-- `oracle` via oracle cloud's free tier? -->
 
 **If note a missing database that implements `information_schema` or evidence of incorrect information, please create a pull request with a fix!**
+See [`./CONTRIBUTING.md`](./CONTRIBUTING.md) for more details.
 
 <!-- general links -->
 

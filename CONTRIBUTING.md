@@ -2,9 +2,14 @@
 
 ## Reporting incorrect information
 
-<!-- where? issue tracker -->
+Please report any incorrect data you see at [here](https://github.com/i-s-compat-table/i.s.compat.table/issues).
 
 As with all open-source, the only way to ensure a fix gets written is to write it yourself.
+
+1. If you think there's an issue in a documentation scraper, check `./cmd/${DB}/scrape_docs/main.go`.
+2. Else, if you think there's an issue in the documentation that's being scraped, please try to submit the fixes to the documentation sites being scraped.
+3. Else, if you think there's a problem in the aggregations producing `columns.tsv`, check [`./pkg/schema/views.sql`](`./pkg/schema/views.sql`) or [`./scripts/dump_tsv.sh`](./scripts/dump_tsv.sh).
+4. Else, if the scraped data and aggregations are both correct but `columns.tsv` still looks wrong, try patching the data in `./data/${DB}/patch.sql`
 
 ## Adding a new database
 
@@ -81,18 +86,17 @@ Each sqlite database containing data on `information_schema` implementations has
   print(get_mermaid_erd())
   print("```")
 ]]] -->
-
 ```mermaid
 erDiagram
   column_versions {
-    INTEGER id PK
-    INTEGER column_id FK
-    INTEGER version_id FK
-    INTEGER type_id FK
+    INTEGER id
+    INTEGER column_id
+    INTEGER version_id
+    INTEGER type_id
     BOOLEAN nullable
-    INTEGER url_id FK
-    INTEGER note_id FK
-    INTEGER note_license_id FK
+    INTEGER url_id
+    INTEGER note_id
+    INTEGER note_license_id
   }
   column_versions }o--|| licenses : note_license_id
   column_versions }o--|| notes : note_id
@@ -101,48 +105,47 @@ erDiagram
   column_versions }|--|| versions : version_id
   column_versions }|--|| columns : column_id
   columns {
-    INTEGER id PK
-    INTEGER table_id FK
+    INTEGER id
+    INTEGER table_id
     TEXT name
   }
   columns }|--|| tables : table_id
   dbs {
-    INTEGER id PK
+    INTEGER id
     TEXT name
   }
   licenses {
-    INTEGER id PK
+    INTEGER id
     TEXT license
     TEXT attribution
-    INTEGER link_id FK
+    INTEGER link_id
   }
   licenses }o--|| urls : link_id
   notes {
-    INTEGER id PK
+    INTEGER id
     TEXT note
   }
   tables {
-    INTEGER id PK
+    INTEGER id
     TEXT name
   }
   types {
-    INTEGER id PK
+    INTEGER id
     TEXT name
   }
   urls {
-    INTEGER id PK
+    INTEGER id
     TEXT url
   }
   versions {
-    INTEGER id PK
-    INTEGER db_id FK
+    INTEGER id
+    INTEGER db_id
     TEXT version
     TEXT release_date
     BOOLEAN is_current
   }
   versions }|--|| dbs : db_id
 ```
-
 <!-- [[[end]]] -->
 
 ### When to add a documentation scraper
