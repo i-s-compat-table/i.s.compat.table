@@ -33,7 +33,7 @@ jobs:
           key: "scrape_mariadb_docs-${{hashFiles('pkg/schema/*', 'pkg/utils/*', 'cmd/mariadb/scrape_docs/*')}}"
       - name: build ./bin/scrape_mariadb_docs
         if: steps.cache-scrape_mariadb_docs.outputs.cache-hit != 'true'
-        run: make scrape_mariadb_docs
+        run: make ./bin/scrape_mariadb_docs
       - name: upload scrape_mariadb_docs
         uses: actions/upload-artifact@v2
         with:
@@ -227,6 +227,7 @@ jobs:
           path: ./data/mysql/observations.sqlite
 
   observe_postgres:
+    needs: [build_binaries]
     services:
       postgres-10:
         image: docker.io/library/postgres:10-alpine
