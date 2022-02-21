@@ -76,10 +76,11 @@ mssql-docs: ./data/mssql/docs.sqlite
 	./bin/scrape_mssql_docs
 
 pg-docs: ./data/postgres/docs.sqlite
-./data/postgres/docs.sqlite: ./bin/scrape_postgres_docs
+./data/postgres/docs.sqlite: ./bin/scrape_postgres_docs ./data/postgres/patch.sql
 	mkdir -p ./data/postgres
 	rm -f ./data/postgres/docs.sqlite
 	./bin/scrape_postgres_docs
+	sqlite3 ./data/postgres/docs.sqlite <./data/postgres/patch.sql
 
 # run the observer binaries --------------------------------------------------
 mariadb-observations:./data/mariadb/observed.sqlite
