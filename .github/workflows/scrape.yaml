@@ -508,11 +508,11 @@ jobs:
         with:
           name: postgres_observations
           path: ./data/postgres
-      - name: retrieve mssql observations
+      - name: retrieve mysql observations
         uses: actions/download-artifact@v2
         with:
-          name: mssql_observations
-          path: ./data/mssql
+          name: mysql_observations
+          path: ./data/mysql
       - name: retrieve mariadb observations
         uses: actions/download-artifact@v2
         with:
