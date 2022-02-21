@@ -187,6 +187,7 @@ jobs:
         with:
           path: ./data/mariadb/observed.sqlite
           key: mariadb-observations-${{hashFiles('./bin/observe_mariadb')}}
+      - run: sleep 30
       - name: observe mariadb information_schemata
         if: steps.cache-mariadb-observations.outputs.cache-hit != 'true'
         run: ./bin/observe_mariadb
