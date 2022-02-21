@@ -519,7 +519,7 @@ jobs:
           name: mariadb_observations
           path: ./data/mariadb
       - name: merge observations
-        run: ./scripts/merge/dbs.sh ./data/merged.docs.sqlite ./data/mariadb/observed.sqlite ./data/mysql/observed.sqlite ./data/postgres/observed.sqlite
+        run: ./scripts/merge/dbs.sh ./data/merged.observations.sqlite ./data/mariadb/observed.sqlite ./data/mysql/observed.sqlite ./data/postgres/observed.sqlite
     ### merge observations + docs => columns.tsv
       - name: merge docs+observations
         run: 	./scripts/merge/dbs.sh ./data/columns.sqlite ./data/merged.observations.sqlite ./data/merged.docs.sqlite
