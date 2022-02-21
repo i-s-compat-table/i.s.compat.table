@@ -173,7 +173,7 @@ jobs:
         uses: actions/download-artifact@v2
         with:
           name: observe_mariadb
-          path: ./bin/observe_mariadb
+          path: ./bin
       - name: cache mariadb observations
         uses: actions/cache@v2
         id: cache-mariadb-observations
@@ -210,7 +210,7 @@ jobs:
         uses: actions/download-artifact@v2
         with:
           name: observe_mysql
-          path: ./bin/observe_mysql
+          path: ./bin
       - name: cache mysql observations
         uses: actions/cache@v2
         id: cache-mysql-observations
@@ -267,7 +267,7 @@ jobs:
         uses: actions/download-artifact@v2
         with:
           name: observe_postgres
-          path: ./bin/observe_postgres
+          path: ./bin
       - name: cache postgres observations
         uses: actions/cache@v2
         id: cache-postgres-observations
@@ -294,7 +294,7 @@ jobs:
   #       uses: actions/download-artifact@v2
   #       with:
   #         name: observe_{}
-  #         path: ./bin/observe_{}
+  #         path: ./bin
   #     - name: cache {} observations
   #       uses: actions/cache@v2
   #       id: cache-{}-observations
@@ -320,7 +320,7 @@ jobs:
         uses: actions/download-artifact@v2
         with:
           name: scrape_postgres_docs
-          path: ./bin/scrape_postgres_docs
+          path: ./bin
       - name: cache postgres doc pages
         uses: actions/cache@v2
         id: cache-postgres-doc-pages
@@ -352,7 +352,7 @@ jobs:
         uses: actions/download-artifact@v2
         with:
           name: scrape_mssql_docs
-          path: ./bin/scrape_mssql_docs
+          path: ./bin
       - name: cache mssql doc pages
         uses: actions/cache@v2
         id: cache-mssql-doc-pages
@@ -384,7 +384,7 @@ jobs:
         uses: actions/download-artifact@v2
         with:
           name: scrape_mariadb_docs
-          path: ./bin/scrape_mariadb_docs
+          path: ./bin
       - name: cache mariadb doc pages
         uses: actions/cache@v2
         id: cache-mariadb-doc-pages
@@ -416,7 +416,7 @@ jobs:
   #       uses: actions/download-artifact@v2
   #       with:
   #         name: scrape_{}_docs
-  #         path: ./bin/scrape_{}_docs
+  #         path: ./bin
   #     - name: cache {} doc pages
   #       uses: actions/cache@v2
   #       id: cache-{}-doc-pages
@@ -459,17 +459,17 @@ jobs:
         uses: actions/download-artifact@v2
         with:
           name: postgres_docs
-          path: ./data/postgres/docs.sqlite
+          path: ./data/postgres
       - name: retrieve scraped mssql docs
         uses: actions/download-artifact@v2
         with:
           name: mssql_docs
-          path: ./data/mssql/docs.sqlite
+          path: ./data/mssql
       - name: retrieve scraped mariadb docs
         uses: actions/download-artifact@v2
         with:
           name: mariadb_docs
-          path: ./data/mariadb/docs.sqlite
+          path: ./data/mariadb
       - name: merge docs
         run: make ./data/merged.docs.sqlite
         # TODO: save artifact
@@ -478,7 +478,7 @@ jobs:
         uses: actions/download-artifact@v2
         with:
           name: postgres_observations
-          path: ./data/postgres/observations.sqlite
+          path: ./data/postgres
       - name: retrieve mssql observations
         uses: actions/download-artifact@v2
         with:
@@ -488,7 +488,7 @@ jobs:
         uses: actions/download-artifact@v2
         with:
           name: mariadb_observations
-          path: ./data/mariadb/observations.sqlite
+          path: ./data/mariadb
       - name: merge observations
         run: make ./data/merged.observations.sqlite
     ### merge observations + docs => columns.tsv
