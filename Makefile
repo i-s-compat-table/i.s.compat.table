@@ -1,12 +1,15 @@
 # variables ###################################################################
 # try to keep each list in alphabetical order
 _common_backend=pkg/schema/db.go pkg/schema/db.sql
-observer_binaries=./bin/observe_mariadb \
+observer_binaries=\
+	./bin/observe_mariadb \
 	./bin/observe_mssql \
 	./bin/observe_mysql \
 	./bin/observe_postgres
 
-scraper_binaries=./bin/scrape_mariadb_docs \
+scraper_binaries=\
+	./bin/scrape_cockroachdb_docs \
+	./bin/scrape_mariadb_docs \
 	./bin/scrape_mssql_docs \
 	./bin/scrape_postgres_docs
 
@@ -46,6 +49,8 @@ all_shell_scripts=$(shell find . -type f -name '*.sh')
 all: ./data/columns.tsv ./data/mariadb/columns.tsv ./data/mssql/columns.tsv ./data/mysql/columns.tsv ./data/postgres/columns.tsv
 
 # build the scraper binaries -------------------------------------------------
+./bin/scrape_cockroachdb_docs: ./cmd/cockroachdb/scrape_docs/main.go $(_common_backend)
+	go build -o ./bin/scrape_cockroachdb_docs ./cmd/cockroachdb/scrape_docs/main.go
 ./bin/scrape_mariadb_docs: ./cmd/mariadb/scrape_docs/main.go $(_common_backend)
 	go build -o ./bin/scrape_mariadb_docs ./cmd/mariadb/scrape_docs/main.go
 ./bin/scrape_mssql_docs: ./cmd/mssql/scrape_docs/main.go $(_common_backend)
@@ -64,6 +69,12 @@ _observer_common=pkg/observer/observer.go pkg/observer/columns.sql
 
 
 # run the scaper binaries ----------------------------------------------------
+cockroachdb-docs: ./data/cockroachdb/docs.sqlite
+./data/cockroachdb/docs.sqlite: ./bin/scrape_cockroachdb_docs
+	mkdir -p ./data/cockroachdb
+	rm -f ./data/cockroachdb/docs.sqlite
+	./bin/scrape_cockroachdb_docs
+
 mariadb-docs: ./data/mariadb/docs.sqlite
 ./data/mariadb/docs.sqlite: ./bin/scrape_mariadb_docs
 	mkdir -p ./data/mariadb
@@ -129,14 +140,16 @@ merge_scripts=./scripts/merge/dbs.sh ./scripts/merge/merge.sql
 	./scripts/merge/dbs.sh ./data/postgres/merged.sqlite ./data/postgres/observed.sqlite ./data/postgres/docs.sqlite
 
 # dump tsvs ------------------------------------------------------------------
-./data/mssql/columns.tsv: $(tsv_dump_scripts) ./data/mssql/docs.sqlite
-	./scripts/dump_tsv.sh --output ./data/mssql/columns.tsv ./data/mssql/docs.sqlite
-./data/postgres/columns.tsv: $(tsv_dump_scripts) ./data/postgres/merged.sqlite
-	./scripts/dump_tsv.sh --output ./data/postgres/columns.tsv ./data/postgres/merged.sqlite
-./data/mysql/columns.tsv: $(tsv_dump_scripts) ./data/mysql/observed.sqlite
-	./scripts/dump_tsv.sh --output ./data/mysql/columns.tsv ./data/mysql/observed.sqlite
+./data/cockroachdb/columns.tsv: $(tsv_dump_scripts) ./data/cockroachdb/docs.sqlite
+	./scripts/dump_tsv.sh --output ./data/cockroachdb/columns.tsv ./data/cockroachdb/docs.sqlite
 ./data/mariadb/columns.tsv: $(tsv_dump_scripts) ./data/mariadb/merged.sqlite
 	./scripts/dump_tsv.sh --output ./data/mariadb/columns.tsv ./data/mariadb/merged.sqlite
+./data/mssql/columns.tsv: $(tsv_dump_scripts) ./data/mssql/docs.sqlite
+	./scripts/dump_tsv.sh --output ./data/mssql/columns.tsv ./data/mssql/docs.sqlite
+./data/mysql/columns.tsv: $(tsv_dump_scripts) ./data/mysql/observed.sqlite
+	./scripts/dump_tsv.sh --output ./data/mysql/columns.tsv ./data/mysql/observed.sqlite
+./data/postgres/columns.tsv: $(tsv_dump_scripts) ./data/postgres/merged.sqlite
+	./scripts/dump_tsv.sh --output ./data/postgres/columns.tsv ./data/postgres/merged.sqlite
 ./data/columns.sqlite: $(merge_scripts) ./data/merged.observations.sqlite ./data/merged.docs.sqlite
 	./scripts/merge/dbs.sh ./data/columns.sqlite ./data/merged.observations.sqlite ./data/merged.docs.sqlite
 	touch -m ./data/columns.sqlite

@@ -4,17 +4,12 @@ import (
 	"sort"
 	"sync"
 
-	// "log"
-
-	// "net/url"
-	// "os"
 	"regexp"
 	"strings"
 
 	"github.com/Masterminds/semver/v3"
 	"github.com/PuerkitoBio/goquery"
 
-	// _ "github.com/cheggaaa/pb/v3"
 	"github.com/gocolly/colly/v2"
 	"github.com/gocolly/colly/v2/debug"
 	log "github.com/sirupsen/logrus"

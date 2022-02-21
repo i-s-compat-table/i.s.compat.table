@@ -49,11 +49,11 @@ I prioritize the most popular databases that implement an `information_schema` a
 | `postgres`    |         44%          |          YES          |                  YES                  |
 | `mssql`       |         29%          |          YES          |                  NO                   |
 | `mariadb`     |         17%          |          YES          |                  YES                  |
+| `cockroachdb` |                      |          YES          |                  YES                  |
 
  <!-- |`oracle` |                  13% | NO                    | NO                                    | -->
  <!-- |`db2`    |                   2% | NO                    | NO                                    | -->
 
-  <!-- `cockroachdb` -->
   <!-- `tidb` -->
   <!-- `presto` -->
   <!-- `materializedb`: no information_schema _documented_; it should be postgres, right? -->

@@ -32,6 +32,7 @@ require (
 	github.com/rivo/uniseg v0.2.0 // indirect
 	github.com/saintfish/chardet v0.0.0-20120816061221-3af4cd4741ca // indirect
 	github.com/temoto/robotstxt v1.1.1 // indirect
+	github.com/yuin/goldmark v1.4.7
 	golang.org/x/sys v0.0.0-20210403161142-5e06dd20ab57 // indirect
 	golang.org/x/text v0.3.2 // indirect
 	google.golang.org/appengine v1.6.6 // indirect
