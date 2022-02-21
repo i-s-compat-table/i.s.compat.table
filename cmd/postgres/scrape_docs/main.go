@@ -101,6 +101,9 @@ func scrape13Plus(page *colly.HTMLElement, tableName string, version string) []c
 	table := &commonSchema.Table{Name: tableName}
 	rows := page.DOM.Find("table.table, table.CALSTABLE").First().Find("table tbody tr")
 	url := &commonSchema.Url{Url: page.Request.URL.String()}
+	if isCurrent {
+		url.Url = strings.Replace(url.Url, version, "current", 1)
+	}
 	if rows.Length() == 0 {
 		log.Warnf("no rows: %s\n", url)
 	}

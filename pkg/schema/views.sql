@@ -61,7 +61,7 @@ CREATE VIEW cols AS
   GROUP BY col.column_id, col.note, col.column_type
   ORDER BY table_name, column_name, db_name, 7; -- 7 = versions
 
-CREATE VIEW column_support AS
+CREATE VIEW IF NOT EXISTS column_support AS
   SELECT
       table_name
     , column_name
@@ -98,7 +98,7 @@ CREATE VIEW column_support AS
   GROUP BY table_name, column_name
   ORDER BY table_name, column_name;
   
-CREATE VIEW relation_support AS
+CREATE VIEW IF NOT EXISTS relation_support AS
   SELECT
       table_name
     , group_concat(distinct db_name)
