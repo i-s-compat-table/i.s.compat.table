@@ -45,7 +45,10 @@ func main() {
 			defer waitForObservations.Done()
 			dbVersion := &commonSchema.Version{Db: dbRecord, Version: version}
 			dsn := fmt.Sprintf(dsnTemplate, portNumber)
-			db := observer.WaitFor(driver, dsn, 15)
+			db, err := observer.WaitFor(driver, dsn, 15)
+			if err != nil {
+				panic(err)
+			}
 			log.Infof("connected to postgres %s on port %d", version, portNumber)
 			colChan <- observer.Observe(db, dbVersion, &query)
 		}(version, port)

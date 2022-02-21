@@ -59,20 +59,19 @@ func Observe(db *sql.DB, dbVersion *commonSchema.Version, query *string) []commo
 	return cols
 }
 
-func WaitFor(driverName, dsn string, retries int) (db *sql.DB) {
+func WaitFor(driverName, dsn string, retries int) (db *sql.DB, finalErr error) {
 	log.SetLevel(log.DebugLevel)
 	ticker := time.NewTicker(time.Second)
-	var finalErr error
 	for i := 0; i <= retries; i++ {
 		<-ticker.C // wait for a tick
 
 		if db, err := sql.Open(driverName, dsn); err == nil {
 			if err := db.Ping(); err == nil {
 				log.Infof("connected to %s", dsn)
-				return db
+				return db, nil
 			} else {
 				finalErr = err
-				log.Debugf("%s >> %+v", dsn, err)
+				fmt.Printf(".")
 			}
 		} else {
 			finalErr = err
@@ -80,6 +79,5 @@ func WaitFor(driverName, dsn string, retries int) (db *sql.DB) {
 			fmt.Printf("_")
 		}
 	}
-	log.Panicf("unable to connect to %s : %v", dsn, finalErr)
-	return nil
+	return nil, finalErr
 }

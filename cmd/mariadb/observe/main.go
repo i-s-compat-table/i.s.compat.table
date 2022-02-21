@@ -4,6 +4,8 @@ import (
 	"fmt"
 	"sync"
 
+	log "github.com/sirupsen/logrus"
+
 	"github.com/go-sql-driver/mysql"
 	"github.com/i-s-compat-table/i.s.compat.table/pkg/observer"
 	commonSchema "github.com/i-s-compat-table/i.s.compat.table/pkg/schema"
@@ -47,7 +49,13 @@ func main() {
 			defer waitForObservations.Done()
 			dbVersion := &commonSchema.Version{Db: dbRecord, Version: version}
 			dsn := fmt.Sprintf(dsnTemplate, portNumber)
-			db := observer.WaitFor(driver, dsn, 60)
+			db, err := observer.WaitFor(driver, dsn, 60)
+			if err != nil {
+				for _, message := range logger.logs {
+					log.Debug(message)
+				}
+				log.Panicf("failed to connect to %s: %v", dsn, err)
+			}
 			colChan <- observer.Observe(db, dbVersion, nil)
 		}(version, port)
 	}
