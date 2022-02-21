@@ -1,0 +1,12 @@
+{
+  "recommendations": [
+    "golang.go",
+    "ms-python.python",
+    "mads-hartmann.bash-ide-vscode",
+    "streetsidesoftware.code-spell-checker",
+    "timonwong.shellcheck",
+    "mechatroner.rainbow-csv",
+    "bierner.markdown-mermaid",
+    "qwtel.sqlite-viewer"
+  ]
+}

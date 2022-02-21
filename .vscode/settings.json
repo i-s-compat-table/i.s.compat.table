@@ -1,15 +1,18 @@
 {
-    "editor.trimAutoWhitespace": false,
-    "files.trimTrailingWhitespace": false,
-    "cSpell.words": [
-        "Debugf",
-        "gocolly",
-        "goquery",
-        "Infof",
-        "mssql",
-        "Warnf"
-    ],
-    "shellcheck.customArgs": [
-        "-x"
-    ]
+  "editor.trimAutoWhitespace": false,
+  "files.trimTrailingWhitespace": false,
+  "cSpell.words": [
+    "cockroachdb",
+    "Debugf",
+    "gocolly",
+    "goquery",
+    "Infof",
+    "materializedb",
+    "mssql",
+    "snowflakedb",
+    "tidb",
+    "Warnf"
+  ],
+  "shellcheck.customArgs": ["-x"],
+  "python.formatting.provider": "black"
 }
