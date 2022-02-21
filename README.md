@@ -3,24 +3,25 @@
 </h1>
 <p align=center><b>I</b>nformation <b>S</b>chema <b>Compat</b>ibility <b>Table</b>(s)</p>
 
-Compares the information_schema of some of [the major databases that implement][implementors] the information_schema standard:
+Compares the information_schema of some of [the major databases that implement][implementors] the information_schema standard.
 
 ## About `information_schema`
 
-`information_schema` **is an ANSI-standard** set of read-only views that provide information about all of the **tables, views, columns**, and **procedures** in a database.
+`information_schema` is an ANSI-standard set of read-only views that provide information about all of the tables, views, columns, and procedures in a database.
 Specifically, the specification for the information_schema views are published in [ISO/IEC 9075][iso-9075]. [This standard has several versions][version history].
 
-This implies several crucial points:
+These facts implies several crucial points:
 
 1. The information_schema views are an amazing, standard way to discover metadata about a given database!
 1. Different versions of the same database and different databases might implement different versions of the standard for information_schema
 1. Since the standard is published by <abbr title="the International Standards Organization">ISO</abbr> reading it costs a nontrivial amount of money.
    Thus, volunteer developers _might_ choose to do something nice for themselves rather than shelling out so that they can implement the latest standards.
 
-Naturally: most databases implement different views in `information_schema`.
+Naturally, most databases that implement `information_schema` a subset of the standard's views, add extra database-specific views, and stuff otherwise-standard views with database-specific columns.
+This makes `information_schema` a highly-nonstandard standard. Thinking of `information_schema` as a convention might be more accurate.
 
 <hr/>
-<p align=center> <span style="font-family: monospace" title="flipping table"> (╯°□°）╯︵ ┻━┻</span></p>
+<p align=center> <span style="font-family: monospace" title="flipping a table (pun intended)"> (╯°□°）╯︵ ┻━┻</span></p>
 <hr/>
 
 ## Motivation
@@ -43,11 +44,11 @@ I also run databases without restrictive EULAs and observe those databases' `inf
 I prioritize the most popular databases that implement an `information_schema` according to [2021 Stack Overflow Developer Survey](https://insights.stackoverflow.com/survey/2021#section-most-popular-technologies-databases)
 
 | database name | % of respondents use | documentation scraped | `information_schema` queried directly |
-| ------------- | -------------------: | --------------------- | ------------------------------------- |
-| `postgres`    |                  44% | YES                   | YES                                   |
-| `mssql`       |                  29% | YES                   | NO                                    |
-| `mariadb`     |                  17% | YES                   | YES                                   |
-| `mysql`       |                  48% | NO                    | YES                                   |
+| ------------- | :------------------: | :-------------------: | :-----------------------------------: |
+| `mysql`       |         48%          |          NO           |                  YES                  |
+| `postgres`    |         44%          |          YES          |                  YES                  |
+| `mssql`       |         29%          |          YES          |                  NO                   |
+| `mariadb`     |         17%          |          YES          |                  YES                  |
 
  <!-- |`oracle` |                  13% | NO                    | NO                                    | -->
  <!-- |`db2`    |                   2% | NO                    | NO                                    | -->
