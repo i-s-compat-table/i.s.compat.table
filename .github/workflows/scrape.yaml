@@ -174,6 +174,7 @@ jobs:
         with:
           name: observe_mariadb
           path: ./bin
+      - run: chmod +x ./bin/*
       - name: cache mariadb observations
         uses: actions/cache@v2
         id: cache-mariadb-observations
@@ -211,6 +212,7 @@ jobs:
         with:
           name: observe_mysql
           path: ./bin
+      - run: chmod +x ./bin/*
       - name: cache mysql observations
         uses: actions/cache@v2
         id: cache-mysql-observations
@@ -268,6 +270,7 @@ jobs:
         with:
           name: observe_postgres
           path: ./bin
+      - run: chmod +x ./bin/*
       - name: cache postgres observations
         uses: actions/cache@v2
         id: cache-postgres-observations
@@ -295,6 +298,7 @@ jobs:
   #       with:
   #         name: observe_{}
   #         path: ./bin
+  #     - run: chmod +x ./bin/*
   #     - name: cache {} observations
   #       uses: actions/cache@v2
   #       id: cache-{}-observations
@@ -321,6 +325,7 @@ jobs:
         with:
           name: scrape_postgres_docs
           path: ./bin
+      - run: chmod +x ./bin/*
       - name: cache postgres doc pages
         uses: actions/cache@v2
         id: cache-postgres-doc-pages
@@ -353,6 +358,7 @@ jobs:
         with:
           name: scrape_mssql_docs
           path: ./bin
+      - run: chmod +x ./bin/*
       - name: cache mssql doc pages
         uses: actions/cache@v2
         id: cache-mssql-doc-pages
@@ -385,6 +391,7 @@ jobs:
         with:
           name: scrape_mariadb_docs
           path: ./bin
+      - run: chmod +x ./bin/*
       - name: cache mariadb doc pages
         uses: actions/cache@v2
         id: cache-mariadb-doc-pages
@@ -417,6 +424,7 @@ jobs:
   #       with:
   #         name: scrape_{}_docs
   #         path: ./bin
+  #     - run: chmod +x ./bin/*
   #     - name: cache {} doc pages
   #       uses: actions/cache@v2
   #       id: cache-{}-doc-pages
