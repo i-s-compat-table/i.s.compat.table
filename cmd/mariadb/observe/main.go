@@ -49,7 +49,7 @@ func main() {
 			defer waitForObservations.Done()
 			dbVersion := &commonSchema.Version{Db: dbRecord, Version: version}
 			dsn := fmt.Sprintf(dsnTemplate, portNumber)
-			db, err := observer.WaitFor(driver, dsn, 60)
+			db, err := observer.WaitFor(driver, dsn, 30)
 			if err != nil {
 				for _, message := range logger.logs {
 					log.Debug(message)
