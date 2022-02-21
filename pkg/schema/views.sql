@@ -6,6 +6,13 @@ CREATE VIEW cols AS
     , column_name
     , group_concat(distinct column_type) AS column_type
     , (
+        CASE group_concat(distinct nullable)
+          WHEN '1' THEN 'true'
+          WHEN '0' THEN 'false'
+          ELSE group_concat(distinct nullable)
+        END
+      ) AS nullable
+    , (
         SELECT urls.url
         FROM urls
         WHERE urls.id = url_id
@@ -51,5 +58,5 @@ CREATE VIEW cols AS
       LEFT OUTER JOIN licenses AS license ON cv.note_license_id = license.id
       ORDER BY 2, 4, 5, cast(v.version AS REAL) DESC, v.version
     ) AS col
-  GROUP BY col.column_id, col.note
+  GROUP BY col.column_id, col.note, col.column_type
   ORDER BY table_name, column_name, db_name, 7; -- 7 = versions
