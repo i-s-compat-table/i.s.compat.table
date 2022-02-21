@@ -42,27 +42,27 @@ services:
     ports: [3307:3306]
   mariadb-10.2.41: # latest 10.2; see https://hub.docker.com/_/mariadb?tab=tags&page=1&name=10.2.&ordering=name
     <<: *mysql
-    image: docker.io/library/mariadb:10.2
+    image: docker.io/library/mariadb:10.2.41
     ports: [3308:3306]
   mariadb-10.3.32: # latest 10.3; see https://hub.docker.com/_/mariadb?tab=tags&page=1&name=10.3.&ordering=name
     <<: *mysql
-    image: docker.io/library/mariadb:10.3
+    image: docker.io/library/mariadb:10.3.32
     ports: [3309:3306]
   mariadb-10.4.22: # latest 10.4; see https://hub.docker.com/_/mariadb?tab=tags&page=1&name=10.4.&ordering=name
     <<: *mysql
-    image: docker.io/library/mariadb:10.4
+    image: docker.io/library/mariadb:10.4.22
     ports: [3310:3306]
   mariadb-10.5.13: # latest 10.5; see https://hub.docker.com/_/mariadb?tab=tags&page=1&name=10.5.&ordering=name
     <<: *mysql
-    image: docker.io/library/mariadb:10.5
+    image: docker.io/library/mariadb:10.5.13
     ports: [3311:3306]
   mariadb-10.6.5: # latest 10.6; see https://hub.docker.com/_/mariadb?tab=tags&page=1&name=10.6.&ordering=name
     <<: *mysql
-    image: docker.io/library/mariadb:10.6
+    image: docker.io/library/mariadb:10.6.5
     ports: [3312:3306]
   mariadb-10.7.1: # latest 10.7; see https://hub.docker.com/_/mariadb?tab=tags&page=1&name=10.7.&ordering=name
     <<: *mysql
-    image: docker.io/library/mariadb:10.7
+    image: docker.io/library/mariadb:10.7.1
     ports: [3313:3306]
   # see https://hub.docker.com/r/cockroachdb/cockroach/tags
   cockroachdb-19.2: &cockroach
@@ -89,6 +89,3 @@ services:
     image: docker.io/cockroachdb/cockroach:latest-v21.2
     ports: [26261:26257]
 
-  # TODO: mariadb
-  # TODO: db2
-  # TODO:
