@@ -522,8 +522,8 @@ jobs:
         run: ./scripts/merge/dbs.sh ./data/merged.docs.sqlite ./data/mariadb/observed.sqlite ./data/mysql/observed.sqlite ./data/postgres/observed.sqlite
     ### merge observations + docs => columns.tsv
       - name: merge docs+observations
-        run: make ./data/columns.sqlite
-      - run: make ./data/columns.tsv
+        run: 	./scripts/merge/dbs.sh ./data/columns.sqlite ./data/merged.observations.sqlite ./data/merged.docs.sqlite
+      - run: 	./scripts/dump_tsv.sh --output=./data/columns.tsv ./data/columns.sqlite
       - name: check in ./data/columns.tsv if it changed
         run: |
           git config user.name "Automated"
