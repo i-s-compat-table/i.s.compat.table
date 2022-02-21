@@ -32,7 +32,7 @@ services:
     ports: [3306:3306]
     environment: [MYSQL_ROOT_PASSWORD=password]
     healthcheck:
-      test: mysql -u root -p ${MYSQL_ROOT_PASSWORD} --silent --execute 'select 1;'
+      test: mysqladmin -u root -p password ping
       interval: 1s
       timeout: 10s
       retries: 60
