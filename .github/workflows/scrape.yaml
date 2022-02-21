@@ -500,7 +500,7 @@ jobs:
           name: mariadb_docs
           path: ./data/mariadb
       - name: merge docs
-        run: make ./data/merged.docs.sqlite
+        run: ./scripts/merge/dbs.sh ./data/merged.docs.sqlite ./data/postgres/docs.sqlite ./data/mssql/docs.sqlite ./data/mariadb/docs.sqlite
         # TODO: save artifact
     ### merge observations
       - name: retrieve postgres observations
@@ -519,7 +519,7 @@ jobs:
           name: mariadb_observations
           path: ./data/mariadb
       - name: merge observations
-        run: make ./data/merged.observations.sqlite
+        run: ./scripts/merge/dbs.sh ./data/merged.docs.sqlite ./data/mariadb/observed.sqlite ./data/mysql/observed.sqlite ./data/postgres/observed.sqlite
     ### merge observations + docs => columns.tsv
       - name: merge docs+observations
         run: make ./data/columns.sqlite
