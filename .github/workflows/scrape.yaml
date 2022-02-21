@@ -140,37 +140,31 @@ jobs:
         image: docker.io/library/mariadb:10.2.41
         ports: 
           - 3308:3036
-        options: --health-cmd="mysqladmin -u root -p password ping" --health-interval=10s --health-timeout=5s --health-retries=3
       mariadb-10.3.32:
         env: {MYSQL_ROOT_PASSWORD: password}
         image: docker.io/library/mariadb:10.3.32
         ports: 
           - 3309:3036
-        options: --health-cmd="mysqladmin -u root -p password ping" --health-interval=10s --health-timeout=5s --health-retries=3
       mariadb-10.4.22:
         env: {MYSQL_ROOT_PASSWORD: password}
         image: docker.io/library/mariadb:10.4.22
         ports: 
           - 3310:3036
-        options: --health-cmd="mysqladmin -u root -p password ping" --health-interval=10s --health-timeout=5s --health-retries=3
       mariadb-10.5.13:
         env: {MYSQL_ROOT_PASSWORD: password}
         image: docker.io/library/mariadb:10.5.13
         ports: 
           - 3311:3036
-        options: --health-cmd="mysqladmin -u root -p password ping" --health-interval=10s --health-timeout=5s --health-retries=3
       mariadb-10.6.5:
         env: {MYSQL_ROOT_PASSWORD: password}
         image: docker.io/library/mariadb:10.6.5
         ports: 
           - 3312:3036
-        options: --health-cmd="mysqladmin -u root -p password ping" --health-interval=10s --health-timeout=5s --health-retries=3
       mariadb-10.7.1:
         env: {MYSQL_ROOT_PASSWORD: password}
         image: docker.io/library/mariadb:10.7.1
         ports: 
           - 3313:3306
-        options: --health-cmd="mysqladmin -u root -p password ping" --health-interval=10s --health-timeout=5s --health-retries=3
     runs-on: ubuntu-latest
     steps:
       - name: prep fs
@@ -207,13 +201,11 @@ jobs:
         ports: 
           - 3306:3306
         env: {MYSQL_ROOT_PASSWORD: password}
-        options: --health-cmd="mysqladmin -u root -p password ping" --health-interval=10s --health-timeout=5s --health-retries=3
       mysql-8.0:
         image: docker.io/library/mysql:8.0
         ports:
           - 3307:3306
         env: {MYSQL_ROOT_PASSWORD: password}
-        options: --health-cmd="mysqladmin -u root -p password ping" --health-interval=10s --health-timeout=5s --health-retries=3
     runs-on: ubuntu-latest
     steps:
       - name: prep fs
