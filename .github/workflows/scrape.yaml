@@ -179,7 +179,7 @@ jobs:
         uses: actions/cache@v2
         id: cache-mariadb-observations
         with:
-          path: ./data/mariadb/observations.sqlite
+          path: ./data/mariadb/observed.sqlite
           key: mariadb-observations-${{hashFiles('./bin/observe_mariadb')}}
       - name: observe mariadb information_schemata
         if: steps.cache-mariadb-observations.outputs.cache-hit != 'true'
@@ -188,7 +188,7 @@ jobs:
         uses: actions/upload-artifact@v2
         with:
           name: mariadb_observations
-          path: ./data/mariadb/observations.sqlite
+          path: ./data/mariadb/observed.sqlite
   
   observe_mysql:
     needs: [build_binaries]
@@ -217,7 +217,7 @@ jobs:
         uses: actions/cache@v2
         id: cache-mysql-observations
         with:
-          path: ./data/mysql/observations.sqlite
+          path: ./data/mysql/observed.sqlite
           key: mysql-observations-${{hashFiles('./bin/observe_mysql')}}
       - name: observe mysql information_schemata
         if: steps.cache-mysql-observations.outputs.cache-hit != 'true'
@@ -226,7 +226,7 @@ jobs:
         uses: actions/upload-artifact@v2
         with:
           name: mysql_observations
-          path: ./data/mysql/observations.sqlite
+          path: ./data/mysql/observed.sqlite
 
   observe_postgres:
     needs: [build_binaries]
@@ -275,7 +275,7 @@ jobs:
         uses: actions/cache@v2
         id: cache-postgres-observations
         with:
-          path: ./data/postgres/observations.sqlite
+          path: ./data/postgres/observed.sqlite
           key: postgres-observations-${{hashFiles('./bin/observe_postgres')}}
       - name: observe postgres information_schemata
         if: steps.cache-postgres-observations.outputs.cache-hit != 'true'
@@ -284,7 +284,7 @@ jobs:
         uses: actions/upload-artifact@v2
         with:
           name: postgres_observations
-          path: ./data/postgres/observations.sqlite
+          path: ./data/postgres/observed.sqlite
 
   # observe_{}:
   #   needs: [build_binaries]
@@ -303,7 +303,7 @@ jobs:
   #       uses: actions/cache@v2
   #       id: cache-{}-observations
   #       with:
-  #         path: ./data/{}/observations.sqlite
+  #         path: ./data/{}/observed.sqlite
   #         key: {}-observations-${{hashFiles('./bin/observe_{}')}}
   #     - name: observe {} information_schemata
   #       if: steps.cache-{}-observations.outputs.cache-hit != 'true'
@@ -312,7 +312,7 @@ jobs:
   #       uses: actions/upload-artifact@v2
   #       with:
   #         name: {}_observations
-  #         path: ./data/{}/observations.sqlite   
+  #         path: ./data/{}/observed.sqlite   
 
   scrape_postgres_docs:
     needs: [build_binaries]
@@ -491,7 +491,7 @@ jobs:
         uses: actions/download-artifact@v2
         with:
           name: mssql_observations
-          path: ./data/mssql/observations.sqlite
+          path: ./data/mssql
       - name: retrieve mariadb observations
         uses: actions/download-artifact@v2
         with:
