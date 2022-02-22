@@ -526,8 +526,9 @@ jobs:
       - run: 	./scripts/dump_tsv.sh --output=./data/columns.tsv ./data/columns.sqlite
       - name: check in ./data/columns.tsv if it changed
         run: |
-          git config user.name "Automated"
-          git config user.email "actions@users.noreply.github.com"
-          git add ./data/columns.tsv || exit 0
-          git commit -m "chore: update $(date '+%Y-%m-%dT%H:%M:%S%z')"
-          git push
+          git --no-pager diff || exit 0 # something's up with the output here
+          # git config user.name "Automated"
+          # git config user.email "actions@users.noreply.github.com"
+          # git add ./data/columns.tsv || exit 0
+          # git commit -m "chore: update $(date '+%Y-%m-%dT%H:%M:%S%z')"
+          # git push

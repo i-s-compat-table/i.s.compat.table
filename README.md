@@ -26,7 +26,7 @@ This makes `information_schema` a highly-nonstandard standard. Thinking of `info
 
 ## Motivation
 
-I'd like to use `information_schema` more
+I'd like to use `information_schema` more. Before I do that, however, I'd like to know what views and columns are in the standard or better yet, what views and columns are actually in each database's `information_schema`.
 
 ## Inspirations
 
