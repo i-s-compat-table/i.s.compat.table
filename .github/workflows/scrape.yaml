@@ -9,9 +9,9 @@ jobs:
   build_binaries:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
       - name: cache golang artifacts
-        uses: actions/cache@v2
+        uses: actions/cache@v3
         with:
           path: |
             ~/.cache/go-build
@@ -20,13 +20,13 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-go-1.17
       - name: Set up Go
-        uses: actions/setup-go@v2
+        uses: actions/setup-go@v3
         with:
           go-version: 1.17
       # TODO: lint go
     ### ./bin/scrape_mariadb_docs
       - name: cache ./bin/scrape_mariadb_docs
-        uses: actions/cache@v2
+        uses: actions/cache@v3
         id: cache-scrape_mariadb_docs
         with:
           path: ./bin/scrape_mariadb_docs
@@ -35,13 +35,13 @@ jobs:
         if: steps.cache-scrape_mariadb_docs.outputs.cache-hit != 'true'
         run: make ./bin/scrape_mariadb_docs
       - name: upload scrape_mariadb_docs
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v3
         with:
           name: scrape_mariadb_docs
           path: ./bin/scrape_mariadb_docs
     ### ./bin/scrape_mssql_docs
       - name: cache scrape_mssql_docs
-        uses: actions/cache@v2
+        uses: actions/cache@v3
         id: cache-scrape_mssql_docs
         with:
           path: ./bin/scrape_mssql_docs
@@ -50,13 +50,13 @@ jobs:
         if: steps.cache-scrape_mssql_docs.outputs.cache-hit != 'true'
         run: make ./bin/scrape_mssql_docs 
       - name: upload scrape_mssql_docs
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v3
         with:
           name: scrape_mssql_docs
           path: ./bin/scrape_mssql_docs
     ### ./bin/scrape_postgres_docs
       - name: cache scrape_postgres_docs
-        uses: actions/cache@v2
+        uses: actions/cache@v3
         id: cache-scrape_postgres_docs
         with:
           path: ./bin/scrape_postgres_docs
@@ -65,14 +65,14 @@ jobs:
         if: steps.cache-scrape_postgres_docs.outputs.cache-hit != 'true'
         run: make ./bin/scrape_postgres_docs 
       - name: upload scrape_postgres_docs
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v3
         with:
           name: scrape_postgres_docs
           path: ./bin/scrape_postgres_docs
 
     ### ./bin/observe_mariadb
       - name: cache observe_mariadb
-        uses: actions/cache@v2
+        uses: actions/cache@v3
         id: cache-observe_mariadb
         with:
           path: ./bin/observe_mariadb
@@ -81,13 +81,13 @@ jobs:
         if: steps.cache-observe_mariadb.outputs.cache-hit != 'true'
         run: make ./bin/observe_mariadb 
       - name: upload observe_mariadb
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v3
         with:
           name: observe_mariadb
           path: ./bin/observe_mariadb
     ### ./bin/observe_mysql
       - name: cache observe_mysql
-        uses: actions/cache@v2
+        uses: actions/cache@v3
         id: cache-observe_mysql
         with:
           path: ./bin/observe_mysql
@@ -96,13 +96,13 @@ jobs:
         if: steps.cache-observe_mysql.outputs.cache-hit != 'true'
         run: make ./bin/observe_mysql 
       - name: upload observe_mysql
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v3
         with:
           name: observe_mysql
           path: ./bin/observe_mysql
     ### ./bin/observe_postgres
       - name: cache observe_postgres
-        uses: actions/cache@v2
+        uses: actions/cache@v3
         id: cache-observe_postgres
         with:
           path: ./bin/observe_postgres
@@ -111,14 +111,14 @@ jobs:
         if: steps.cache-observe_postgres.outputs.cache-hit != 'true'
         run: make ./bin/observe_postgres 
       - name: upload observe_postgres
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v3
         with:
           name: observe_postgres
           path: ./bin/observe_postgres
     
     # ### ./bin/{}
     #   - name: cache {}
-    #     uses: actions/cache@v2
+    #     uses: actions/cache@v3
     #     id: cache-{}
     #     with:
     #       path: ./bin/{}
@@ -127,7 +127,7 @@ jobs:
     #     if: steps.cache-{}.outputs.cache-hit != 'true'
     #     run: make ./bin/{} 
     #   - name: upload {}
-    #     uses: actions/upload-artifact@v2
+    #     uses: actions/upload-artifact@v3
     #     with:
     #       name: {}
     #       path: ./bin/{}
@@ -176,13 +176,13 @@ jobs:
       - name: prep fs
         run: mkdir -p ./bin ./data/mariadb
       - name: pull observe_mariadb binary
-        uses: actions/download-artifact@v2
+        uses: actions/download-artifact@v3
         with:
           name: observe_mariadb
           path: ./bin
       - run: chmod +x ./bin/*
       - name: cache mariadb observations
-        uses: actions/cache@v2
+        uses: actions/cache@v3
         id: cache-mariadb-observations
         with:
           path: ./data/mariadb/observed.sqlite
@@ -191,7 +191,7 @@ jobs:
         if: steps.cache-mariadb-observations.outputs.cache-hit != 'true'
         run: ./bin/observe_mariadb || true # for whatever reason, only 10.7.1 gets observed, all others time out
       - name: upload mariadb observations
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v3
         with:
           name: mariadb_observations
           path: ./data/mariadb/observed.sqlite
@@ -219,13 +219,13 @@ jobs:
       - name: prep fs
         run: mkdir -p ./bin ./data/mysql
       - name: pull observe_mysql binary
-        uses: actions/download-artifact@v2
+        uses: actions/download-artifact@v3
         with:
           name: observe_mysql
           path: ./bin
       - run: chmod +x ./bin/*
       - name: cache mysql observations
-        uses: actions/cache@v2
+        uses: actions/cache@v3
         id: cache-mysql-observations
         with:
           path: ./data/mysql/observed.sqlite
@@ -234,7 +234,7 @@ jobs:
         if: steps.cache-mysql-observations.outputs.cache-hit != 'true'
         run: ./bin/observe_mysql
       - name: upload mysql observations
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v3
         with:
           name: mysql_observations
           path: ./data/mysql/observed.sqlite
@@ -287,13 +287,13 @@ jobs:
       - name: prep fs
         run: mkdir -p ./bin ./data/postgres
       - name: pull observe_postgres binary
-        uses: actions/download-artifact@v2
+        uses: actions/download-artifact@v3
         with:
           name: observe_postgres
           path: ./bin
       - run: chmod +x ./bin/*
       - name: cache postgres observations
-        uses: actions/cache@v2
+        uses: actions/cache@v3
         id: cache-postgres-observations
         with:
           path: ./data/postgres/observed.sqlite
@@ -302,7 +302,7 @@ jobs:
         if: steps.cache-postgres-observations.outputs.cache-hit != 'true'
         run: ./bin/observe_postgres
       - name: upload postgres observations
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v3
         with:
           name: postgres_observations
           path: ./data/postgres/observed.sqlite
@@ -315,13 +315,13 @@ jobs:
   #     - name: prep fs
   #       run: mkdir -p ./bin ./data/{}
   #     - name: pull observe_{} binary
-  #       uses: actions/download-artifact@v2
+  #       uses: actions/download-artifact@v3
   #       with:
   #         name: observe_{}
   #         path: ./bin
   #     - run: chmod +x ./bin/*
   #     - name: cache {} observations
-  #       uses: actions/cache@v2
+  #       uses: actions/cache@v3
   #       id: cache-{}-observations
   #       with:
   #         path: ./data/{}/observed.sqlite
@@ -330,7 +330,7 @@ jobs:
   #       if: steps.cache-{}-observations.outputs.cache-hit != 'true'
   #       run: ./bin/observe_{}
   #     - name: upload {} observations
-  #       uses: actions/upload-artifact@v2
+  #       uses: actions/upload-artifact@v3
   #       with:
   #         name: {}_observations
   #         path: ./data/{}/observed.sqlite   
@@ -342,19 +342,19 @@ jobs:
       - name: prep fs
         run: mkdir -p ./bin ./data/postgres
       - name: pull scrape_postgres_docs binary
-        uses: actions/download-artifact@v2
+        uses: actions/download-artifact@v3
         with:
           name: scrape_postgres_docs
           path: ./bin
       - run: chmod +x ./bin/*
       - name: cache postgres doc pages
-        uses: actions/cache@v2
+        uses: actions/cache@v3
         id: cache-postgres-doc-pages
         with:
           path: ./.cache
           key: postgres-docs-pages
       - name: cache postgres docs
-        uses: actions/cache@v2
+        uses: actions/cache@v3
         id: cache-postgres-docs
         with:
           path: ./data/postgres/docs.sqlite
@@ -363,7 +363,7 @@ jobs:
         if: steps.cache-postgres-docs.outputs.cache-hit != 'true'
         run: ./bin/scrape_postgres_docs
       - name: upload postgres docs
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v3
         with:
           name: postgres_docs
           path: ./data/postgres/docs.sqlite   
@@ -375,19 +375,19 @@ jobs:
       - name: prep fs
         run: mkdir -p ./bin ./data/mssql
       - name: pull scrape_mssql_docs binary
-        uses: actions/download-artifact@v2
+        uses: actions/download-artifact@v3
         with:
           name: scrape_mssql_docs
           path: ./bin
       - run: chmod +x ./bin/*
       - name: cache mssql doc pages
-        uses: actions/cache@v2
+        uses: actions/cache@v3
         id: cache-mssql-doc-pages
         with:
           path: ./.cache
           key: mssql-docs-pages
       - name: cache mssql docs
-        uses: actions/cache@v2
+        uses: actions/cache@v3
         id: cache-mssql-docs
         with:
           path: ./data/mssql/docs.sqlite
@@ -396,7 +396,7 @@ jobs:
         if: steps.cache-mssql-docs.outputs.cache-hit != 'true'
         run: ./bin/scrape_mssql_docs
       - name: upload mssql docs
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v3
         with:
           name: mssql_docs
           path: ./data/mssql/docs.sqlite
@@ -408,19 +408,19 @@ jobs:
       - name: prep fs
         run: mkdir -p ./bin ./data/mariadb
       - name: pull scrape_mariadb_docs binary
-        uses: actions/download-artifact@v2
+        uses: actions/download-artifact@v3
         with:
           name: scrape_mariadb_docs
           path: ./bin
       - run: chmod +x ./bin/*
       - name: cache mariadb doc pages
-        uses: actions/cache@v2
+        uses: actions/cache@v3
         id: cache-mariadb-doc-pages
         with:
           path: ./.cache
           key: mariadb-docs-pages
       - name: cache mariadb docs
-        uses: actions/cache@v2
+        uses: actions/cache@v3
         id: cache-mariadb-docs
         with:
           path: ./data/mariadb/docs.sqlite
@@ -429,7 +429,7 @@ jobs:
         if: steps.cache-mariadb-docs.outputs.cache-hit != 'true'
         run: ./bin/scrape_mariadb_docs
       - name: upload mariadb docs
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v3
         with:
           name: mariadb_docs
           path: ./data/mariadb/docs.sqlite   
@@ -441,19 +441,19 @@ jobs:
   #     - name: prep fs
   #       run: mkdir -p ./bin ./data/{}
   #     - name: pull scrape_{}_docs binary
-  #       uses: actions/download-artifact@v2
+  #       uses: actions/download-artifact@v3
   #       with:
   #         name: scrape_{}_docs
   #         path: ./bin
   #     - run: chmod +x ./bin/*
   #     - name: cache {} doc pages
-  #       uses: actions/cache@v2
+  #       uses: actions/cache@v3
   #       id: cache-{}-doc-pages
   #       with:
   #         path: ./.cache
   #         key: {}-docs-pages
   #     - name: cache {} docs
-  #       uses: actions/cache@v2
+  #       uses: actions/cache@v3
   #       id: cache-{}-docs
   #       with:
   #         path: ./data/{}/docs.sqlite
@@ -462,7 +462,7 @@ jobs:
   #       if: steps.cache-{}-docs.outputs.cache-hit != 'true'
   #       run: ./bin/scrape_{}_docs
   #     - name: upload {} docs
-  #       uses: actions/upload-artifact@v2
+  #       uses: actions/upload-artifact@v3
   #       with:
   #         name: {}_docs
   #         path: ./data/{}/docs.sqlite   
@@ -478,24 +478,24 @@ jobs:
       - scrape_mssql_docs
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
       - name: shellcheck
         run: |
           sudo apt update && sudo apt install -y shellcheck
           make shellcheck
     ### merge docs
       - name: retrieve scraped postgres docs
-        uses: actions/download-artifact@v2
+        uses: actions/download-artifact@v3
         with:
           name: postgres_docs
           path: ./data/postgres
       - name: retrieve scraped mssql docs
-        uses: actions/download-artifact@v2
+        uses: actions/download-artifact@v3
         with:
           name: mssql_docs
           path: ./data/mssql
       - name: retrieve scraped mariadb docs
-        uses: actions/download-artifact@v2
+        uses: actions/download-artifact@v3
         with:
           name: mariadb_docs
           path: ./data/mariadb
@@ -504,17 +504,17 @@ jobs:
         # TODO: save artifact
     ### merge observations
       - name: retrieve postgres observations
-        uses: actions/download-artifact@v2
+        uses: actions/download-artifact@v3
         with:
           name: postgres_observations
           path: ./data/postgres
       - name: retrieve mysql observations
-        uses: actions/download-artifact@v2
+        uses: actions/download-artifact@v3
         with:
           name: mysql_observations
           path: ./data/mysql
       - name: retrieve mariadb observations
-        uses: actions/download-artifact@v2
+        uses: actions/download-artifact@v3
         with:
           name: mariadb_observations
           path: ./data/mariadb
