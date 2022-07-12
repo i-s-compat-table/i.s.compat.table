@@ -2,16 +2,23 @@
   "editor.trimAutoWhitespace": false,
   "files.trimTrailingWhitespace": false,
   "cSpell.words": [
+    "cheggaaa",
     "cockroachdb",
+    "compat",
     "Debugf",
     "gocolly",
+    "goldmark",
     "goquery",
     "Infof",
+    "logrus",
     "materializedb",
     "mssql",
+    "Puerkito",
+    "sirupsen",
     "snowflakedb",
     "tidb",
-    "Warnf"
+    "Warnf",
+    "yuin"
   ],
   "shellcheck.customArgs": ["-x"],
   "python.formatting.provider": "black"

@@ -57,7 +57,8 @@ all: ./data/columns.tsv ./data/mariadb/columns.tsv ./data/mssql/columns.tsv ./da
 	go build -o ./bin/scrape_mssql_docs ./cmd/mssql/scrape_docs/main.go
 ./bin/scrape_postgres_docs: ./cmd/postgres/scrape_docs/main.go $(_common_backend)
 	go build -o ./bin/scrape_postgres_docs ./cmd/postgres/scrape_docs/main.go
-
+./bin/scrape_tidb_docs: ./cmd/tidb/scrape_docs/main.go $(_common_backend)
+	go build -o ./bin/scrape_tidb_docs ./cmd/tidb/scrape_docs/main.go
 # build the observer binaries ------------------------------------------------
 _observer_common=pkg/observer/observer.go pkg/observer/columns.sql
 ./bin/observe_mariadb: ./cmd/mariadb/observe/main.go $(_common_backend) $(_observer_common)
@@ -93,6 +94,11 @@ pg-docs: ./data/postgres/docs.sqlite
 	rm -f ./data/postgres/docs.sqlite
 	./bin/scrape_postgres_docs
 	sqlite3 ./data/postgres/docs.sqlite <./data/postgres/patch.sql
+tidb-docs: ./data/tidb/docs.sqlite 
+./data/tidb/docs.sqlite: ./bin/scrape_tidb_docs
+	mkdir -p ./data/tidb
+	rm -f ./data/tidb/docs.sqlite
+	./bin/scrape_tidb_docs
 
 # run the observer binaries --------------------------------------------------
 mariadb-observations:./data/mariadb/observed.sqlite
@@ -153,6 +159,8 @@ merge_scripts=./scripts/merge/dbs.sh ./scripts/merge/merge.sql
 ./data/columns.sqlite: $(merge_scripts) ./data/merged.observations.sqlite ./data/merged.docs.sqlite
 	./scripts/merge/dbs.sh ./data/columns.sqlite ./data/merged.observations.sqlite ./data/merged.docs.sqlite
 	touch -m ./data/columns.sqlite
+./data/tidb/columns.tsv: $(tsv_dump_scripts) ./data/tidb/docs.sqlite
+	./scripts/dump_tsv.sh --output ./data/tidb/columns.tsv ./data/tidb/docs.sqlite
 
 ./data/columns.tsv: $(tsv_dump_scripts) ./data/columns.sqlite
 	./scripts/dump_tsv.sh --output ./data/columns.tsv ./data/columns.sqlite

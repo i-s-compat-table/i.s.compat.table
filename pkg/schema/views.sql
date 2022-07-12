@@ -18,7 +18,7 @@ CREATE VIEW cols AS
         WHERE urls.id = url_id
         LIMIT 1
       ) AS url
-    , note
+    , replace(note, char(10), '\n') note
     , group_concat(distinct version) AS versions
     , col.license
     , (

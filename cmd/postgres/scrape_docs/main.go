@@ -192,7 +192,6 @@ func Scrape(cacheDir string, dbPath string, dbg bool) {
 	wg.Wait()
 
 	sort.Strings(urls)
-	// fmt.Println(strings.Join(urls, "\n"))
 	collector = collector.Clone() // clear callbacks
 
 	rowChan := make(chan []commonSchema.ColVersion)
