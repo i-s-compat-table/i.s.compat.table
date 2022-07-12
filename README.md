@@ -49,14 +49,14 @@ I prioritize the most popular databases that implement an `information_schema` a
 | `postgres`    |         44%          |          YES          |                  YES                  |
 | `mssql`       |         29%          |          YES          |                  NO                   |
 | `mariadb`     |         17%          |          YES          |                  YES                  |
-| `cockroachdb` |                      |          YES          |                  TODO                 |
+| `cockroachdb` |                      |          YES          |                 TODO                  |
+| `tidb`        |                      |          YES          |                  NO                   |
 
- <!-- |`oracle` |                  13% | NO                    | NO                                    | -->
- <!-- |`db2`    |                   2% | NO                    | NO                                    | -->
+<!--|       `oracle`       |          13%          |                  NO                   | NO  | -->
+<!--|        `db2`         |          2%           |                  NO                   | NO  | -->
 
-  <!-- `tidb` -->
   <!-- `presto` -->
-  <!-- `materializedb`: no information_schema _documented_; it should be postgres, right? -->
+  <!-- `materializedb`: very trivial no information_schema (iirc, just tables+columns) -->
   <!-- dolt? -->
   <!-- ksqldb? -->
 
