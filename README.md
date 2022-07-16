@@ -50,7 +50,7 @@ I prioritize the most popular databases that implement an `information_schema` a
 | `mssql`       |         29%          |          YES          |                  NO                   |
 | `mariadb`     |         17%          |          YES          |                  YES                  |
 | `cockroachdb` |                      |          YES          |                 TODO                  |
-| `tidb`        |                      |          YES          |                  NO                   |
+| `tidb`        |                      |          YES          |                 TODO                  |
 
 <!--|       `oracle`       |          13%          |                  NO                   | NO  | -->
 <!--|        `db2`         |          2%           |                  NO                   | NO  | -->
