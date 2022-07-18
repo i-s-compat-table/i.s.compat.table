@@ -35,6 +35,7 @@ jobs:
         if: steps.cache-scrape_mariadb_docs.outputs.cache-hit != 'true'
         run: make ./bin/scrape_mariadb_docs
       - name: upload scrape_mariadb_docs
+        if: steps.cache-scrape_mariadb_docs.outputs.cache-hit != 'true'
         uses: actions/upload-artifact@v3
         with:
           name: scrape_mariadb_docs
@@ -45,11 +46,12 @@ jobs:
         id: cache-scrape_mssql_docs
         with:
           path: ./bin/scrape_mssql_docs
-          key: "scrape_mssql_docs-${{hashFiles('pkg/schema/*', 'pkg/utils/*', 'cmd/')}}"
+          key: "scrape_mssql_docs-${{hashFiles('pkg/schema/*', 'pkg/utils/*', 'cmd/mssql/scrape_docs/*')}}"
       - name: build scrape_mssql_docs
         if: steps.cache-scrape_mssql_docs.outputs.cache-hit != 'true'
         run: make ./bin/scrape_mssql_docs 
       - name: upload scrape_mssql_docs
+        if: steps.cache-scrape_mssql_docs.outputs.cache-hit != 'true'
         uses: actions/upload-artifact@v3
         with:
           name: scrape_mssql_docs
@@ -60,15 +62,32 @@ jobs:
         id: cache-scrape_postgres_docs
         with:
           path: ./bin/scrape_postgres_docs
-          key: "scrape_postgres_docs-${{hashFiles('pkg/schema/*', 'pkg/utils/*', 'cmd/')}}"
+          key: "scrape_postgres_docs-${{hashFiles('pkg/schema/*', 'pkg/utils/*', 'cmd/postgres/scrape_docs/*')}}"
       - name: build scrape_postgres_docs
         if: steps.cache-scrape_postgres_docs.outputs.cache-hit != 'true'
         run: make ./bin/scrape_postgres_docs 
       - name: upload scrape_postgres_docs
+        if: steps.cache-scrape_postgres_docs.outputs.cache-hit != 'true'
         uses: actions/upload-artifact@v3
         with:
           name: scrape_postgres_docs
           path: ./bin/scrape_postgres_docs
+    ### ./bin/scrape_tidb_docs
+      - name: cache scrape_tidb_docs
+        uses: actions/cache@v3
+        id: cache-scrape_tidb_docs
+        with:
+          path: ./bin/scrape_tidb_docs
+          key: "scrape_tidb_docs-${{hashFiles('pkg/schema/*', 'pkg/utils/*', 'cmd/tidb/scrape_docs/*')}}"
+      - name: build scrape_tidb_docs
+        if: steps.cache-scrape_tidb_docs.outputs.cache-hit != 'true'
+        run: make ./bin/scrape_tidb_docs 
+      - name: upload scrape_tidb_docs
+        if: steps.cache-scrape_tidb_docs.outputs.cache-hit != 'true'
+        uses: actions/upload-artifact@v3
+        with:
+          name: scrape_tidb_docs
+          path: ./bin/scrape_tidb_docs
 
     ### ./bin/observe_mariadb
       - name: cache observe_mariadb
@@ -76,7 +95,7 @@ jobs:
         id: cache-observe_mariadb
         with:
           path: ./bin/observe_mariadb
-          key: "observe_mariadb-${{hashFiles('pkg/schema/*', 'pkg/utils/*', 'cmd/')}}"
+          key: "observe_mariadb-${{hashFiles('pkg/schema/*', 'pkg/utils/*', 'cmd/mariadb/observe/*')}}"
       - name: build observe_mariadb
         if: steps.cache-observe_mariadb.outputs.cache-hit != 'true'
         run: make ./bin/observe_mariadb 
@@ -91,7 +110,7 @@ jobs:
         id: cache-observe_mysql
         with:
           path: ./bin/observe_mysql
-          key: "observe_mysql-${{hashFiles('pkg/schema/*', 'pkg/utils/*', 'cmd/')}}"
+          key: "observe_mysql-${{hashFiles('pkg/schema/*', 'pkg/utils/*', 'cmd/mysql/observe/*')}}"
       - name: build observe_mysql
         if: steps.cache-observe_mysql.outputs.cache-hit != 'true'
         run: make ./bin/observe_mysql 
@@ -106,7 +125,7 @@ jobs:
         id: cache-observe_postgres
         with:
           path: ./bin/observe_postgres
-          key: "observe_postgres-${{hashFiles('pkg/schema/*', 'pkg/utils/*', 'cmd/')}}"
+          key: "observe_postgres-${{hashFiles('pkg/schema/*', 'pkg/utils/*', 'cmd/postgres/observe/*')}}"
       - name: build observe_postgres
         if: steps.cache-observe_postgres.outputs.cache-hit != 'true'
         run: make ./bin/observe_postgres 
@@ -115,7 +134,7 @@ jobs:
         with:
           name: observe_postgres
           path: ./bin/observe_postgres
-    
+
     # ### ./bin/{}
     #   - name: cache {}
     #     uses: actions/cache@v3
@@ -434,6 +453,40 @@ jobs:
           name: mariadb_docs
           path: ./data/mariadb/docs.sqlite   
 
+  scrape_tidb_docs:
+    needs: [build_binaries]
+    runs-on: ubuntu-latest
+    steps:
+      - name: prep fs
+        run: mkdir -p ./bin ./data/tidb
+      - name: pull scrape_tidb_docs binary
+        uses: actions/download-artifact@v3
+        with:
+          name: scrape_tidb_docs
+          path: ./bin
+      - run: chmod +x ./bin/*
+      - name: cache tidb doc pages
+        uses: actions/cache@v3
+        id: cache-tidb-doc-pages
+        with:
+          path: ./.cache
+          key: tidb-docs-pages
+      - name: cache tidb docs
+        uses: actions/cache@v3
+        id: cache-tidb-docs
+        with:
+          path: ./data/tidb/docs.sqlite
+          key: tidb-docs-${{hashFiles('./bin/scrape_tidb_docs')}}
+      - name: scrape tidb information_schemata
+        if: steps.cache-tidb-docs.outputs.cache-hit != 'true'
+        run: ./bin/scrape_tidb_docs
+      - name: upload tidb docs
+        uses: actions/upload-artifact@v3
+        with:
+          name: tidb_docs
+          path: ./data/tidb/docs.sqlite
+
+
   # scrape_{}_docs:
   #   needs: [build_binaries]
   #   runs-on: ubuntu-latest
@@ -499,8 +552,19 @@ jobs:
         with:
           name: mariadb_docs
           path: ./data/mariadb
+      - name: retrieve scraped tidb docs
+        uses: actions/download-artifact@v3
+        with:
+          name: tidb_docs
+          path: ./data/tidb
       - name: merge docs
-        run: ./scripts/merge/dbs.sh ./data/merged.docs.sqlite ./data/postgres/docs.sqlite ./data/mssql/docs.sqlite ./data/mariadb/docs.sqlite
+        run: |-
+          ./scripts/merge/dbs.sh \
+            ./data/merged.docs.sqlite \
+            ./data/postgres/docs.sqlite \
+            ./data/mssql/docs.sqlite \
+            ./data/mariadb/docs.sqlite \
+            ./data/tidb/docs.sqlite
         # TODO: save artifact
     ### merge observations
       - name: retrieve postgres observations
@@ -522,8 +586,8 @@ jobs:
         run: ./scripts/merge/dbs.sh ./data/merged.observations.sqlite ./data/mariadb/observed.sqlite ./data/mysql/observed.sqlite ./data/postgres/observed.sqlite
     ### merge observations + docs => columns.tsv
       - name: merge docs+observations
-        run: 	./scripts/merge/dbs.sh ./data/columns.sqlite ./data/merged.observations.sqlite ./data/merged.docs.sqlite
-      - run: 	./scripts/dump_tsv.sh --output=./data/columns.tsv ./data/columns.sqlite
+        run: ./scripts/merge/dbs.sh ./data/columns.sqlite ./data/merged.observations.sqlite ./data/merged.docs.sqlite
+      - run: ./scripts/dump_tsv.sh --output=./data/columns.tsv ./data/columns.sqlite
       - name: check in ./data/columns.tsv if it changed
         run: |
           git --no-pager diff || exit 0 # something's up with the output here

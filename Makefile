@@ -22,7 +22,8 @@ mariadb_services=mariadb-10.2.41 \
 
 doc_dbs=./data/mariadb/docs.sqlite \
 	./data/mssql/docs.sqlite \
-	./data/postgres/docs.sqlite
+	./data/postgres/docs.sqlite \
+	./data/tidb/docs.sqlite \
 
 observation_dbs=./data/mariadb/observed.sqlite \
 	./data/mysql/observed.sqlite \
