@@ -64,7 +64,7 @@ main() {
     check_user_version "$input_path"
   done
   if ! test -e "$output_path"; then
-     sqlite3 "$output_path" <"$db_init_script"
+    sqlite3 "$output_path" <"$db_init_script"
   elif test -f "$output_path"; then
     check_user_version "$output_path"
   else
@@ -77,6 +77,7 @@ main() {
     sqlite3 "$output_path" "$sql"
     echo "done"
   done
+  sqlite3 "$output_path" "VACUUM;"
 }
 
 if [ "${BASH_SOURCE[0]}" = "$0" ]; then main "$@"; fi
