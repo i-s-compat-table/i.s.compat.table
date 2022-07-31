@@ -20,7 +20,9 @@ mariadb_services=mariadb-10.2.41 \
  mariadb-10.6.5 \
  mariadb-10.7.1
 
-doc_dbs=./data/mariadb/docs.sqlite \
+doc_dbs=\
+	./data/cockroachdb/docs.sqlite \
+	./data/mariadb/docs.sqlite \
 	./data/mssql/docs.sqlite \
 	./data/postgres/docs.sqlite \
 	./data/tidb/docs.sqlite \
