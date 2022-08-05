@@ -1,6 +1,6 @@
 import { renderTypeInfo, type AllDbs, type RangeRef, type TypeInfo } from "$lib/types";
 import { tsvParse } from "d3-dsv";
-
+import { gt, valid } from "semver";
 type RawData = Record<
   | "id"
   | "table_name"
@@ -45,7 +45,7 @@ export type TableSupport<DbNames extends string = AllDbs> = {
   };
 };
 
-export const munge = (tsv: string) => {
+export const munge = (tsv: string): [Munged, TableSupport] => {
   const parsed = tsvParse(tsv) as Array<RawData>;
   const intermediate: IntermediateData[] = parsed.map((d: RawData) => {
     const versions = d.versions
@@ -68,6 +68,11 @@ export const munge = (tsv: string) => {
       a[d.db_name] = s;
       return a;
     }, {});
+  function sortByVersion(a: string | number, b: string | number) {
+    if (typeof a === "string" && valid(a) && typeof b === "string" && valid(b))
+      return gt(a, b) ? -1 : gt(b, a) ? 1 : 0;
+    return a > b ? -1 : b > a ? 1 : 0;
+  }
   const _versions = Object.entries(uniqueVersions).reduce(
     (a: Record<string, (string | number)[]>, [k, v]) => {
       a[k] = [...v].sort((a, b) => (a > b ? -1 : b > a ? 1 : 0)).reverse();
@@ -79,7 +84,7 @@ export const munge = (tsv: string) => {
   function getRange(db: string, vs: (string | number)[]) {
     const allVersions = _versions[db]; // already sorted
     let range = "";
-    const vns = [...new Set(vs)].sort().map((v) => allVersions.indexOf(v));
+    const vns = [...new Set(vs)].sort(sortByVersion).map((v) => allVersions.indexOf(v));
     vs.forEach((v, i) => {
       const current = vns[i];
       const prev = vns[i - 1];
@@ -106,6 +111,17 @@ export const munge = (tsv: string) => {
       }
     });
     return range;
+  }
+  function getCurrent(db: string, vs: (string | number)[]) {
+    return vs.some((v) => {
+      if (Number.isFinite(v)) {
+        return v === last(_versions[db]);
+      } else if (typeof v === "string") {
+        return /current/i.test(v);
+      } else {
+        return false;
+      }
+    });
   }
   const last = <T>(arr: T[]) => arr[arr.length - 1];
   const munged: Munged = intermediate.reduce((tree: Munged, r: IntermediateData) => {
@@ -135,15 +151,7 @@ export const munge = (tsv: string) => {
       url,
       range: "",
       versions: new Set(),
-      isCurrent: versions.some((v) => {
-        if (Number.isFinite(v)) {
-          return v === last(_versions[db_name]);
-        } else if (typeof v === "string") {
-          return /current/i.test(v);
-        } else {
-          return false;
-        }
-      }),
+      isCurrent: getCurrent(db_name, versions),
       license,
       license_url,
     };
@@ -174,7 +182,11 @@ export const munge = (tsv: string) => {
       });
       const dbSupport = Object.entries(dbVersions).reduce(
         (acc: TableSupport[string], [dbName, versions]) => {
-          acc[dbName as AllDbs] = getRange(dbName, Array.from(versions).sort());
+          const vs = Array.from(versions);
+          acc[dbName as AllDbs] = {
+            range: getRange(dbName, vs.sort()),
+            isCurrent: getCurrent(dbName, vs),
+          };
           return acc;
         },
         {},

@@ -5,7 +5,7 @@
   export const prerender = true;
   export const load: Load = async ({ fetch }) => {
     const target = `${base}/columns.tsv`;
-    const munged = await fetch(target)
+    const [munged, tableSupport] = await fetch(target)
       .then((r) => {
         if (r.ok) return r.text();
         else {
@@ -13,12 +13,13 @@
         }
       })
       .then((tsv) => munge(tsv)); // TODO: accept gzip/bzip
-    return { props: { data: munged } };
+    return { props: { columnSupport: munged, tableSupport } };
   };
 </script>
 
 <script lang="ts">
   import CompatTable from "$lib/components/CompatTable/Index.svelte";
+  import type { TableSupport } from "$lib/munge";
   import type { AllDbs } from "$lib/types";
   const allDbs: AllDbs[] = [
     "mysql",
@@ -28,9 +29,10 @@
     "cockroachdb",
     "mssql",
   ];
-  export let data: Munged;
+  export let columnSupport: Munged;
+  export let tableSupport: TableSupport;
 </script>
 
 <h1><code>information_schema</code> compatibility table</h1>
 <!-- TODO: docs -->
-<CompatTable dbs="{allDbs}columnSupport{data}" />
+<CompatTable dbs={allDbs} {columnSupport} {tableSupport} />

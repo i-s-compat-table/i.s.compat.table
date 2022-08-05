@@ -16,6 +16,7 @@
 		"@sveltejs/adapter-auto": "next",
 		"@sveltejs/kit": "next",
 		"@types/d3-dsv": "^3.0.0",
+		"@types/semver": "^7.3.10",
 		"@typescript-eslint/eslint-plugin": "^5.27.0",
 		"@typescript-eslint/parser": "^5.27.0",
 		"eslint": "^8.16.0",
@@ -32,6 +33,7 @@
 	},
 	"type": "module",
 	"dependencies": {
-		"d3-dsv": "^3.0.1"
+		"d3-dsv": "^3.0.1",
+		"semver": "^7.3.7"
 	}
 }
