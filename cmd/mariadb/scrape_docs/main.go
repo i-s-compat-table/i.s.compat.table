@@ -35,6 +35,11 @@ const ( // used only for scraping
 	tableHeader           = "tr > th"
 )
 
+// TODO: consider scraping the tables in
+// https://mariadb.com/kb/en/information-schema-innodb-tables/
+// https://mariadb.com/kb/en/information-schema-myrocks-tables/
+// https://mariadb.com/kb/en/information-schema-xtradb-tables/
+
 var kbLink = regexp.MustCompile("/kb/en/information-schema-([a-z_]+)-table/")
 var oddLink = regexp.MustCompile("/kb/en/([a-z-_]*)-table-information-schema/")
 var semverPattern = regexp.MustCompile(`^\d+\.\d+\.\d+$`)

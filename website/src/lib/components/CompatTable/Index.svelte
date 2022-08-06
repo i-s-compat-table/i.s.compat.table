@@ -38,7 +38,7 @@
     position: -ms-sticky;
     position: -o-sticky;
     top: 0px;
-    /* background-color: #fff; */
+    background-color: var(--bg-color, #fff);
     z-index: 1;
     border: none;
   }

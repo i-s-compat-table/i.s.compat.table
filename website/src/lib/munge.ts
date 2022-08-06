@@ -55,8 +55,7 @@ export const munge = (tsv: string): [Munged, TableSupport] => {
         if (Number.isNaN(f)) return i;
         else return f + 0.0;
       })
-      .sort()
-      .reverse();
+      .sort();
     const result: IntermediateData = { ...d, versions }; // break ref to original obj
     return result;
   });
@@ -70,8 +69,8 @@ export const munge = (tsv: string): [Munged, TableSupport] => {
     }, {});
   function sortByVersion(a: string | number, b: string | number) {
     if (typeof a === "string" && valid(a) && typeof b === "string" && valid(b))
-      return gt(a, b) ? -1 : gt(b, a) ? 1 : 0;
-    return a > b ? -1 : b > a ? 1 : 0;
+      return gt(a, b) ? 1 : gt(b, a) ? -1 : 0;
+    return a > b ? 1 : b > a ? -1 : 0;
   }
   const _versions = Object.entries(uniqueVersions).reduce(
     (a: Record<string, (string | number)[]>, [k, v]) => {
@@ -80,11 +79,12 @@ export const munge = (tsv: string): [Munged, TableSupport] => {
     },
     {},
   );
-
+  console.log(_versions["postgres"]);
   function getRange(db: string, vs: (string | number)[]) {
-    const allVersions = _versions[db]; // already sorted
+    const allVersions = _versions[db]; // already sorted in ascending order
+    vs = [...new Set(vs)].sort(sortByVersion);
     let range = "";
-    const vns = [...new Set(vs)].sort(sortByVersion).map((v) => allVersions.indexOf(v));
+    const vns = vs.map((v) => allVersions.indexOf(v));
     vs.forEach((v, i) => {
       const current = vns[i];
       const prev = vns[i - 1];

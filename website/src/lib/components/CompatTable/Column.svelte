@@ -10,6 +10,6 @@
 <tr>
   <th><code>{name}</code></th>
   {#each dbs as db}
-    <Cell support={support[db] ?? null} />
+    <Cell kinds={support[db] ?? null} />
   {/each}
 </tr>
