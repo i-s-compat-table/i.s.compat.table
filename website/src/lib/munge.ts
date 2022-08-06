@@ -79,7 +79,6 @@ export const munge = (tsv: string): [Munged, TableSupport] => {
     },
     {},
   );
-  console.log(_versions["postgres"]);
   function getRange(db: string, vs: (string | number)[]) {
     const allVersions = _versions[db]; // already sorted in ascending order
     vs = [...new Set(vs)].sort(sortByVersion);
@@ -196,5 +195,6 @@ export const munge = (tsv: string): [Munged, TableSupport] => {
     },
     {},
   );
+  // console.log(tableSupport);
   return [munged, tableSupport];
 };

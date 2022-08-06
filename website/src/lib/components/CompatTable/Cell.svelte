@@ -4,21 +4,23 @@
   type Kinds = Munged[string][string][AllDbs];
   export let kinds: Kinds | undefined | null;
   const kindRanges = Object.entries(kinds ?? {});
-  const supported = kindRanges.some(([, ranges]) =>
+  const anySupport = kindRanges.length > 0;
+  const current = kindRanges.some(([, ranges]) =>
     ranges.some((range) => range.isCurrent),
   );
 </script>
 
-<td class="support-cell {supported ? 'supported' : 'unsupported'}">
-  {#if kindRanges.length === 0}
-    nope
+<td
+  class="support-cell {current ? 'current' : anySupport ? 'deprecated' : 'unsupported'}"
+>
+  {#if !anySupport}
+    unsupported
   {:else}
     {#each kindRanges as [kind, ranges]}
-      {#if ranges.length > 1}
-        Hey hey hey
+      {#if kind}
+        <code>{kind}</code>:
       {/if}
-
-      <code>{kind}</code>: {#each ranges as range}
+      {#each ranges as range}
         <div>
           {#if range.url}
             <a target="_blank" href={range.url}>{range.range}</a>
@@ -28,10 +30,6 @@
         </div>
       {/each}
     {/each}
-    <!-- {JSON.stringify(kinds)} -->
-    <!-- {#each Object.entries(support) as [kind, range]}
-      <code>{kind}</code>: {range.range}
-    {/each} -->
   {/if}
 </td>
 
@@ -40,7 +38,10 @@
     text-align: center;
     background-color: lightsalmon;
   }
-  :global(.support-cell.supported) {
+  :global(.support-cell.deprecated) {
+    background-color: aliceblue;
+  }
+  :global(.support-cell.current) {
     background-color: aquamarine;
   }
 </style>

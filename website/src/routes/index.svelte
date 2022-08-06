@@ -1,38 +1,13 @@
-<script lang="ts" context="module">
-  import { base } from "$app/paths";
-  import { munge, type Munged } from "$lib/munge";
-  import type { Load } from "@sveltejs/kit";
-  export const prerender = true;
-  export const load: Load = async ({ fetch }) => {
-    const target = `${base}/columns.tsv`;
-    const [munged, tableSupport] = await fetch(target)
-      .then((r) => {
-        if (r.ok) return r.text();
-        else {
-          throw new Error(`error ${r.status}: ${r.statusText}`);
-        }
-      })
-      .then((tsv) => munge(tsv)); // TODO: accept gzip/bzip
-    return { props: { columnSupport: munged, tableSupport } };
-  };
-</script>
-
+<!-- TODO: link to each -->
 <script lang="ts">
-  import CompatTable from "$lib/components/CompatTable/Index.svelte";
-  import type { TableSupport } from "$lib/munge";
-  import type { AllDbs } from "$lib/types";
-  const allDbs: AllDbs[] = [
-    "mysql",
-    "mariadb",
-    "tidb",
-    "postgres",
-    "cockroachdb",
-    "mssql",
-  ];
-  export let columnSupport: Munged;
-  export let tableSupport: TableSupport;
+  import { base } from "$app/paths";
 </script>
 
-<h1><code>information_schema</code> compatibility table</h1>
-<!-- TODO: docs -->
-<CompatTable dbs={allDbs} {columnSupport} {tableSupport} />
+<ul>
+  <li>
+    <a href="{base}/relations">all relations</a>
+  </li>
+  <li>
+    <a href="{base}/relations/columns">all columns</a>
+  </li>
+</ul>
