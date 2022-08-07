@@ -10,6 +10,7 @@ const config = {
   kit: {
     prerender: {
       default: true,
+      concurrency: 1,
     },
     adapter: adapter(),
   },
