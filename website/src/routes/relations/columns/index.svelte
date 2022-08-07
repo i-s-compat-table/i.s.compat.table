@@ -18,8 +18,8 @@
 </script>
 
 <script lang="ts">
+  import ColCompatTable from "$lib/components/ColCompatTable/Index.svelte";
   import CommonalitySelector from "$lib/components/CommonalitySelector.svelte";
-  import CompatTable from "$lib/components/CompatTable/Index.svelte";
   import type { TableSupport } from "$lib/munge";
 
   export let columnSupport: Munged;
@@ -29,4 +29,4 @@
 <h1><code>information_schema</code> compatibility table</h1>
 <CommonalitySelector />
 <!-- TODO: docs -->
-<CompatTable {columnSupport} />
+<ColCompatTable {columnSupport} />

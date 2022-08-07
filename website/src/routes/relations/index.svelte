@@ -22,6 +22,7 @@
   import RelationCompatRow from "$lib/components/RelationCompatTable/RelationCompatRow.svelte";
   import type { TableSupportRow } from "$lib/components/RelationCompatTable/types";
   import type { TableSupport } from "$lib/munge";
+  import { byKey } from "$lib/sort";
   import dbStore from "$lib/stores/dbs";
   export let support: TableSupport;
 
@@ -35,7 +36,7 @@
         universal: dbs.every((db) => db in dbSupport),
         support: dbSupport,
       }))
-      .sort((a, b) => (a.name > b.name ? 1 : b.name > a.name ? -1 : 0));
+      .sort(byKey("name"));
   }
 </script>
 

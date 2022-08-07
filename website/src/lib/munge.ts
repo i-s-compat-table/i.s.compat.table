@@ -1,3 +1,4 @@
+import { asc } from "$lib/sort";
 import { renderTypeInfo, type AllDbs, type RangeRef, type TypeInfo } from "$lib/types";
 import { tsvParse } from "d3-dsv";
 import { gt, valid } from "semver";
@@ -74,7 +75,7 @@ export const munge = (tsv: string): [Munged, TableSupport] => {
   }
   const _versions = Object.entries(uniqueVersions).reduce(
     (a: Record<string, (string | number)[]>, [k, v]) => {
-      a[k] = [...v].sort((a, b) => (a > b ? -1 : b > a ? 1 : 0)).reverse();
+      a[k] = [...v].sort(asc).reverse();
       return a;
     },
     {},

@@ -1,8 +1,10 @@
 <script lang="ts">
   import type { Munged } from "$lib/munge";
+  import { objEntries } from "$lib/sort";
   import dbs from "$lib/stores/dbs";
   import InfoTable from "./Table.svelte";
   export let columnSupport: Munged = {};
+  $: rows = objEntries(columnSupport);
 </script>
 
 <table class="sticky-header">
@@ -17,7 +19,7 @@
     </tr>
   </thead>
   <tbody>
-    {#each Object.entries(columnSupport) as [tableName, tableData]}
+    {#each rows as [tableName, tableData]}
       <InfoTable name={tableName} columns={tableData} />
     {/each}
   </tbody>
