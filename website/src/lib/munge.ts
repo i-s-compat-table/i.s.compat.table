@@ -2,7 +2,7 @@ import { asc } from "$lib/sort";
 import { renderTypeInfo, type AllDbs, type RangeRef, type TypeInfo } from "$lib/types";
 import { tsvParse } from "d3-dsv";
 import semver from "semver";
-type RawData = Record<
+export type RawData = Record<
   | "id"
   | "table_name"
   | "column_name"

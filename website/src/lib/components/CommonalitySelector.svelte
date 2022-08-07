@@ -1,16 +1,9 @@
 <script lang="ts">
   import commonality from "$lib/stores/commonality";
-  // let shouldShowProgressBar = false;
-  // const showProgressBar = () => {
-  //   shouldShowProgressBar = !shouldShowProgressBar;
-  //   if (browser) {
-  //     alert(shouldShowProgressBar);
-  //   }
-  // };
-  // commonality.subscribe(showProgressBar);
 </script>
 
-<div>
+<div style="display: flex">
+  <!-- TODO: layout? -->
   <label>
     <input type="radio" bind:group={$commonality} value="any" />
     show all items

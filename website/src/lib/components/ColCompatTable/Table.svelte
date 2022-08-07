@@ -1,5 +1,8 @@
 <script lang="ts">
+  import { base } from "$app/paths";
+
   import type { Munged } from "$lib/munge";
+  import { getRelationPath } from "$lib/nav";
   import { objEntries } from "$lib/sort";
   import commonality from "$lib/stores/commonality";
   import dbs from "$lib/stores/dbs";
@@ -32,12 +35,14 @@
 
 <tr class:hidden>
   <th id="table-{name}" class="table-support-header" rowspan={nShown + 1}>
-    <code>{name}</code>
+    <a style="witdh: 100%" href={getRelationPath(base, name)}><code>{name}</code></a>
   </th>
-  <td colspan={$dbs.length + 1} class="table-support-header" />
+  <td class="table-support-header" colspan={$dbs.length + 1}>
+    <span>&nbsp;</span><!-- <hr /> -->
+  </td>
 </tr>
-{#each rows as [name, support], i (name)}
-  <Column {name} {support} hidden={!show[i]} />
+{#each rows as [colName, support], i (colName)}
+  <Column table={name} name={colName} {support} hidden={!show[i]} />
 {/each}
 
 <style>
@@ -46,7 +51,15 @@
     position: sticky;
     top: 1em;
     background-color: var(--bg-color, #fff);
-    border-top: 1px solid black;
+  }
+  :global(td.table-support-header) {
+    border-bottom: 1px solid black;
+  }
+  :global(.table-support-header > a) {
+    text-decoration: none;
+    display: inline-block;
+    width: 100%;
+    border-bottom: 1px solid;
   }
   :global(.hidden) {
     display: none;

@@ -8,11 +8,10 @@
   const current = kindRanges.some(([, ranges]) =>
     ranges.some((range) => range.isCurrent),
   );
+  const supportText = current ? "current" : anySupport ? "deprecated" : "unsupported";
 </script>
 
-<td
-  class="support-cell {current ? 'current' : anySupport ? 'deprecated' : 'unsupported'}"
->
+<td class="support-cell {supportText}" title={supportText}>
   {#if !anySupport}
     unsupported
   {:else}
@@ -37,6 +36,9 @@
   :global(.support-cell) {
     text-align: center;
     background-color: lightsalmon;
+  }
+  :global(.support-cell.unsupported) {
+    color: #777;
   }
   :global(.support-cell.deprecated) {
     background-color: aliceblue;

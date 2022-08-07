@@ -24,7 +24,9 @@
   export let columnSupport: Munged;
 </script>
 
-<h1 class="centered"><code>information_schema.{tableName}.*</code></h1>
+<h1 class="centered">
+  <code>information_schema</code><code>.{tableName}</code><code>.*</code>
+</h1>
 <div class="centered">
   <CommonalitySelector />
 </div>
@@ -35,6 +37,7 @@
 <style>
   .centered {
     display: flex;
+    flex-wrap: wrap;
     justify-content: center;
   }
 </style>

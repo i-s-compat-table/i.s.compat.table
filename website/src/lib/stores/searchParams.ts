@@ -1,8 +1,19 @@
 import { browser } from "$app/env";
+// import { afterNavigate } from "$app/navigation";
 import type { Writable } from "svelte/store";
 import { writable } from "svelte/store";
-
 export const identity = <T>(v: T) => v;
+
+export const getValue = <T>(
+  url: URL,
+  store: Writable<T>,
+  key: string,
+  fallback: T,
+  parse: (v: string | null) => T | null,
+) => {
+  const val = parse(url.searchParams.get(key)) ?? fallback;
+  store.set(val);
+};
 
 const getInitialValue = <T>(
   store: Writable<T>,
@@ -11,9 +22,9 @@ const getInitialValue = <T>(
   parse: (v: string | null) => T | null,
 ) => {
   const url = new URL(window.location.toString());
-  const val = parse(url.searchParams.get(key)) ?? fallback;
-  store.set(val);
+  getValue(url, store, key, fallback, parse);
 };
+
 const updateUrl = <T>(key: string, fallback: T, serialize: (v: T) => string) => {
   const _fallback = serialize(fallback);
   return (value: T) => {
@@ -36,7 +47,14 @@ export const urlParam = <T>(
   const store = writable(fallback);
   if (browser) {
     getInitialValue(store, key, fallback, parse);
+    // page.subscribe((p) => {
+    //   getValue(p.url, store, key, fallback, parse);
+    // });
     store.subscribe(updateUrl(key, fallback, serialize));
+    // afterNavigate(({ to }) => {
+    //   if (!to) return;
+    //   getValue(to, store, key, fallback, parse);
+    // });
   }
   return store;
 };

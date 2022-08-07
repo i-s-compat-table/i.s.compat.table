@@ -34,6 +34,8 @@
 	"type": "module",
 	"dependencies": {
 		"d3-dsv": "^3.0.1",
-		"semver": "^7.3.7"
+		"fuse.js": "^6.6.2",
+		"semver": "^7.3.7",
+		"svelte-hamburgers": "^4.0.1"
 	}
 }

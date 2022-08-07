@@ -40,10 +40,11 @@
   }
 </script>
 
-<h1 class="centered"><code>information_schema.*</code></h1>
+<h1 class="centered"><code>information_schema</code><code>.*</code></h1>
 
 <div class="centered">
   <CommonalitySelector />
+  <!-- <Legend /> -->
 </div>
 
 <div class="centered">

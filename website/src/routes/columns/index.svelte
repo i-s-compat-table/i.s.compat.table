@@ -5,7 +5,7 @@
   export const prerender = true;
   export const load: Load = async ({ fetch }) => {
     const target = `${base}/columns.tsv`;
-    const [munged, tableSupport] = await fetch(target)
+    const [munged] = await fetch(target)
       .then((r) => {
         if (r.ok) return r.text();
         else {
