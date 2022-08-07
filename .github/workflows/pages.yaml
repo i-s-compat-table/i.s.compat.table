@@ -32,10 +32,10 @@ jobs:
 
       # Runs a set of commands using the runners shell
       - name: build
-        run: cd website && node --max-old-space-size=6000
+        run: cd website && node --max-old-space-size=6000 ./node_modules/vite/bin/vite.js build
       - name: tar.gz it
         run: |
-          tar \
+          cd website && tar \
             --dereference --hard-dereference \
             --directory ./build \
             --gzip \
