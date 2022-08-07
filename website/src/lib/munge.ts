@@ -1,7 +1,7 @@
 import { asc } from "$lib/sort";
 import { renderTypeInfo, type AllDbs, type RangeRef, type TypeInfo } from "$lib/types";
 import { tsvParse } from "d3-dsv";
-import { gt, valid } from "semver";
+import semver from "semver";
 type RawData = Record<
   | "id"
   | "table_name"
@@ -12,7 +12,8 @@ type RawData = Record<
   | "note"
   | "versions"
   | "license"
-  | "license_url",
+  | "license_url"
+  | "attribution",
   string
 > & { db_name: AllDbs };
 
@@ -25,7 +26,8 @@ type IntermediateData = Record<
   | "url"
   | "note"
   | "license"
-  | "license_url",
+  | "license_url"
+  | "attribution",
   string
 > & { db_name: AllDbs } & { versions: Array<string | number> };
 
@@ -46,8 +48,21 @@ export type TableSupport<DbNames extends string = AllDbs> = {
   };
 };
 
-export const munge = (tsv: string): [Munged, TableSupport] => {
-  const parsed = tsvParse(tsv) as Array<RawData>;
+export function sortByVersion(a: string | number, b: string | number) {
+  if (
+    typeof a === "string" &&
+    semver.valid(a) &&
+    typeof b === "string" &&
+    semver.valid(b)
+  )
+    return semver.gt(a, b) ? 1 : semver.gt(b, a) ? -1 : 0;
+  return asc(a, b);
+}
+export const munge = (
+  tsv: string,
+  filter: (r: RawData) => boolean = () => true,
+): [Munged, TableSupport] => {
+  const parsed = (tsvParse(tsv) as Array<RawData>).filter(filter);
   const intermediate: IntermediateData[] = parsed.map((d: RawData) => {
     const versions = d.versions
       .split(",")
@@ -68,11 +83,7 @@ export const munge = (tsv: string): [Munged, TableSupport] => {
       a[d.db_name] = s;
       return a;
     }, {});
-  function sortByVersion(a: string | number, b: string | number) {
-    if (typeof a === "string" && valid(a) && typeof b === "string" && valid(b))
-      return gt(a, b) ? 1 : gt(b, a) ? -1 : 0;
-    return asc(a, b);
-  }
+
   const _versions = Object.entries(uniqueVersions).reduce(
     (a: Record<string, (string | number)[]>, [k, v]) => {
       a[k] = Array.from(v).sort(asc);
@@ -132,11 +143,11 @@ export const munge = (tsv: string): [Munged, TableSupport] => {
       nullable,
       versions,
       db_name,
-      note, // TODO: include note in rangeRef
+      note,
       url,
-      // TODO: include license info
       license,
       license_url,
+      attribution,
     } = r;
     const tableInfo = tree[table_name] ?? {};
     const columnInfo = tableInfo[column_name] ?? {};
@@ -148,12 +159,14 @@ export const munge = (tsv: string): [Munged, TableSupport] => {
 
     const dbColTypeVersions = dbInfo[kind] ?? [];
     const rr: RangeRef & { versions: Set<string | number> } = {
-      url,
       range: "",
       versions: new Set(),
       isCurrent: getCurrent(db_name, versions),
+      url,
+      note,
       license,
       license_url,
+      attribution,
     };
     versions.forEach((v) => rr.versions.add(v));
     rr.range = getRange(db_name, versions);

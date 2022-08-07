@@ -40,25 +40,35 @@
   }
 </script>
 
-<CommonalitySelector />
+<h1 class="centered"><code>information_schema.*</code></h1>
 
-<table class="sticky-header">
-  <thead>
-    <tr>
-      <th>relation</th>
-      {#each dbs as db}
-        <th>{db}</th>
+<div class="centered">
+  <CommonalitySelector />
+</div>
+
+<div class="centered">
+  <table class="sticky-header">
+    <thead>
+      <tr>
+        <th>relation</th>
+        {#each dbs as db}
+          <th>{db}</th>
+        {/each}
+      </tr>
+    </thead>
+    <tbody>
+      {#each _rows as row}
+        <RelationCompatRow {row} />
       {/each}
-    </tr>
-  </thead>
-  <tbody>
-    {#each _rows as row}
-      <RelationCompatRow {row} />
-    {/each}
-  </tbody>
-</table>
+    </tbody>
+  </table>
+</div>
 
 <style>
+  .centered {
+    display: flex;
+    justify-content: center;
+  }
   .sticky-header > thead > tr > * {
     position: sticky;
     position: -webkit-sticky;

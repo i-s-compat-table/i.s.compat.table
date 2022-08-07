@@ -16,7 +16,6 @@ const getInitialValue = <T>(
 };
 const updateUrl = <T>(key: string, fallback: T, serialize: (v: T) => string) => {
   const _fallback = serialize(fallback);
-  console.log({ _fallback });
   return (value: T) => {
     const searchParam = serialize(value);
     const url = new URL(window.location.toString());

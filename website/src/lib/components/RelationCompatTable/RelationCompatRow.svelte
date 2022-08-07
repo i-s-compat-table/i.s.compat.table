@@ -1,4 +1,5 @@
 <script lang="ts">
+  import { base } from "$app/paths";
   import commonality from "$lib/stores/commonality";
   import dbs from "$lib/stores/dbs";
   import RelationCompatCell from "./RelationCompatCell.svelte";
@@ -24,7 +25,9 @@
 </script>
 
 <tr class:hidden>
-  <th id="relation-{row.name}"><code>{row.name}</code></th>
+  <th id="relation-{row.name}"
+    ><a href="{base}/relation/{row.name}"><code>{row.name}</code></a></th
+  >
   <!-- TODO: display self-link on-hover? -->
   {#each $dbs as db}
     <RelationCompatCell support={row.support[db] ?? null} />

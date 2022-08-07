@@ -19,8 +19,10 @@ export type SupportRange = { range: string; isCurrent: boolean };
 
 export type RangeRef = SupportRange & {
   url: string | null;
+  note: string | null;
   license: string | null;
   license_url: string | null;
+  attribution: string | null;
 };
 export type TableCompatibility<DbNames extends string = AllDbs> = {
   tableName: string;

@@ -4,10 +4,11 @@
   import Cell from "./Cell.svelte";
   export let name: string;
   export let support: Munged[string][string];
+  export let hidden: boolean = false;
   // $: cells = $dbs.map((db) => support[db] ?? null);
 </script>
 
-<tr>
+<tr class:hidden>
   <th><code>{name}</code></th>
   {#each $dbs as db (db)}
     <Cell kinds={support[db] ?? null} />

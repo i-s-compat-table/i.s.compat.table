@@ -18,7 +18,7 @@
       <th />
     </tr>
   </thead>
-  <tbody>
+  <tbody style="will-change: contents;">
     {#each rows as [tableName, tableData]}
       <InfoTable name={tableName} columns={tableData} />
     {/each}

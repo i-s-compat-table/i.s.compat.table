@@ -55,15 +55,16 @@ I prioritize the most popular databases that implement an `information_schema` a
 <!--|       `oracle`       |          13%          |                  NO                   | NO  | -->
 <!--|        `db2`         |          2%           |                  NO                   | NO  | -->
 
+<!-- ===open-source databases=== -->
   <!-- `presto` -->
   <!-- `materializedb`: very trivial no information_schema (iirc, just tables+columns) -->
   <!-- dolt? -->
   <!-- ksqldb? -->
-
+  <!-- clickhouse -->
   <!-- Apache Hive -->
   <!-- your database here! -->
 
-  <!-- commercial databases -->
+<!-- ===commercial databases=== -->
   <!-- `snowflakedb`? -->
   <!-- `db2`? -->
   <!-- `oracle` via oracle cloud's free tier? -->

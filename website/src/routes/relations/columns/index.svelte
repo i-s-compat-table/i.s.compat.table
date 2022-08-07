@@ -13,20 +13,28 @@
         }
       })
       .then((tsv) => munge(tsv)); // TODO: accept gzip/bzip?
-    return { props: { columnSupport: munged, tableSupport } };
+    return { props: { columnSupport: munged } };
   };
 </script>
 
 <script lang="ts">
   import ColCompatTable from "$lib/components/ColCompatTable/Index.svelte";
   import CommonalitySelector from "$lib/components/CommonalitySelector.svelte";
-  import type { TableSupport } from "$lib/munge";
-
   export let columnSupport: Munged;
-  export let tableSupport: TableSupport;
 </script>
 
-<h1><code>information_schema</code> compatibility table</h1>
-<CommonalitySelector />
+<h1 class="centered"><code>information_schema.*.*</code></h1>
+<div class="centered">
+  <CommonalitySelector />
+</div>
 <!-- TODO: docs -->
-<ColCompatTable {columnSupport} />
+<div class="centered">
+  <ColCompatTable {columnSupport} />
+</div>
+
+<style>
+  .centered {
+    display: flex;
+    justify-content: center;
+  }
+</style>
