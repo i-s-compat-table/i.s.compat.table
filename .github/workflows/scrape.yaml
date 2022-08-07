@@ -35,7 +35,6 @@ jobs:
         if: steps.cache-scrape_mariadb_docs.outputs.cache-hit != 'true'
         run: make ./bin/scrape_mariadb_docs
       - name: upload scrape_mariadb_docs
-        if: steps.cache-scrape_mariadb_docs.outputs.cache-hit != 'true'
         uses: actions/upload-artifact@v3
         with:
           name: scrape_mariadb_docs
@@ -51,7 +50,6 @@ jobs:
         if: steps.cache-scrape_mssql_docs.outputs.cache-hit != 'true'
         run: make ./bin/scrape_mssql_docs 
       - name: upload scrape_mssql_docs
-        if: steps.cache-scrape_mssql_docs.outputs.cache-hit != 'true'
         uses: actions/upload-artifact@v3
         with:
           name: scrape_mssql_docs
@@ -67,7 +65,6 @@ jobs:
         if: steps.cache-scrape_postgres_docs.outputs.cache-hit != 'true'
         run: make ./bin/scrape_postgres_docs 
       - name: upload scrape_postgres_docs
-        if: steps.cache-scrape_postgres_docs.outputs.cache-hit != 'true'
         uses: actions/upload-artifact@v3
         with:
           name: scrape_postgres_docs
@@ -83,7 +80,6 @@ jobs:
         if: steps.cache-scrape_tidb_docs.outputs.cache-hit != 'true'
         run: make ./bin/scrape_tidb_docs 
       - name: upload scrape_tidb_docs
-        if: steps.cache-scrape_tidb_docs.outputs.cache-hit != 'true'
         uses: actions/upload-artifact@v3
         with:
           name: scrape_tidb_docs
