@@ -24,6 +24,3 @@
     show items implemented by all databases
   </label>
 </div>
-<!-- <div>
-  <progress class:hidden={!shouldShowProgressBar} />
-</div> -->

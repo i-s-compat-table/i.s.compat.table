@@ -1,9 +1,6 @@
 <script lang="ts">
   export let result: string;
   export let matches: [number, number][];
-  // let chunks: string[] = [];
-  // const chunkMeaning: boolean[] = []; // true = highlight, false = normal
-  // let index = 0;
   $: chunks = matches.reduce(
     (() => {
       let index = 0;

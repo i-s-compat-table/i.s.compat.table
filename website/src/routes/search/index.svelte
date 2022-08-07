@@ -28,7 +28,7 @@
             return { table, column };
           }),
       )
-      .then((r) => r); // TODO: accept gzip/bzip
+      .then((r) => r);
     return { props: { data } };
   };
 </script>

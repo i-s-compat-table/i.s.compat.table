@@ -1,5 +1,4 @@
 import { browser } from "$app/env";
-// import { afterNavigate } from "$app/navigation";
 import type { Writable } from "svelte/store";
 import { writable } from "svelte/store";
 export const identity = <T>(v: T) => v;
@@ -47,14 +46,7 @@ export const urlParam = <T>(
   const store = writable(fallback);
   if (browser) {
     getInitialValue(store, key, fallback, parse);
-    // page.subscribe((p) => {
-    //   getValue(p.url, store, key, fallback, parse);
-    // });
     store.subscribe(updateUrl(key, fallback, serialize));
-    // afterNavigate(({ to }) => {
-    //   if (!to) return;
-    //   getValue(to, store, key, fallback, parse);
-    // });
   }
   return store;
 };

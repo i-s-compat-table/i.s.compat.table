@@ -8,7 +8,6 @@
   export let name: string;
   export let support: Munged[string][string];
   export let hidden: boolean = false;
-  // $: cells = $dbs.map((db) => support[db] ?? null);
 </script>
 
 <tr class:hidden>

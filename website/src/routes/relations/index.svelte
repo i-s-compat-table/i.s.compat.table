@@ -12,7 +12,7 @@
           throw new Error(`error ${r.status}: ${r.statusText}`);
         }
       })
-      .then((tsv) => munge(tsv)); // TODO: accept gzip/bzip
+      .then((tsv) => munge(tsv));
     return { props: { support: tableSupport } };
   };
 </script>

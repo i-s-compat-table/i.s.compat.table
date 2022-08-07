@@ -38,7 +38,7 @@
     <a style="witdh: 100%" href={getRelationPath(base, name)}><code>{name}</code></a>
   </th>
   <td class="table-support-header" colspan={$dbs.length + 1}>
-    <span>&nbsp;</span><!-- <hr /> -->
+    <span>&nbsp;</span>
   </td>
 </tr>
 {#each rows as [colName, support], i (colName)}
