@@ -209,6 +209,5 @@ export const munge = (
     },
     {},
   );
-  // console.log(tableSupport);
   return [munged, tableSupport];
 };

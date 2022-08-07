@@ -8,7 +8,6 @@
 
   const toggleMenu = () => (open = false);
   if (browser) {
-    // listen for the escape key
     document.addEventListener("keyup", (e) => {
       if (e.key === "Escape") toggleMenu();
     });

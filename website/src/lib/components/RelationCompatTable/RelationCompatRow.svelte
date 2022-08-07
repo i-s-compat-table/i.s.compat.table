@@ -28,7 +28,6 @@
   <th id="relation-{row.name}"
     ><a href="{base}/relation/{row.name}"><code>{row.name}</code></a></th
   >
-  <!-- TODO: display self-link on-hover? -->
   {#each $dbs as db}
     <RelationCompatCell support={row.support[db] ?? null} />
   {/each}

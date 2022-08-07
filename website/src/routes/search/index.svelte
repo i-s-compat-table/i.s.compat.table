@@ -34,7 +34,7 @@
 </script>
 
 <script lang="ts">
-  import SearchResult from "$lib/components/SearchResult.svelte";
+  import SearchResult from "$lib/components/Search/SearchResult.svelte";
   import query from "$lib/stores/search";
   import Fuse from "fuse.js";
   export let data: { table: string; column: string }[];

@@ -29,7 +29,7 @@
 </script>
 
 <script lang="ts">
-  import Db from "$lib/components/ColInfo/Db.svelte";
+  import DbInfo from "$lib/components/ColInfo/Index.svelte";
   import dbs from "$lib/stores/dbs";
   export let tableName: string;
   export let columnName: string;
@@ -41,10 +41,6 @@
 {#each $dbs as db}
   <section id="db-${db}">
     <h2><a href="#db-{db}">{db}</a></h2>
-    <Db info={columnSupport[db]} />
+    <DbInfo info={columnSupport[db]} />
   </section>
 {/each}
-
-<details open>
-  <pre><code>{JSON.stringify(columnSupport, null, 2)}</code></pre>
-</details>

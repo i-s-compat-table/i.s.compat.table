@@ -1,5 +1,5 @@
 <script lang="ts">
-  import NavLinks from "$lib/components/NavLinks.svelte";
+  import NavLinks from "$lib/components/Navigation/NavLinks.svelte";
 </script>
 
 <main>
