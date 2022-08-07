@@ -12,27 +12,21 @@
           throw new Error(`error ${r.status}: ${r.statusText}`);
         }
       })
-      .then((tsv) => munge(tsv)); // TODO: accept gzip/bzip
+      .then((tsv) => munge(tsv)); // TODO: accept gzip/bzip?
     return { props: { columnSupport: munged, tableSupport } };
   };
 </script>
 
 <script lang="ts">
+  import CommonalitySelector from "$lib/components/CommonalitySelector.svelte";
   import CompatTable from "$lib/components/CompatTable/Index.svelte";
   import type { TableSupport } from "$lib/munge";
-  import type { AllDbs } from "$lib/types";
-  const allDbs: AllDbs[] = [
-    "mysql",
-    "mariadb",
-    "tidb",
-    "postgres",
-    "cockroachdb",
-    "mssql",
-  ];
+
   export let columnSupport: Munged;
   export let tableSupport: TableSupport;
 </script>
 
 <h1><code>information_schema</code> compatibility table</h1>
+<CommonalitySelector />
 <!-- TODO: docs -->
-<CompatTable dbs={allDbs} {columnSupport} {tableSupport} />
+<CompatTable {columnSupport} />

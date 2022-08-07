@@ -1,10 +1,8 @@
 <script lang="ts">
-  import type { Munged, TableSupport } from "$lib/munge";
-  import type { AllDbs } from "$lib/types";
+  import type { Munged } from "$lib/munge";
+  import dbs from "$lib/stores/dbs";
   import InfoTable from "./Table.svelte";
-  export let dbs: AllDbs[] = [];
   export let columnSupport: Munged = {};
-  export let tableSupport: TableSupport = {};
 </script>
 
 <table class="sticky-header">
@@ -12,7 +10,7 @@
     <tr>
       <th>relation</th>
       <th>column</th>
-      {#each dbs as db}
+      {#each $dbs as db}
         <th>{db}</th>
       {/each}
       <th />
@@ -20,12 +18,7 @@
   </thead>
   <tbody>
     {#each Object.entries(columnSupport) as [tableName, tableData]}
-      <InfoTable
-        name={tableName}
-        support={tableSupport[tableName] ?? {}}
-        columns={tableData}
-        {dbs}
-      />
+      <InfoTable name={tableName} columns={tableData} />
     {/each}
   </tbody>
 </table>

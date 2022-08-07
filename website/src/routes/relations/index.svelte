@@ -18,33 +18,28 @@
 </script>
 
 <script lang="ts">
+  import CommonalitySelector from "$lib/components/CommonalitySelector.svelte";
+  import RelationCompatRow from "$lib/components/RelationCompatTable/RelationCompatRow.svelte";
+  import type { TableSupportRow } from "$lib/components/RelationCompatTable/types";
   import type { TableSupport } from "$lib/munge";
-  import type { AllDbs } from "$lib/types";
+  import dbStore from "$lib/stores/dbs";
   export let support: TableSupport;
-  type SupportRange = { range: string; isCurrent: boolean };
-  type Desired = {
-    name: string;
-    specific: boolean;
-    universal: boolean;
-    support: Partial<Record<AllDbs, SupportRange>>;
-  };
-  let _rows: Desired[] = Object.entries(support)
-    .map(([table, dbSupport]) => ({
-      name: table,
-      specific: Object.keys(dbSupport).length === 1,
-      universal: dbs.every((db) => db in dbSupport),
-      support: dbSupport,
-    }))
-    .sort((a, b) => (a.name > b.name ? 1 : b.name > a.name ? -1 : 0));
-  const dbs: AllDbs[] = ["mysql", "mariadb", "tidb", "postgres", "cockroachdb", "mssql"];
-  let showSpecific = true;
+
+  let _rows: TableSupportRow[] = [];
+  $: dbs = $dbStore;
+  $: {
+    _rows = Object.entries(support)
+      .map(([table, dbSupport]) => ({
+        name: table,
+        specific: Object.keys(dbSupport).length === 1,
+        universal: dbs.every((db) => db in dbSupport),
+        support: dbSupport,
+      }))
+      .sort((a, b) => (a.name > b.name ? 1 : b.name > a.name ? -1 : 0));
+  }
 </script>
 
-<!-- TODO: factor the specificity checkbox into its own store & component. -->
-<label
-  ><input type="checkbox" bind:checked={showSpecific} />show relations specific to one
-  database</label
->
+<CommonalitySelector />
 
 <table class="sticky-header">
   <thead>
@@ -57,22 +52,7 @@
   </thead>
   <tbody>
     {#each _rows as row}
-      <tr class={row.specific ? (showSpecific ? "" : "hidden") : ""}>
-        <th id="relation-{row.name}">{row.name}</th>
-        <!-- TODO: display self-link on-hover? -->
-        {#each dbs as db}
-          <!-- TODO: factor table support cells into their own component-->
-          <td
-            class="support-cell {row.support[db]?.isCurrent
-              ? 'current'
-              : row.support[db]?.range
-              ? 'deprecated'
-              : ''}"
-          >
-            {row.support[db]?.range || ""}
-          </td>
-        {/each}
-      </tr>
+      <RelationCompatRow {row} />
     {/each}
   </tbody>
 </table>

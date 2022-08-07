@@ -15,10 +15,10 @@ export type VersionInfo = {
 };
 export type EachDb<DbNames extends string, T> = Record<DbNames, T>;
 
-export type RangeRef = {
+export type SupportRange = { range: string; isCurrent: boolean };
+
+export type RangeRef = SupportRange & {
   url: string | null;
-  range: string;
-  isCurrent: boolean;
   license: string | null;
   license_url: string | null;
 };
