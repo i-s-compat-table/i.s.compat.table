@@ -1,4 +1,5 @@
 export const asc = <T>(a: T, b: T) => (a > b ? 1 : b > a ? -1 : 0);
+export const desc = <T>(a: T, b: T) => -1 * asc(a, b);
 export const objEntries = <T>(obj: Record<string, T>): [string, T][] => {
   return Object.entries(obj).sort(([a], [b]) => asc(a, b));
 };

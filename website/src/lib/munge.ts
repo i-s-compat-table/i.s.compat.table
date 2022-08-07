@@ -71,11 +71,11 @@ export const munge = (tsv: string): [Munged, TableSupport] => {
   function sortByVersion(a: string | number, b: string | number) {
     if (typeof a === "string" && valid(a) && typeof b === "string" && valid(b))
       return gt(a, b) ? 1 : gt(b, a) ? -1 : 0;
-    return a > b ? 1 : b > a ? -1 : 0;
+    return asc(a, b);
   }
   const _versions = Object.entries(uniqueVersions).reduce(
     (a: Record<string, (string | number)[]>, [k, v]) => {
-      a[k] = [...v].sort(asc).reverse();
+      a[k] = Array.from(v).sort(asc);
       return a;
     },
     {},
