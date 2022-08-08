@@ -2,7 +2,7 @@
   import { base } from "$app/paths";
   import { munge, type Munged } from "$lib/munge";
   import type { Load } from "@sveltejs/kit";
-  export const prerender = true;
+  // export const prerender = true;
   export const load: Load = async ({ fetch, params }) => {
     const target = `${base}/columns.tsv`;
     const [munged] = await fetch(target)
