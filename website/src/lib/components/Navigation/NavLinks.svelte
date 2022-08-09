@@ -1,7 +1,7 @@
 <script lang="ts">
   import { base } from "$app/paths";
   import { page } from "$app/stores";
-  import { issues } from "$lib/nav";
+  import { issues, repo } from "$lib/nav";
 </script>
 
 <ul>
@@ -18,4 +18,5 @@
   </li>
   <li><a href="{base}/search">Search for a relation or column</a></li>
   <li><a href={issues} target="_blank">Report an issue or inaccuracy</a></li>
+  <li><a href={repo} target="_blank">View the source code and data on GitHub</a></li>
 </ul>
