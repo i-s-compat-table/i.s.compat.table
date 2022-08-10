@@ -40,6 +40,10 @@
   }
 </script>
 
+<svelte:head>
+  <title>information_schema.*</title>
+</svelte:head>
+
 <h1 class="centered"><code>information_schema</code><code>.*</code></h1>
 
 <div class="centered">

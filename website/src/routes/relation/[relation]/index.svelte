@@ -1,6 +1,6 @@
 <script lang="ts" context="module">
   import { base } from "$app/paths";
-  import { munge, type Munged } from "$lib/munge";
+  import { munge,type Munged } from "$lib/munge";
   import type { Load } from "@sveltejs/kit";
   export const prerender = true;
   export const load: Load = async ({ fetch, params }) => {
@@ -23,6 +23,10 @@
   export let tableName: string;
   export let columnSupport: Munged;
 </script>
+
+<svelte:head>
+  <title>{tableName}.*</title>
+</svelte:head>
 
 <h1 class="centered">
   <code>information_schema</code><code>.{tableName}</code><code>.*</code>

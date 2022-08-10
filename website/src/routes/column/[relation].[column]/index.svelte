@@ -36,6 +36,9 @@
   export let columnSupport: Munged[string][string];
 </script>
 
+<svelte:head>
+  <title>{tableName}.{columnName}</title>
+</svelte:head>
 <h1><code>information_schema.{tableName}.{columnName}</code></h1>
 
 {#each $dbs as db}
