@@ -29,7 +29,9 @@ doc_dbs=\
 
 observation_dbs=./data/mariadb/observed.sqlite \
 	./data/mysql/observed.sqlite \
-	./data/postgres/observed.sqlite
+	./data/postgres/observed.sqlite \
+	./data/trino/observed.sqlite \
+	./data/clickhouse/observed.sqlite \
 
 tsv_dump_scripts=./scripts/dump_tsv.sh ./pkg/schema/views.sql
 
@@ -130,19 +132,21 @@ pg_services=postgres-10 postgres-11 postgres-12 postgres-13 postgres-14
 	rm -f ./data/postgres/observed.sqlite
 	docker-compose up -d $(pg_services)
 	./bin/observe_postgres
+	touch -m ./data/postgres/observed.sqlite
 	docker-compose down
 
 trino-observations: ./data/trino/observed.sqlite
 ./data/trino/observed.sqlite: ./bin/observe_trino
 	mkdir -p ./data/trino
-	rm -rf ./data/postgres/observed.sqlite
+	rm -rf ./data/trino/observed.sqlite
 	docker-compose up -d trino
 	./bin/observe_trino
+	touch -m ./data/trino/observed.sqlite
 	docker-compose down
 clickhouse-observations: ./data/clickhouse/observed.sqlite
 ./data/clickhouse/observed.sqlite: ./bin/observe_clickhouse
 	mkdir -p ./data/clickhouse
-	rm -rf ./data/postgres/observed.sqlite
+	rm -rf ./data/clickhouse/observed.sqlite
 	docker-compose up -d clickhouse
 	./bin/observe_clickhouse
 	docker-compose down

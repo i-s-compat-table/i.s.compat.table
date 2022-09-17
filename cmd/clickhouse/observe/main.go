@@ -2,10 +2,9 @@ package main
 
 import (
 	"database/sql"
+	"log"
 	"sync"
 	"time"
-
-	log "github.com/sirupsen/logrus"
 
 	"github.com/ClickHouse/clickhouse-go/v2"
 	"github.com/i-s-compat-table/i.s.compat.table/pkg/observer"
@@ -46,6 +45,17 @@ func openConn() *sql.DB {
 	}
 	return db
 }
+func waitFor(db *sql.DB, retries int) {
+	ticker := time.NewTicker(time.Second)
+	var err error
+	for i := 0; i <= retries; i++ {
+		if err = db.Ping(); err == nil {
+			return
+		}
+		<-ticker.C
+	}
+	log.Panicf("failed to connect to %s after %d seconds", host, retries)
+}
 
 // there should already be one or more Mysql's running
 func main() {
@@ -54,9 +64,7 @@ func main() {
 	waitForWrites.Add(1)
 	go commonSchema.BulkInsert(outputPath, colChan, &waitForWrites)
 	db := openConn()
-	if db == nil {
-		log.Panicf("failed to connect to %s", host)
-	}
+	waitFor(db, 100)
 	colChan <- observer.Observe(db, dbVersion, nil)
 	close(colChan)
 	waitForWrites.Wait()
