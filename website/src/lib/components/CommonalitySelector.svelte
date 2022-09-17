@@ -4,23 +4,30 @@
 
 <div style="display: flex">
   <!-- TODO: layout? -->
+  <div style="margin: 1ch">show items implemented by</div>
   <label>
     <input type="radio" bind:group={$commonality} value="any" />
-    show all items
+    any
   </label>
 
   <label>
     <input type="radio" bind:group={$commonality} value="shared" />
-    show items implemented by at least two databases
+    at least two
   </label>
 
   <label>
     <input type="radio" bind:group={$commonality} value="db-specific" />
-    show items implemented by only one database
+    only one database
   </label>
 
   <label>
     <input type="radio" bind:group={$commonality} value="universal" />
-    show items implemented by all databases
+    all databases
   </label>
 </div>
+
+<style>
+  label {
+    margin: 1ch;
+  }
+</style>
