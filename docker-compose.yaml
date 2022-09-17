@@ -88,4 +88,6 @@ services:
     <<: *cockroach
     image: docker.io/cockroachdb/cockroach:latest-v21.2
     ports: [26261:26257]
-
+  trino:
+    image: docker.io/trinodb/trino:396
+    ports: [8080:8080]

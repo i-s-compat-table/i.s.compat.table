@@ -70,7 +70,8 @@ _observer_common=pkg/observer/observer.go pkg/observer/columns.sql
 	go build -o ./bin/observe_mysql ./cmd/mysql/observe/main.go
 ./bin/observe_postgres: ./cmd/postgres/observe/main.go $(_common_backend) $(_observer_common)
 	go build -o ./bin/observe_postgres ./cmd/postgres/observe/main.go
-
+./bin/observe_trino: ./cmd/trino/observe/main.go $(_common_backend) $(_observer_common)
+	go build -o ./bin/observe_trino ./cmd/trino/observe/main.go
 
 # run the scaper binaries ----------------------------------------------------
 cockroachdb-docs: ./data/cockroachdb/docs.sqlite
@@ -129,6 +130,14 @@ pg_services=postgres-10 postgres-11 postgres-12 postgres-13 postgres-14
 	./bin/observe_postgres
 	docker-compose down
 
+trino-observations: ./data/trino/observed.sqlite
+./data/trino/observed.sqlite: ./bin/observe_trino
+	mkdir -p ./data/trino
+	rm -rf ./data/postgres/observed.sqlite
+	docker-compose up -d trino
+	./bin/observe_trino
+	docker-compose down
+
 # merge dataset as sqlite ----------------------------------------------------
 doc-dbs: $(doc_dbs)
 merge_scripts=./scripts/merge/dbs.sh ./scripts/merge/merge.sql
@@ -159,12 +168,13 @@ merge_scripts=./scripts/merge/dbs.sh ./scripts/merge/merge.sql
 	./scripts/dump_tsv.sh --output ./data/mysql/columns.tsv ./data/mysql/observed.sqlite
 ./data/postgres/columns.tsv: $(tsv_dump_scripts) ./data/postgres/merged.sqlite
 	./scripts/dump_tsv.sh --output ./data/postgres/columns.tsv ./data/postgres/merged.sqlite
+./data/tidb/columns.tsv: $(tsv_dump_scripts) ./data/tidb/docs.sqlite
+	./scripts/dump_tsv.sh --output ./data/tidb/columns.tsv ./data/tidb/docs.sqlite
+./data/trino/columns.tsv: $(tsv_dump_scripts) ./data/trino/observed.sqlite
+	./scripts/dump_tsv.sh --output ./data/trino/columns.tsv ./data/trino/observed.sqlite
 ./data/columns.sqlite: $(merge_scripts) ./data/merged.observations.sqlite ./data/merged.docs.sqlite
 	./scripts/merge/dbs.sh ./data/columns.sqlite ./data/merged.observations.sqlite ./data/merged.docs.sqlite
 	touch -m ./data/columns.sqlite
-./data/tidb/columns.tsv: $(tsv_dump_scripts) ./data/tidb/docs.sqlite
-	./scripts/dump_tsv.sh --output ./data/tidb/columns.tsv ./data/tidb/docs.sqlite
-
 ./data/columns.tsv: $(tsv_dump_scripts) ./data/columns.sqlite
 	./scripts/dump_tsv.sh --output ./data/columns.tsv ./data/columns.sqlite
 

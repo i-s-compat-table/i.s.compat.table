@@ -17,6 +17,8 @@
     "sirupsen",
     "snowflakedb",
     "tidb",
+    "trino",
+    "trinodb",
     "Warnf",
     "yuin"
   ],
