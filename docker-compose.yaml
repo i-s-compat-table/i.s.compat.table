@@ -91,3 +91,9 @@ services:
   trino:
     image: docker.io/trinodb/trino:396
     ports: [8080:8080]
+  clickhouse:
+    image: docker.io/clickhouse/clickhouse-server:22.8-alpine
+    ports:
+      - 8123:8123 # http
+      - 9000:9000 # native
+      - 9009:9009

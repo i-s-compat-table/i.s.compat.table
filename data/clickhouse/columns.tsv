@@ -1,0 +1,47 @@
+id	db_name	table_name	column_name	column_type	nullable	url	note	versions	license	license_url	attribution
+ab5bedb2e31975e0	clickhouse	columns	character_maximum_length	NULLABLE(UINT64)	true			22.8.5			
+c690b755c0a39b1d	clickhouse	columns	character_octet_length	NULLABLE(UINT64)	true			22.8.5			
+6eecbce8423e686c	clickhouse	columns	character_set_catalog	NULLABLE(STRING)	true			22.8.5			
+6df8357efcff6443	clickhouse	columns	character_set_name	NULLABLE(STRING)	true			22.8.5			
+fd7822c69fc5b267	clickhouse	columns	character_set_schema	NULLABLE(STRING)	true			22.8.5			
+d394ea2780c638ac	clickhouse	columns	collation_catalog	NULLABLE(STRING)	true			22.8.5			
+992c83bac0190622	clickhouse	columns	collation_name	NULLABLE(STRING)	true			22.8.5			
+66e556ad8fa50168	clickhouse	columns	collation_schema	NULLABLE(STRING)	true			22.8.5			
+837a25a85a78d09d	clickhouse	columns	column_comment	STRING	false			22.8.5			
+55c4c843f588a37e	clickhouse	columns	column_default	STRING	false			22.8.5			
+bd8ad0715026c856	clickhouse	columns	column_name	STRING	false			22.8.5			
+44aa1a6445f6e6b6	clickhouse	columns	column_type	STRING	false			22.8.5			
+7304110198be2915	clickhouse	columns	data_type	STRING	false			22.8.5			
+f2cea6b789b1b8f8	clickhouse	columns	datetime_precision	NULLABLE(UINT64)	true			22.8.5			
+34f35b3593621ddf	clickhouse	columns	domain_catalog	NULLABLE(STRING)	true			22.8.5			
+190d154357215568	clickhouse	columns	domain_name	NULLABLE(STRING)	true			22.8.5			
+1ca4b994293893d7	clickhouse	columns	domain_schema	NULLABLE(STRING)	true			22.8.5			
+2567f8908675f7c9	clickhouse	columns	is_nullable	UINT8	false			22.8.5			
+d0a751df104dbb60	clickhouse	columns	numeric_precision	NULLABLE(UINT64)	true			22.8.5			
+54e8b026df0da6cd	clickhouse	columns	numeric_precision_radix	NULLABLE(UINT64)	true			22.8.5			
+a20603acca68f4d9	clickhouse	columns	numeric_scale	NULLABLE(UINT64)	true			22.8.5			
+13bc2d62a66fbd11	clickhouse	columns	ordinal_position	UINT64	false			22.8.5			
+cb3e8639d969454d	clickhouse	columns	table_catalog	STRING	false			22.8.5			
+fdce471926d19763	clickhouse	columns	table_name	STRING	false			22.8.5			
+284b7e27442efbc6	clickhouse	columns	table_schema	STRING	false			22.8.5			
+02d67f8320de5d47	clickhouse	schemata	catalog_name	STRING	false			22.8.5			
+0c6435c747e38e3d	clickhouse	schemata	default_character_set_catalog	NULLABLE(STRING)	true			22.8.5			
+815ce96f0502c508	clickhouse	schemata	default_character_set_name	NULLABLE(STRING)	true			22.8.5			
+36509fc00855652d	clickhouse	schemata	default_character_set_schema	NULLABLE(STRING)	true			22.8.5			
+edf903be5bb023c6	clickhouse	schemata	schema_name	STRING	false			22.8.5			
+45520577b84a5abc	clickhouse	schemata	schema_owner	STRING	false			22.8.5			
+f0244bbd4feda351	clickhouse	schemata	sql_path	NULLABLE(STRING)	true			22.8.5			
+c710633344f6a924	clickhouse	tables	table_catalog	STRING	false			22.8.5			
+798fa4839e7ef923	clickhouse	tables	table_name	STRING	false			22.8.5			
+fdbcf4f51f639a75	clickhouse	tables	table_schema	STRING	false			22.8.5			
+2f241ac65680b3fe	clickhouse	tables	table_type	"ENUM8('BASE TABLE' = 1, 'VIEW' = 2, 'FOREIGN TABLE' = 3, 'LOCAL TEMPORARY' = 4, 'SYSTEM VIEW' = 5)"	false			22.8.5			
+3230d5bbbfe8cd8f	clickhouse	views	check_option	STRING	false			22.8.5			
+d1f9b56ed7b8b77a	clickhouse	views	is_insertable_into	"ENUM8('NO' = 0, 'YES' = 1)"	false			22.8.5			
+44af520630e33fe3	clickhouse	views	is_trigger_deletable	"ENUM8('NO' = 0, 'YES' = 1)"	false			22.8.5			
+4bbc802c4482082e	clickhouse	views	is_trigger_insertable_into	"ENUM8('NO' = 0, 'YES' = 1)"	false			22.8.5			
+04f9e018a6b4cff3	clickhouse	views	is_trigger_updatable	"ENUM8('NO' = 0, 'YES' = 1)"	false			22.8.5			
+dc7d13db34b7562b	clickhouse	views	is_updatable	"ENUM8('NO' = 0, 'YES' = 1)"	false			22.8.5			
+2c68fc853b2437d2	clickhouse	views	table_catalog	STRING	false			22.8.5			
+b5838822ad7aad48	clickhouse	views	table_name	STRING	false			22.8.5			
+03579cbe6e613ba2	clickhouse	views	table_schema	STRING	false			22.8.5			
+c5bc8f3146f60f24	clickhouse	views	view_definition	STRING	false			22.8.5			

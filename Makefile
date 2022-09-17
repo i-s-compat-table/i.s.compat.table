@@ -72,6 +72,8 @@ _observer_common=pkg/observer/observer.go pkg/observer/columns.sql
 	go build -o ./bin/observe_postgres ./cmd/postgres/observe/main.go
 ./bin/observe_trino: ./cmd/trino/observe/main.go $(_common_backend) $(_observer_common)
 	go build -o ./bin/observe_trino ./cmd/trino/observe/main.go
+./bin/observe_clickhouse: ./cmd/clickhouse/observe/main.go $(_common_backend) $(_observer_common)
+	go build -o ./bin/observe_clickhouse ./cmd/clickhouse/observe/main.go
 
 # run the scaper binaries ----------------------------------------------------
 cockroachdb-docs: ./data/cockroachdb/docs.sqlite
@@ -137,6 +139,13 @@ trino-observations: ./data/trino/observed.sqlite
 	docker-compose up -d trino
 	./bin/observe_trino
 	docker-compose down
+clickhouse-observations: ./data/clickhouse/observed.sqlite
+./data/clickhouse/observed.sqlite: ./bin/observe_clickhouse
+	mkdir -p ./data/clickhouse
+	rm -rf ./data/postgres/observed.sqlite
+	docker-compose up -d clickhouse
+	./bin/observe_clickhouse
+	docker-compose down
 
 # merge dataset as sqlite ----------------------------------------------------
 doc-dbs: $(doc_dbs)
@@ -172,6 +181,9 @@ merge_scripts=./scripts/merge/dbs.sh ./scripts/merge/merge.sql
 	./scripts/dump_tsv.sh --output ./data/tidb/columns.tsv ./data/tidb/docs.sqlite
 ./data/trino/columns.tsv: $(tsv_dump_scripts) ./data/trino/observed.sqlite
 	./scripts/dump_tsv.sh --output ./data/trino/columns.tsv ./data/trino/observed.sqlite
+./data/clickhouse/columns.tsv: $(tsv_dump_scripts) ./data/clickhouse/observed.sqlite
+	./scripts/dump_tsv.sh --output ./data/clickhouse/columns.tsv ./data/clickhouse/observed.sqlite
+
 ./data/columns.sqlite: $(merge_scripts) ./data/merged.observations.sqlite ./data/merged.docs.sqlite
 	./scripts/merge/dbs.sh ./data/columns.sqlite ./data/merged.observations.sqlite ./data/merged.docs.sqlite
 	touch -m ./data/columns.sqlite

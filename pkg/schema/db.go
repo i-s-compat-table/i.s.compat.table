@@ -44,8 +44,12 @@ func FromBool(nullable *bool) Nullability {
 func FromString(nullable string) Nullability {
 	s := strings.ToLower(utils.NormalizeString(nullable))
 	switch s {
+	case "1":
+		return Nullable
 	case "yes":
 		return Nullable
+	case "0":
+		return NotNullable
 	case "no":
 		return NotNullable
 	case "":
