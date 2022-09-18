@@ -7,6 +7,7 @@
     "timonwong.shellcheck",
     "mechatroner.rainbow-csv",
     "bierner.markdown-mermaid",
-    "qwtel.sqlite-viewer"
+    "qwtel.sqlite-viewer",
+    "svelte.svelte-vscode",
   ]
 }

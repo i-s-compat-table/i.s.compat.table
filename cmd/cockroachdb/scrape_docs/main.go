@@ -90,10 +90,10 @@ func scrape(cacheDir string, dbPath string, dbg bool) {
 		if err != nil {
 			panic(err)
 		}
-
+		versionOrder := commonSchema.AsOrder(version)
 		baseColumnVersion := commonSchema.ColVersion{
 			DbVersion: &commonSchema.Version{
-				Db: cockroachdb, Version: version, IsCurrent: &isCurrent,
+				Db: cockroachdb, Version: version, IsCurrent: &isCurrent, Order: &versionOrder,
 			},
 			Url: &commonSchema.Url{Url: niceUrl},
 		}

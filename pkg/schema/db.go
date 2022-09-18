@@ -8,11 +8,41 @@ import (
 	"strings"
 	"sync"
 
+	"github.com/Masterminds/semver/v3"
 	"github.com/cespare/xxhash/v2"
 	"github.com/i-s-compat-table/i.s.compat.table/pkg/utils"
 	_ "github.com/mattn/go-sqlite3"
 	log "github.com/sirupsen/logrus"
 )
+
+// pack major.minor[.patch] numbers into a single int64
+func SemverAsOrder(v *semver.Version) (result int64) {
+	// result := []
+	patch := v.Patch()
+	minor := v.Minor()
+	major := v.Major()
+	mustBeInInt16Range := func(part uint64) {
+		if part > 1<<15 {
+			log.Fatalf("%d can't fit into 16 bits")
+		}
+	}
+	mustBeInInt16Range(patch)
+	mustBeInInt16Range(minor)
+	mustBeInInt16Range(major)
+	result = int64(patch | minor<<16 | major<<32)
+	if int64(result) < 0 {
+		log.Fatalf("version orders should never be negative: %v", v)
+	}
+	return
+}
+
+func AsOrder(version string) int64 {
+	v, err := semver.NewVersion(version)
+	if err != nil {
+		log.Fatal(err)
+	}
+	return SemverAsOrder(v)
+}
 
 //go:embed db.sql
 var Schema string
@@ -110,9 +140,10 @@ const (
 	InsertColumnQ = "INSERT INTO columns(id, table_id, name) VALUES (?, ?, ?) " +
 		"ON CONFLICT DO NOTHING;"
 
-	InsertVersionQ = "INSERT INTO versions(id, db_id, version, is_current) " +
-		"VALUES (?, ?, ?, ?) ON CONFLICT DO UPDATE " +
-		"SET is_current = coalesce(excluded.is_current, is_current);"
+	InsertVersionQ = "INSERT INTO versions(id, db_id, version, is_current, version_order) " +
+		"VALUES (?, ?, ?, ?, ?) ON CONFLICT DO UPDATE SET" +
+		" is_current = coalesce(excluded.is_current, is_current)" +
+		" , version_order = coalesce(excluded.version_order, version_order);"
 	InsertLicenseQ = "INSERT INTO licenses(id, license, attribution, url_id) " +
 		"VALUES (?, ?, ?, ?) ON CONFLICT DO NOTHING;" // ?
 	InsertColumnVersionQ = "INSERT INTO column_versions(" +
@@ -136,6 +167,7 @@ type Version struct {
 	Db        *Database
 	IsCurrent *bool
 	Version   string
+	Order     *int64
 }
 
 func (v Version) Id() int64 {
@@ -256,7 +288,12 @@ func BulkInsert(outputPath string, cols <-chan []ColVersion, wg *sync.WaitGroup)
 
 				versionId := DeriveVersionId(dbId, col.DbVersion.Version)
 				utils.MustExec(insertVersion,
-					versionId, dbId, col.DbVersion.Version, col.DbVersion.IsCurrent)
+					versionId,
+					dbId,
+					col.DbVersion.Version,
+					col.DbVersion.IsCurrent,
+					col.DbVersion.Order,
+				)
 
 				tableId := col.Column.Table.Id()
 				utils.MustExec(insertTable, tableId, col.Column.Table.Name)

@@ -16,7 +16,10 @@ const dsn = "http://user@127.0.0.1:8080?catalog=tpch"
 
 var dbRecord = &commonSchema.Database{Name: "trino"}
 var isCurrent = true
-var dbVersion = &commonSchema.Version{Db: dbRecord, IsCurrent: &isCurrent, Version: "396"}
+var order = commonSchema.AsOrder("396")
+var dbVersion = &commonSchema.Version{
+	Db: dbRecord, IsCurrent: &isCurrent, Version: "396", Order: &order,
+}
 
 var query = `SELECT
     lower(col.table_name)

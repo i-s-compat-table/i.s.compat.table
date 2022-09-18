@@ -13,10 +13,14 @@ import (
 
 const outputPath = "./data/clickhouse/observed.sqlite"
 const host = "127.0.0.1:9000"
+const _version = "22.8.5"
 
 var dbRecord = &commonSchema.Database{Name: "clickhouse"}
 var isCurrent = true
-var dbVersion = &commonSchema.Version{Db: dbRecord, IsCurrent: &isCurrent, Version: "22.8.5"}
+var order = commonSchema.AsOrder(_version)
+var dbVersion = &commonSchema.Version{
+	Db: dbRecord, IsCurrent: &isCurrent, Version: _version, Order: &order,
+}
 
 func openConn() *sql.DB {
 	db := clickhouse.OpenDB(&clickhouse.Options{
@@ -40,9 +44,6 @@ func openConn() *sql.DB {
 	db.SetMaxIdleConns(5)
 	db.SetMaxOpenConns(10)
 	db.SetConnMaxLifetime(time.Hour)
-	if err := db.Ping(); err != nil {
-		panic(err)
-	}
 	return db
 }
 func waitFor(db *sql.DB, retries int) {

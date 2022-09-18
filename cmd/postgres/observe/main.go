@@ -43,9 +43,10 @@ func main() {
 		waitForObservations.Add(1)
 		go func(version string, portNumber int) {
 			defer waitForObservations.Done()
-			dbVersion := &commonSchema.Version{Db: dbRecord, Version: version}
+			order := commonSchema.AsOrder(version)
+			dbVersion := &commonSchema.Version{Db: dbRecord, Version: version, Order: &order}
 			dsn := fmt.Sprintf(dsnTemplate, portNumber)
-			db, err := observer.WaitFor(driver, dsn, 15)
+			db, err := observer.WaitFor(driver, dsn, 100)
 			if err != nil {
 				panic(err)
 			}

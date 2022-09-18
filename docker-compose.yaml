@@ -6,10 +6,10 @@ services:
       - POSTGRES_PASSWORD=password
       - PGPASSWORD=password
     healthcheck:
-      timeout: 10s
+      timeout: 2s
       interval: 1s
       test: [CMD, pg_isready, -U, postgres, -h, localhost]
-      retries: 10
+      retries: 100
     ports: [5432:5432]
   postgres-11:
     <<: *postgres
