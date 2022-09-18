@@ -48,7 +48,7 @@ jobs:
           key: "scrape_mssql_docs-${{hashFiles('pkg/schema/*', 'pkg/utils/*', 'cmd/mssql/scrape_docs/*')}}"
       - name: build scrape_mssql_docs
         if: steps.cache-scrape_mssql_docs.outputs.cache-hit != 'true'
-        run: make ./bin/scrape_mssql_docs 
+        run: make ./bin/scrape_mssql_docs
       - name: upload scrape_mssql_docs
         uses: actions/upload-artifact@v3
         with:
@@ -63,7 +63,7 @@ jobs:
           key: "scrape_postgres_docs-${{hashFiles('pkg/schema/*', 'pkg/utils/*', 'cmd/postgres/scrape_docs/*')}}"
       - name: build scrape_postgres_docs
         if: steps.cache-scrape_postgres_docs.outputs.cache-hit != 'true'
-        run: make ./bin/scrape_postgres_docs 
+        run: make ./bin/scrape_postgres_docs
       - name: upload scrape_postgres_docs
         uses: actions/upload-artifact@v3
         with:
@@ -94,7 +94,7 @@ jobs:
           key: "observe_mariadb-${{hashFiles('pkg/schema/*', 'pkg/utils/*', 'cmd/mariadb/observe/*')}}"
       - name: build observe_mariadb
         if: steps.cache-observe_mariadb.outputs.cache-hit != 'true'
-        run: make ./bin/observe_mariadb 
+        run: make ./bin/observe_mariadb
       - name: upload observe_mariadb
         uses: actions/upload-artifact@v3
         with:
@@ -109,7 +109,7 @@ jobs:
           key: "observe_mysql-${{hashFiles('pkg/schema/*', 'pkg/utils/*', 'cmd/mysql/observe/*')}}"
       - name: build observe_mysql
         if: steps.cache-observe_mysql.outputs.cache-hit != 'true'
-        run: make ./bin/observe_mysql 
+        run: make ./bin/observe_mysql
       - name: upload observe_mysql
         uses: actions/upload-artifact@v3
         with:
@@ -124,7 +124,7 @@ jobs:
           key: "observe_postgres-${{hashFiles('pkg/schema/*', 'pkg/utils/*', 'cmd/postgres/observe/*')}}"
       - name: build observe_postgres
         if: steps.cache-observe_postgres.outputs.cache-hit != 'true'
-        run: make ./bin/observe_postgres 
+        run: make ./bin/observe_postgres
       - name: upload observe_postgres
         uses: actions/upload-artifact@v3
         with:
@@ -140,7 +140,7 @@ jobs:
     #       key: "{}-${{hashFiles('pkg/schema/*', 'pkg/utils/*', 'cmd/')}}"
     #   - name: build {}
     #     if: steps.cache-{}.outputs.cache-hit != 'true'
-    #     run: make ./bin/{} 
+    #     run: make ./bin/{}
     #   - name: upload {}
     #     uses: actions/upload-artifact@v3
     #     with:
