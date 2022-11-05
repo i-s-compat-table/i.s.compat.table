@@ -6,10 +6,10 @@ services:
       - POSTGRES_PASSWORD=password
       - PGPASSWORD=password
     healthcheck:
-      timeout: 10s
+      timeout: 2s
       interval: 1s
       test: [CMD, pg_isready, -U, postgres, -h, localhost]
-      retries: 10
+      retries: 100
     ports: [5432:5432]
   postgres-11:
     <<: *postgres
@@ -92,4 +92,12 @@ services:
     <<: *cockroach
     image: docker.io/cockroachdb/cockroach:latest-v21.2
     ports: [26261:26257]
-
+  trino:
+    image: docker.io/trinodb/trino:396
+    ports: [8080:8080]
+  clickhouse:
+    image: docker.io/clickhouse/clickhouse-server:22.8-alpine
+    ports:
+      - 8123:8123 # http
+      - 9000:9000 # native
+      - 9009:9009

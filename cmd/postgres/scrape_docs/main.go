@@ -61,8 +61,9 @@ func scrape12Minus(html *colly.HTMLElement, tableName string, version string) []
 		return nil
 	}
 	isCurrent := false
+	order := commonSchema.AsOrder(version)
 	dbVersion := &commonSchema.Version{
-		Db: postgres, Version: version, IsCurrent: &isCurrent,
+		Db: postgres, Version: version, IsCurrent: &isCurrent, Order: &order,
 	}
 	url := &commonSchema.Url{Url: html.Request.URL.String()}
 	table := &commonSchema.Table{Name: tableName}
@@ -98,7 +99,8 @@ func scrape12Minus(html *colly.HTMLElement, tableName string, version string) []
 
 func scrape13Plus(page *colly.HTMLElement, tableName string, version string) []commonSchema.ColVersion {
 	isCurrent := version == allPgVersions[0]
-	dbVersion := &commonSchema.Version{Db: postgres, Version: version, IsCurrent: &isCurrent}
+	order := commonSchema.AsOrder(version)
+	dbVersion := &commonSchema.Version{Db: postgres, Version: version, IsCurrent: &isCurrent, Order: &order}
 	table := &commonSchema.Table{Name: tableName}
 	rows := page.DOM.Find("table.table, table.CALSTABLE").First().Find("table tbody tr")
 	url := &commonSchema.Url{Url: page.Request.URL.String()}

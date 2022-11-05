@@ -210,9 +210,11 @@ func scrapePage(
 			if ver.GreaterThan(firstVersion) || ver.Equal(firstVersion) {
 				c := thisCol.Clone()
 				isCurrent := i == len(versions)-1
+				order := commonSchema.SemverAsOrder(ver)
 				c.DbVersion = &commonSchema.Version{
 					Db:        &mariaDb,
 					Version:   ver.String(),
+					Order:     &order,
 					IsCurrent: &isCurrent,
 				}
 				resultRows = append(resultRows, c)

@@ -51,7 +51,7 @@
   <!-- <Legend /> -->
 </div>
 
-<div class="centered">
+<div>
   <table class="sticky-header">
     <thead>
       <tr>

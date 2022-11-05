@@ -286,8 +286,11 @@ func parseDescriptions(doc *goquery.Document, tableName string, url string) map[
 
 func scrapePage(doc *goquery.Document, tableName string, url string, rowChan chan []commonSchema.ColVersion) {
 	versionNumber := deriveVersion(url)
+	order := commonSchema.AsOrder(versionNumber)
 	isCurrent := versionNumber == versions[0]
-	version := commonSchema.Version{Db: tidb, IsCurrent: &isCurrent, Version: versionNumber}
+	version := commonSchema.Version{
+		Db: tidb, IsCurrent: &isCurrent, Version: versionNumber, Order: &order,
+	}
 	DESCs := parseDescriptions(doc, tableName, url)
 	lists := findColDescriptions(doc)
 	if len(lists) == 0 || len(DESCs) == 0 || len(DESCs) > len(lists) {

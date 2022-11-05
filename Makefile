@@ -29,11 +29,11 @@ doc_dbs=\
 
 observation_dbs=./data/mariadb/observed.sqlite \
 	./data/mysql/observed.sqlite \
-	./data/postgres/observed.sqlite
+	./data/postgres/observed.sqlite \
+	./data/trino/observed.sqlite \
+	./data/clickhouse/observed.sqlite \
 
 tsv_dump_scripts=./scripts/dump_tsv.sh ./pkg/schema/views.sql
-
-all_shell_scripts=$(shell find . -type f -name '*.sh')
 
 # phony targets --------------------------------------------------------------
 # try to keep these in alphabetical order
@@ -49,6 +49,7 @@ all_shell_scripts=$(shell find . -type f -name '*.sh')
 	update-docs
 
 # targets ====================================================================
+.PHONY: all
 all: ./data/columns.tsv ./data/mariadb/columns.tsv ./data/mssql/columns.tsv ./data/mysql/columns.tsv ./data/postgres/columns.tsv
 
 # build the scraper binaries -------------------------------------------------
@@ -70,7 +71,10 @@ _observer_common=pkg/observer/observer.go pkg/observer/columns.sql
 	go build -o ./bin/observe_mysql ./cmd/mysql/observe/main.go
 ./bin/observe_postgres: ./cmd/postgres/observe/main.go $(_common_backend) $(_observer_common)
 	go build -o ./bin/observe_postgres ./cmd/postgres/observe/main.go
-
+./bin/observe_trino: ./cmd/trino/observe/main.go $(_common_backend) $(_observer_common)
+	go build -o ./bin/observe_trino ./cmd/trino/observe/main.go
+./bin/observe_clickhouse: ./cmd/clickhouse/observe/main.go $(_common_backend) $(_observer_common)
+	go build -o ./bin/observe_clickhouse ./cmd/clickhouse/observe/main.go
 
 # run the scaper binaries ----------------------------------------------------
 cockroachdb-docs: ./data/cockroachdb/docs.sqlite
@@ -90,6 +94,7 @@ mssql-docs: ./data/mssql/docs.sqlite
 	mkdir -p ./data/mssql
 	rm -f ./data/mssql/docs.sqlite
 	./bin/scrape_mssql_docs
+	touch -m ./data/mssql/docs.sqlite
 
 pg-docs: ./data/postgres/docs.sqlite
 ./data/postgres/docs.sqlite: ./bin/scrape_postgres_docs ./data/postgres/patch.sql
@@ -108,17 +113,19 @@ mariadb-observations:./data/mariadb/observed.sqlite
 ./data/mariadb/observed.sqlite:./bin/observe_mariadb
 	mkdir -p ./data/mariadb
 	rm -f ./data/mariadb/observed.sqlite
-	docker-compose up -d $(mariadb_services)
+	docker compose up --wait $(mariadb_services)
 	./bin/observe_mariadb
-	docker-compose down
+	docker compose down
+	touch -m ./data/mariadb/observed.sqlite
 
 mysql-observations: ./data/mysql/observed.sqlite
 ./data/mysql/observed.sqlite: ./bin/observe_mysql
 	mkdir -p ./data/mysql
 	rm -f ./data/mysql/observed.sqlite
-	docker-compose up -d mysql-5.7 mysql-8.0
+	docker compose up --wait mysql-5.7 mysql-8.0
 	./bin/observe_mysql
-	docker-compose down
+	touch -m ./data/mysql/observed.sqlite
+	docker compose down
 
 pg-observations: ./data/postgres/observed.sqlite
 pg_services=\
@@ -132,9 +139,26 @@ pg_services=\
 ./data/postgres/observed.sqlite:./bin/observe_postgres
 	mkdir -p ./data/postgres
 	rm -f ./data/postgres/observed.sqlite
-	docker-compose up -d $(pg_services)
+	docker compose up --wait $(pg_services)
 	./bin/observe_postgres
-	docker-compose down
+	touch -m ./data/postgres/observed.sqlite
+	docker compose down
+
+trino-observations: ./data/trino/observed.sqlite
+./data/trino/observed.sqlite: ./bin/observe_trino
+	mkdir -p ./data/trino
+	rm -rf ./data/trino/observed.sqlite
+	docker compose up --wait trino
+	./bin/observe_trino
+	touch -m ./data/trino/observed.sqlite
+	docker compose down
+clickhouse-observations: ./data/clickhouse/observed.sqlite
+./data/clickhouse/observed.sqlite: ./bin/observe_clickhouse
+	mkdir -p ./data/clickhouse
+	rm -rf ./data/clickhouse/observed.sqlite
+	docker compose up --wait clickhouse
+	./bin/observe_clickhouse
+	docker compose down
 
 # merge dataset as sqlite ----------------------------------------------------
 doc-dbs: $(doc_dbs)
@@ -142,6 +166,7 @@ merge_scripts=./scripts/merge/dbs.sh ./scripts/merge/merge.sql
 ./data/merged.docs.sqlite: $(merge_scripts) $(doc_dbs)
 	rm -f ./data/merged.docs.sqlite
 	./scripts/merge/dbs.sh ./data/merged.docs.sqlite $(doc_dbs)
+	touch -m ./data/merged.docs.sqlite
 
 ./data/merged.observations.sqlite: $(merge_scripts) $(observation_dbs)
 	./scripts/merge/dbs.sh ./data/merged.observations.sqlite $(observation_dbs)
@@ -149,7 +174,7 @@ merge_scripts=./scripts/merge/dbs.sh ./scripts/merge/merge.sql
 
 ./data/mariadb/merged.sqlite: $(merge_scripts) ./data/mariadb/docs.sqlite ./data/mariadb/observed.sqlite
 	rm -f ./data/mariadb/merged.sqlite
-	./scripts/merge/dbs.sh ./data/mariadb/merged.sqlite ./data/mariadb/observed.sqlite ./data/mariadb/docs.sqlite
+	./scripts/merge/dbs.sh ./data/mariadb/merged.sqlite ./data/mariadb/docs.sqlite ./data/mariadb/observed.sqlite
 
 ./data/postgres/merged.sqlite: $(merge_scripts) ./data/postgres/docs.sqlite ./data/postgres/observed.sqlite
 	rm -f ./data/postgres/merged.sqlite
@@ -166,12 +191,16 @@ merge_scripts=./scripts/merge/dbs.sh ./scripts/merge/merge.sql
 	./scripts/dump_tsv.sh --output ./data/mysql/columns.tsv ./data/mysql/observed.sqlite
 ./data/postgres/columns.tsv: $(tsv_dump_scripts) ./data/postgres/merged.sqlite
 	./scripts/dump_tsv.sh --output ./data/postgres/columns.tsv ./data/postgres/merged.sqlite
+./data/tidb/columns.tsv: $(tsv_dump_scripts) ./data/tidb/docs.sqlite
+	./scripts/dump_tsv.sh --output ./data/tidb/columns.tsv ./data/tidb/docs.sqlite
+./data/trino/columns.tsv: $(tsv_dump_scripts) ./data/trino/observed.sqlite
+	./scripts/dump_tsv.sh --output ./data/trino/columns.tsv ./data/trino/observed.sqlite
+./data/clickhouse/columns.tsv: $(tsv_dump_scripts) ./data/clickhouse/observed.sqlite
+	./scripts/dump_tsv.sh --output ./data/clickhouse/columns.tsv ./data/clickhouse/observed.sqlite
+
 ./data/columns.sqlite: $(merge_scripts) ./data/merged.observations.sqlite ./data/merged.docs.sqlite
 	./scripts/merge/dbs.sh ./data/columns.sqlite ./data/merged.observations.sqlite ./data/merged.docs.sqlite
 	touch -m ./data/columns.sqlite
-./data/tidb/columns.tsv: $(tsv_dump_scripts) ./data/tidb/docs.sqlite
-	./scripts/dump_tsv.sh --output ./data/tidb/columns.tsv ./data/tidb/docs.sqlite
-
 ./data/columns.tsv: $(tsv_dump_scripts) ./data/columns.sqlite
 	./scripts/dump_tsv.sh --output ./data/columns.tsv ./data/columns.sqlite
 
@@ -181,7 +210,7 @@ update-docs:
 	poetry run cog -PUre ./CONTRIBUTING.md
 
 shellcheck:
-	shellcheck -x $(all_shell_scripts)
+	shellcheck --external-sources --source-path=SCRIPTDIR $(shell find . -type f -name '*.sh')
 
 clean-scraped-docs:
 	rm -f $(doc_dbs)
@@ -194,3 +223,6 @@ clean-observer-binaries:
 clean-merged-dbs:
 	find . -name 'merge*.sqlite' -type f | xargs rm -f ./data/columns.sqlite
 clean: clean-scraped-docs clean-observations clean-merged-dbs clean-scraper-binaries clean-observer-binaries
+
+./bin/debug_id: go.mod go.sum ./scripts/debug_id/*.go pkg/schema/*
+	go build -o bin/debug_id ./scripts/debug_id

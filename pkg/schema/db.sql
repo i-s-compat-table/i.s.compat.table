@@ -12,8 +12,9 @@ CREATE TABLE versions (
   , db_id INTEGER NOT NULL REFERENCES dbs(id)
   , version      TEXT NOT NULL
   -- mutable metadata:
-  , release_date TEXT     NULL -- iso-8601 date, manually supplied
+  , release_date TEXT  NULL -- iso-8601 date, manually supplied
   , is_current BOOLEAN NULL
+  , version_order INT8 NOT NULL
 );
 
 CREATE TABLE tables(
