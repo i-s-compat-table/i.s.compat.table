@@ -111,6 +111,7 @@ func scrapeFamilyTree(base *colly.Collector) map[string][]string {
 	for pkg := range set {
 		allSql = append(allSql, pkg)
 	}
+	sort.Strings(allSql)
 	result["SQL Server (all supported versions)"] = allSql
 	return result
 }
@@ -125,6 +126,7 @@ var license = &commonSchema.License{
 	},
 }
 
+// scrape a page for the mssql db versions the page pertains to
 func getVersions(page *colly.HTMLElement, fam map[string][]string) (result []string) {
 	imgs := page.DOM.Find("p>img").First()
 	if imgs.Length() == 0 {
@@ -196,10 +198,19 @@ func scrapePage(
 			if result.Column == nil {
 				log.Panicf("%+v <- %s", result, url.Url)
 			}
+			allVersions := fam["SQL Server (all supported versions)"]
 
 			for _, version := range versions {
+				var versionNumber int64
+				for i := 0; i < len(allVersions); i++ {
+					if version == allVersions[i] {
+						break
+					}
+				}
+				versionNumber = int64(i)
+
 				colVersion := result.Clone()
-				colVersion.DbVersion = &commonSchema.Version{Db: mssql, Version: version}
+				colVersion.DbVersion = &commonSchema.Version{Db: mssql, Version: version, Order: &versionNumber}
 				resultRows = append(resultRows, colVersion)
 			}
 		}
