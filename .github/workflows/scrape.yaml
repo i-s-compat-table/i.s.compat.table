@@ -290,13 +290,22 @@ jobs:
           - 5435:5432
         options: --health-cmd "pg_isready -U postgres -h 127.0.0.1" --health-interval 1s --health-timeout 10s --health-retries 60
       postgres-14:
-        image: docker.io/library/postgres:13-alpine
+        image: docker.io/library/postgres:14-alpine
         env:
           POSTGRES_PASSWORD: password
           PGPASSWORD: password
         ports:
           - 5436:5432
         options: --health-cmd "pg_isready -U postgres -h 127.0.0.1" --health-interval 1s --health-timeout 10s --health-retries 60
+      postgres-15:
+        image: docker.io/library/postgres:15-alpine
+        env:
+          POSTGRES_PASSWORD: password
+          PGPASSWORD: password
+        ports:
+          - 5437:5432
+        options: --health-cmd "pg_isready -U postgres -h 127.0.0.1" --health-interval 1s --health-timeout 10s --health-retries 60
+    
     runs-on: ubuntu-latest
     steps:
       - name: prep fs
