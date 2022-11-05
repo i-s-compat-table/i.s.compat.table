@@ -426,7 +426,6 @@ f88e219038fdaa08	mysql	innodb_tables	name	VARCHAR	false			8.0
 32e674cea841e0e7	mysql	innodb_tables	space	BIGINT	false			8.0			
 c0058010dcdd9dee	mysql	innodb_tables	space_type	VARCHAR	true			8.0			
 d1449a4cc4cda896	mysql	innodb_tables	table_id	BIGINT	false			8.0			
-b3ce59409ea62dea	mysql	innodb_tables	total_row_versions	INT	false			8.0			
 6760f3d7f12457ff	mysql	innodb_tables	zip_page_size	INT	false			8.0			
 5faa3e83a291b5be	mysql	innodb_tablespaces	allocated_size	BIGINT	false			8.0			
 e1ad217152155ee7	mysql	innodb_tablespaces	autoextend_size	BIGINT	false			8.0			
