@@ -534,6 +534,7 @@ jobs:
       - scrape_mariadb_docs
       - scrape_postgres_docs
       - scrape_mssql_docs
+      - scrape_tidb_docs
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
