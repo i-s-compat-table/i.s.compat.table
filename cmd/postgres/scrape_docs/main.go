@@ -25,6 +25,7 @@ var license = &commonSchema.License{
 	Url:         &commonSchema.Url{Url: "https://www.postgresql.org/about/licence/"},
 }
 var allPgVersions = [...]string{
+	"15",
 	"14",
 	"13",
 	"12",

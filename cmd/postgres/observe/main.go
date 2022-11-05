@@ -22,6 +22,7 @@ var versionPorts = map[string]int{
 	"12": 5434,
 	"13": 5435,
 	"14": 5436,
+	"15": 5437,
 }
 var query = `SELECT
 col.table_name

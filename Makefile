@@ -121,7 +121,14 @@ mysql-observations: ./data/mysql/observed.sqlite
 	docker-compose down
 
 pg-observations: ./data/postgres/observed.sqlite
-pg_services=postgres-10 postgres-11 postgres-12 postgres-13 postgres-14
+pg_services=\
+	postgres-10\
+	postgres-11\
+	postgres-12\
+	postgres-13\
+	postgres-14\
+	postgres-15\
+
 ./data/postgres/observed.sqlite:./bin/observe_postgres
 	mkdir -p ./data/postgres
 	rm -f ./data/postgres/observed.sqlite
