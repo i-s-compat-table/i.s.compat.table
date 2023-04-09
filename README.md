@@ -41,14 +41,14 @@ I'd like to use `information_schema` more. Before I do that, however, I'd like t
 I scrape at the public documentation where the documentation licenses allow.
 I also run databases without restrictive EULAs and observe those databases' `information_schema` tables directly.
 
-I prioritize the most popular databases that implement an `information_schema` according to [2021 Stack Overflow Developer Survey](https://insights.stackoverflow.com/survey/2021#section-most-popular-technologies-databases)
+I prioritize the most popular databases that implement an `information_schema` according to [2022 Stack Overflow Developer Survey](https://survey.stackoverflow.co/2022/#most-popular-technologies-database)
 
 | database name | % of respondents use | documentation scraped | `information_schema` queried directly |
 | ------------- | :------------------: | :-------------------: | :-----------------------------------: |
-| `mysql`       |         48%          |          NO           |                  YES                  |
+| `mysql`       |         47%          |          NO           |                  YES                  |
 | `postgres`    |         44%          |          YES          |                  YES                  |
-| `mssql`       |         29%          |          YES          |                  NO                   |
-| `mariadb`     |         17%          |          YES          |                  YES                  |
+| `mssql`       |         27%          |          YES          |                  NO                   |
+| `mariadb`     |         18%          |          YES          |                  YES                  |
 | `cockroachdb` |                      |          YES          |                 TODO                  |
 | `tidb`        |                      |          YES          |                 TODO                  |
 
