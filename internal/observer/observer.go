@@ -7,8 +7,8 @@ import (
 	"strings"
 	"time"
 
-	commonSchema "github.com/i-s-compat-table/i.s.compat.table/pkg/schema"
-	"github.com/i-s-compat-table/i.s.compat.table/pkg/utils"
+	commonSchema "github.com/i-s-compat-table/i.s.compat.table/internal/schema"
+	"github.com/i-s-compat-table/i.s.compat.table/internal/utils"
 	log "github.com/sirupsen/logrus"
 )
 

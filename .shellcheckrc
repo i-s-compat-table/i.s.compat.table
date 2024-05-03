@@ -1,1 +1,3 @@
 source-path=SCRIPTDIR
+disable=SC2002
+# SC2002: useless cat. `cat ... | cmd` composes better than `cmd ...`

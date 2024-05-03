@@ -5,8 +5,8 @@ import (
 
 	log "github.com/sirupsen/logrus"
 
-	"github.com/i-s-compat-table/i.s.compat.table/pkg/observer"
-	commonSchema "github.com/i-s-compat-table/i.s.compat.table/pkg/schema"
+	"github.com/i-s-compat-table/i.s.compat.table/internal/observer"
+	commonSchema "github.com/i-s-compat-table/i.s.compat.table/internal/schema"
 	_ "github.com/trinodb/trino-go-client/trino"
 )
 

@@ -16,13 +16,18 @@
             go # 1.21
           ];
           buildInputs = with pkgs; [
-            # nix support
-            nixpkgs-fmt
-            nil
             # go development
             gopls
             delve
             golangci-lint
+            
+            sqlite
+            podman
+            podman-compose
+            
+            # nix support
+            nixpkgs-fmt
+            nil
             # goreleaser # TODO: when we have a release
 
             # general development

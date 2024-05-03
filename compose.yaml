@@ -1,4 +1,4 @@
-version: "3"
+version: "3.8"
 services:
   postgres-10: &postgres
     image: docker.io/library/postgres:10-alpine
@@ -31,6 +31,10 @@ services:
     <<: *postgres
     image: docker.io/library/postgres:15-alpine
     ports: [5437:5432]
+  postgres-16:
+    <<: *postgres
+    image: docker.io/library/postgres:16-alpine
+    ports: [5438:5432]
   mysql-5.7: &mysql
     image: docker.io/library/mysql:5.7
     ports: [3306:3306]
@@ -77,21 +81,34 @@ services:
     <<: *cockroach
     image: docker.io/cockroachdb/cockroach:latest-v20.1
     ports: [26258:26257]
-
   cockroachdb-20.2:
     <<: *cockroach
     image: docker.io/cockroachdb/cockroach:latest-v20.2
     ports: [26259:26257]
-
   cockroachdb-21.1:
     <<: *cockroach
     image: docker.io/cockroachdb/cockroach:latest-v21.1
     ports: [26260:26257]
-
   cockroachdb-21.2:
     <<: *cockroach
     image: docker.io/cockroachdb/cockroach:latest-v21.2
     ports: [26261:26257]
+  cockroachdb-22.1:
+    <<: *cockroach
+    image: docker.io/cockroachdb/cockroach:latest-v22.1
+    ports: [26262:26257]
+  cockroachdb-22.2:
+    <<: *cockroach
+    image: docker.io/cockroachdb/cockroach:latest-v22.2
+    ports: [26263:26257]
+  cockroachdb-23.1:
+    <<: *cockroach
+    image: docker.io/cockroachdb/cockroach:latest-v23.1
+    ports: [26264:26257]
+  cockroachdb-23.2:
+    <<: *cockroach
+    image: docker.io/cockroachdb/cockroach:latest-v23.2
+    ports: [26265:26257]
   trino:
     image: docker.io/trinodb/trino:396
     ports: [8080:8080]

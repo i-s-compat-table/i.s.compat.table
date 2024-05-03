@@ -28,7 +28,7 @@ cmd="
 
 -- ensure the desired view exists
 drop view if exists cols;
-.read ./pkg/schema/views.sql
+.read ./internal/schema/views.sql
 
 -- write to stdout
 select * from cols;

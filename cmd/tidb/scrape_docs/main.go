@@ -13,8 +13,8 @@ import (
 	"github.com/PuerkitoBio/goquery"
 	"github.com/gocolly/colly/v2"
 	"github.com/gocolly/colly/v2/debug"
-	commonSchema "github.com/i-s-compat-table/i.s.compat.table/pkg/schema"
-	"github.com/i-s-compat-table/i.s.compat.table/pkg/utils"
+	commonSchema "github.com/i-s-compat-table/i.s.compat.table/internal/schema"
+	"github.com/i-s-compat-table/i.s.compat.table/internal/utils"
 	"github.com/yuin/goldmark"
 	"github.com/yuin/goldmark/extension"
 )
@@ -26,6 +26,18 @@ var license = &commonSchema.License{
 	Url:         &commonSchema.Url{Url: "https://github.com/pingcap/tidb/blob/master/LICENSE"},
 }
 var versions = [...]string{
+	"7.6",
+	"7.5",
+	"7.4",
+	"7.3",
+	"7.2",
+	"7.1",
+	"7.0",
+	"6.6",
+	"6.5",
+	"6.4",
+	"6.3",
+	"6.2",
 	"6.1",
 	"6.0",
 	"5.4",
@@ -260,10 +272,10 @@ func parseDescriptions(doc *goquery.Document, tableName string, url string) map[
 		if tableName != describedTableName && fmt.Sprintf("cluster_%s", tableName) != describedTableName {
 			log.Panicf("title %s != table %s", tableName, describedTableName)
 		}
-		text := s.Parent().Next().Text()
+		text := s.Parent().Next().Text() // FIXME: wrong selection
 		plusTable := parsePlusTable(text)
 		if len(plusTable) == 0 {
-			log.Panicf("unable to parse +table @ %s", url)
+			log.Panicf("unable to parse +table @ %s: 0 rows found in %d chars", url, len(text))
 		}
 		if header := strings.Join(plusTable[0], ","); header != "Field,Type,Null,Key,Default,Extra" {
 			log.Panicf("unexpected header @ %s : %s", url, header)

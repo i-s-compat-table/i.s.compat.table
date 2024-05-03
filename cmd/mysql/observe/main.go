@@ -7,8 +7,8 @@ import (
 	log "github.com/sirupsen/logrus"
 
 	"github.com/go-sql-driver/mysql"
-	"github.com/i-s-compat-table/i.s.compat.table/pkg/observer"
-	commonSchema "github.com/i-s-compat-table/i.s.compat.table/pkg/schema"
+	"github.com/i-s-compat-table/i.s.compat.table/internal/observer"
+	commonSchema "github.com/i-s-compat-table/i.s.compat.table/internal/schema"
 )
 
 const outputPath = "./data/mysql/observed.sqlite"

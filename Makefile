@@ -1,6 +1,7 @@
 # variables ###################################################################
 # try to keep each list in alphabetical order
-_common_backend=pkg/schema/db.go pkg/schema/db.sql
+_common_backend=internal/schema/db.go internal/schema/db.sql
+COMPOSE ?= ${COMPOSE}
 observer_binaries=\
 	./bin/observe_mariadb \
 	./bin/observe_mssql \
@@ -13,12 +14,13 @@ scraper_binaries=\
 	./bin/scrape_mssql_docs \
 	./bin/scrape_postgres_docs
 
-mariadb_services=mariadb-10.2.41 \
- mariadb-10.3.32 \
- mariadb-10.4.22 \
- mariadb-10.5.13 \
- mariadb-10.6.5 \
- mariadb-10.7.1
+mariadb_services=\
+	mariadb-10.2.41 \
+	mariadb-10.3.32 \
+	mariadb-10.4.22 \
+	mariadb-10.5.13 \
+	mariadb-10.6.5 \
+	mariadb-10.7.1 \
 
 doc_dbs=\
 	./data/cockroachdb/docs.sqlite \
@@ -33,7 +35,7 @@ observation_dbs=./data/mariadb/observed.sqlite \
 	./data/trino/observed.sqlite \
 	./data/clickhouse/observed.sqlite \
 
-tsv_dump_scripts=./scripts/dump_tsv.sh ./pkg/schema/views.sql
+tsv_dump_scripts=./scripts/dump_tsv.sh ./internal/schema/views.sql
 
 # phony targets --------------------------------------------------------------
 # try to keep these in alphabetical order
@@ -64,7 +66,7 @@ all: ./data/columns.tsv ./data/mariadb/columns.tsv ./data/mssql/columns.tsv ./da
 ./bin/scrape_tidb_docs: ./cmd/tidb/scrape_docs/main.go $(_common_backend)
 	go build -o ./bin/scrape_tidb_docs ./cmd/tidb/scrape_docs/main.go
 # build the observer binaries ------------------------------------------------
-_observer_common=pkg/observer/observer.go pkg/observer/columns.sql
+_observer_common=internal/observer/observer.go internal/observer/columns.sql
 ./bin/observe_mariadb: ./cmd/mariadb/observe/main.go $(_common_backend) $(_observer_common)
 	go build -o ./bin/observe_mariadb ./cmd/mariadb/observe/main.go
 ./bin/observe_mysql: ./cmd/mysql/observe/main.go $(_common_backend) $(_observer_common)
@@ -110,22 +112,22 @@ tidb-docs: ./data/tidb/docs.sqlite
 
 # run the observer binaries --------------------------------------------------
 mariadb-observations:./data/mariadb/observed.sqlite
-./data/mariadb/observed.sqlite:./bin/observe_mariadb
+./data/mariadb/observed.sqlite: ./bin/observe_mariadb
 	mkdir -p ./data/mariadb
 	rm -f ./data/mariadb/observed.sqlite
-	docker compose up --wait $(mariadb_services)
+	${COMPOSE} up -d $(mariadb_services)
 	./bin/observe_mariadb
-	docker compose down
+	${COMPOSE} down
 	touch -m ./data/mariadb/observed.sqlite
 
 mysql-observations: ./data/mysql/observed.sqlite
 ./data/mysql/observed.sqlite: ./bin/observe_mysql
 	mkdir -p ./data/mysql
 	rm -f ./data/mysql/observed.sqlite
-	docker compose up --wait mysql-5.7 mysql-8.0
+	${COMPOSE} up -d mysql-5.7 mysql-8.0
 	./bin/observe_mysql
 	touch -m ./data/mysql/observed.sqlite
-	docker compose down
+	${COMPOSE} down
 
 pg-observations: ./data/postgres/observed.sqlite
 pg_services=\
@@ -135,30 +137,31 @@ pg_services=\
 	postgres-13\
 	postgres-14\
 	postgres-15\
+	postgres-16\
 
 ./data/postgres/observed.sqlite:./bin/observe_postgres
 	mkdir -p ./data/postgres
 	rm -f ./data/postgres/observed.sqlite
-	docker compose up --wait $(pg_services)
+	${COMPOSE} up -d $(pg_services)
 	./bin/observe_postgres
 	touch -m ./data/postgres/observed.sqlite
-	docker compose down
+	${COMPOSE} down
 
 trino-observations: ./data/trino/observed.sqlite
 ./data/trino/observed.sqlite: ./bin/observe_trino
 	mkdir -p ./data/trino
 	rm -rf ./data/trino/observed.sqlite
-	docker compose up --wait trino
+	${COMPOSE} up -d trino
 	./bin/observe_trino
 	touch -m ./data/trino/observed.sqlite
-	docker compose down
+	${COMPOSE} down
 clickhouse-observations: ./data/clickhouse/observed.sqlite
 ./data/clickhouse/observed.sqlite: ./bin/observe_clickhouse
 	mkdir -p ./data/clickhouse
 	rm -rf ./data/clickhouse/observed.sqlite
-	docker compose up --wait clickhouse
+	${COMPOSE} up -d clickhouse
 	./bin/observe_clickhouse
-	docker compose down
+	${COMPOSE} down
 
 # merge dataset as sqlite ----------------------------------------------------
 doc-dbs: $(doc_dbs)
@@ -224,5 +227,5 @@ clean-merged-dbs:
 	find . -name 'merge*.sqlite' -type f | xargs rm -f ./data/columns.sqlite
 clean: clean-scraped-docs clean-observations clean-merged-dbs clean-scraper-binaries clean-observer-binaries
 
-./bin/debug_id: go.mod go.sum ./scripts/debug_id/*.go pkg/schema/*
+./bin/debug_id: go.mod go.sum ./scripts/debug_id/*.go internal/schema/*
 	go build -o bin/debug_id ./scripts/debug_id

@@ -7,8 +7,8 @@ import (
 	"time"
 
 	"github.com/ClickHouse/clickhouse-go/v2"
-	"github.com/i-s-compat-table/i.s.compat.table/pkg/observer"
-	commonSchema "github.com/i-s-compat-table/i.s.compat.table/pkg/schema"
+	"github.com/i-s-compat-table/i.s.compat.table/internal/observer"
+	commonSchema "github.com/i-s-compat-table/i.s.compat.table/internal/schema"
 )
 
 const outputPath = "./data/clickhouse/observed.sqlite"

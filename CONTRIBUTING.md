@@ -8,7 +8,7 @@ As with all open-source, the only way to ensure a fix gets written is to write i
 
 1. If you think there's an issue in a documentation scraper, check `./cmd/${DB}/scrape_docs/main.go`.
 2. Else, if you think there's an issue in the documentation that's being scraped, please try to submit the fixes to the documentation sites being scraped.
-3. Else, if you think there's a problem in the aggregations producing `columns.tsv`, check [`./pkg/schema/views.sql`](`./pkg/schema/views.sql`) or [`./scripts/dump_tsv.sh`](./scripts/dump_tsv.sh).
+3. Else, if you think there's a problem in the aggregations producing `columns.tsv`, check [`./internal/schema/views.sql`](`./internal/schema/views.sql`) or [`./scripts/dump_tsv.sh`](./scripts/dump_tsv.sh).
 4. Else, if the scraped data and aggregations are both correct but `columns.tsv` still looks wrong, try patching the data in `./data/${DB}/patch.sql`
 
 ## Adding a new database
@@ -78,7 +78,7 @@ graph TD
   columns.tsv              --> |inform | patch.sql
 ```
 
-Each sqlite database containing data on `information_schema` implementations has the following schema, located in [`./pkg/schema/db.sql`](./pkg/schema/db.sql):
+Each sqlite database containing data on `information_schema` implementations has the following schema, located in [`./internal/schema/db.sql`](./internal/schema/db.sql):
 
 <!-- [[[cog
   from scripts.get_mermaid_erd import get_mermaid_erd

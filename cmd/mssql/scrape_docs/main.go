@@ -16,8 +16,8 @@ import (
 	// // _ "github.com/cheggaaa/pb/v3"
 	"github.com/gocolly/colly/v2"
 	"github.com/gocolly/colly/v2/debug"
-	commonSchema "github.com/i-s-compat-table/i.s.compat.table/pkg/schema"
-	"github.com/i-s-compat-table/i.s.compat.table/pkg/utils"
+	commonSchema "github.com/i-s-compat-table/i.s.compat.table/internal/schema"
+	"github.com/i-s-compat-table/i.s.compat.table/internal/utils"
 	_ "github.com/mattn/go-sqlite3"
 )
 
