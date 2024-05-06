@@ -2,60 +2,67 @@ package main
 
 import (
 	"fmt"
-	"sync"
+	"os"
+
+	"encoding/csv"
 
 	"github.com/i-s-compat-table/i.s.compat.table/internal/observer"
-	commonSchema "github.com/i-s-compat-table/i.s.compat.table/internal/schema"
 	_ "github.com/lib/pq"
 	log "github.com/sirupsen/logrus"
 )
 
-const outputPath = "./data/postgres/observed.sqlite"
 const driver = "postgres"
-const dsnTemplate = "user=postgres password=password host=localhost sslmode=disable port=%d"
+const dsn = "host=db port=5432 user=postgres password=password sslmode=disable"
 
-var dbRecord = &commonSchema.Database{Name: "postgres"}
-var versionPorts = map[string]int{
-	// needs to keep in sync with docker-compose.yaml
-	"10": 5432,
-	"11": 5433,
-	"12": 5434,
-	"13": 5435,
-	"14": 5436,
-	"15": 5437,
-}
-var query = `SELECT
-col.table_name
-, col.column_name
-, col.ordinal_position
-, col.is_nullable
-, coalesce(col.domain_name, col.data_type) -- not all dbs have domains
-FROM information_schema.columns AS col
-WHERE lower(table_schema) = 'information_schema';`
+var query = `
+	SELECT
+		col.table_name
+		, col.column_name
+		, col.ordinal_position
+		, col.is_nullable
+		, coalesce(col.domain_name, col.data_type) -- not all dbs have domains
+	FROM information_schema.columns AS col
+	WHERE lower(table_schema) = 'information_schema'
+	ORDER BY
+		col.table_name
+		, col.column_name
+		, col.ordinal_position
+		, col.is_nullable
+		, col.domain_name
+		, col.data_type
+	;
+`
 
-// there should already be one or more Mysql's running
 func main() {
-	colChan := make(chan []commonSchema.ColVersion)
-	waitForWrites := sync.WaitGroup{}
-	waitForWrites.Add(1)
-	go commonSchema.BulkInsert(outputPath, colChan, &waitForWrites)
-	waitForObservations := sync.WaitGroup{}
-	for version, port := range versionPorts {
-		waitForObservations.Add(1)
-		go func(version string, portNumber int) {
-			defer waitForObservations.Done()
-			order := commonSchema.AsOrder(version)
-			dbVersion := &commonSchema.Version{Db: dbRecord, Version: version, Order: &order}
-			dsn := fmt.Sprintf(dsnTemplate, portNumber)
-			db, err := observer.WaitFor(driver, dsn, 100)
-			if err != nil {
-				panic(err)
-			}
-			log.Infof("connected to postgres %s on port %d", version, portNumber)
-			colChan <- observer.Observe(db, dbVersion, &query)
-		}(version, port)
+	version := os.Args[1]
+	db, err := observer.WaitFor(driver, dsn, 100)
+	if err != nil {
+		panic(err)
 	}
-	waitForObservations.Wait()
-	close(colChan)
-	waitForWrites.Wait()
+	defer db.Close()
+	log.Infof("connected to postgres %s", version)
+
+	tx, err := db.Begin()
+	if err != nil {
+		log.Fatal(err)
+	}
+	rows, err := tx.Query(query)
+	if err != nil {
+		log.Fatal(err)
+	}
+	defer rows.Close()
+
+	writer := csv.NewWriter(os.Stdout)
+	defer writer.Flush()
+
+	for rows.Next() {
+		var table, column, nullable, type_ string
+		var number int
+
+		err := rows.Scan(&table, &column, &number, &nullable, &type_)
+		if err != nil {
+			log.Fatal(err)
+		}
+		writer.Write([]string{table, column, fmt.Sprintf("%d", number), nullable, type_})
+	}
 }

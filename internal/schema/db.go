@@ -23,7 +23,7 @@ func SemverAsOrder(v *semver.Version) (result int64) {
 	major := v.Major()
 	mustBeInInt16Range := func(part uint64) {
 		if part > 1<<15 {
-			log.Fatalf("%d can't fit into 16 bits")
+			log.Fatalf("%d can't fit into 16 bits", part)
 		}
 	}
 	mustBeInInt16Range(patch)
@@ -71,6 +71,12 @@ func FromBool(nullable *bool) Nullability {
 		return NotNullable
 	}
 }
+
+// func ptr[T any](thing T) *T {
+// 	return &thing
+// }
+
+// TODO: use *bool
 func FromString(nullable string) Nullability {
 	s := strings.ToLower(utils.NormalizeString(nullable))
 	switch s {

@@ -72,7 +72,7 @@ I prioritize the most popular databases that implement an `information_schema` a
 **If note a missing database that implements `information_schema` or evidence of incorrect information, please create a pull request with a fix!**
 See [`./CONTRIBUTING.md`](./CONTRIBUTING.md) for more details.
 
-<!-- general links -->
+<!-- links -->
 
 [implementors]: https://en.wikipedia.org/wiki/Information_schema#Implementation
 [iso-9075]: https://www.iso.org/standard/63555.html

@@ -7,6 +7,7 @@
     "cockroachdb",
     "compat",
     "Debugf",
+    "GOCACHE",
     "gocolly",
     "goldmark",
     "goquery",
@@ -14,6 +15,7 @@
     "logrus",
     "materializedb",
     "mssql",
+    "PGPASSWORD",
     "Puerkito",
     "sirupsen",
     "snowflakedb",
@@ -21,6 +23,7 @@
     "trino",
     "trinodb",
     "Warnf",
+    "Workdir",
     "yuin"
   ],
   "shellcheck.customArgs": ["-x"],
