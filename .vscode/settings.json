@@ -2,6 +2,7 @@
   "editor.trimAutoWhitespace": false,
   "files.trimTrailingWhitespace": false,
   "cSpell.words": [
+    "cespare",
     "cheggaaa",
     "clickhouse",
     "cockroachdb",
@@ -13,16 +14,20 @@
     "Infof",
     "logrus",
     "materializedb",
+    "mattn",
     "mssql",
     "Puerkito",
     "sirupsen",
     "snowflakedb",
+    "sslmode",
     "tidb",
     "trino",
     "trinodb",
     "Warnf",
+    "xxhash",
     "yuin"
   ],
   "shellcheck.customArgs": ["-x"],
-  "python.formatting.provider": "black"
+  "python.formatting.provider": "black",
+  "go.lintTool": "golangci-lint"
 }

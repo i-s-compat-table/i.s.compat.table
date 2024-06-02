@@ -23,7 +23,7 @@ func SemverAsOrder(v *semver.Version) (result int64) {
 	major := v.Major()
 	mustBeInInt16Range := func(part uint64) {
 		if part > 1<<15 {
-			log.Fatalf("%d can't fit into 16 bits")
+			log.Fatalf("%d can't fit into 16 bits", part)
 		}
 	}
 	mustBeInInt16Range(patch)
@@ -92,7 +92,9 @@ func FromString(nullable string) Nullability {
 func xxhash3_64(text ...string) int64 {
 	d := xxhash.Digest{}
 	for _, str := range text {
-		d.WriteString(str)
+		if _, err := d.WriteString(str); err != nil {
+			panic(err)
+		}
 	}
 	return int64(d.Sum64())
 }
@@ -100,7 +102,9 @@ func xxhash3_64(text ...string) int64 {
 func digestInt64(digest *xxhash.Digest, i int64) {
 	b := make([]byte, 8)
 	binary.BigEndian.PutUint64(b, uint64(i))
-	digest.Write(b)
+	if _, err := digest.Write(b); err != nil {
+		panic(err)
+	}
 }
 
 func DeriveDbId(dbName string) int64   { return xxhash3_64(dbName) }
@@ -111,13 +115,17 @@ func DeriveTypeId(name string) int64   { return xxhash3_64(name) }
 func DeriveVersionId(dbId int64, version string) int64 {
 	d := xxhash.Digest{}
 	digestInt64(&d, dbId)
-	d.WriteString(version)
+	if _, err := d.WriteString(version); err != nil {
+		panic(err)
+	}
 	return int64(d.Sum64())
 }
 func DeriveColumnId(tableId int64, colName string) int64 {
 	d := xxhash.Digest{}
 	digestInt64(&d, tableId)
-	d.WriteString(colName)
+	if _, err := d.WriteString(colName); err != nil {
+		panic(err)
+	}
 	return int64(d.Sum64())
 }
 func DeriveLicenseId(license string, attribution string) int64 {
