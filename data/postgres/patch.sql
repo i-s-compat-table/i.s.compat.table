@@ -21,7 +21,7 @@ SET note_id = (
 WHERE note_id = (
   SELECT id FROM notes
   WHERE note = 'If data_type identifies a character type, the maximum possible length in octets (bytes) of a datum (this should not be of concern to PostgreSQL users); null for all other data types.'
-);                                                                                                                 --- unneccessary editorial ------------------------
+);                                                                                                                 --- unnecessary editorial ------------------------
 
 -- delete the newly-unreferenced unreferenced notes
 WITH unreferenced AS (

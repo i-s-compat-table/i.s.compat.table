@@ -2,11 +2,12 @@ package main
 
 import (
 	"context"
+	"dagger/i-s-compat-table/internal/dagger"
 	"fmt"
 	"strconv"
 )
 
-func (m *Main) PgService(ctx context.Context, version string) (service *Service, err error) {
+func (m *Main) PgService(ctx context.Context, version string) (service *dagger.Service, err error) {
 	_, err = strconv.ParseFloat(version, 64) // Ensure version is parsable as a float
 	if err != nil {
 		return nil, err
@@ -22,18 +23,24 @@ func (m *Main) PgService(ctx context.Context, version string) (service *Service,
 	return service, nil
 }
 
-func (m *Main) ObservePostgres(ctx context.Context, version string, src *Directory) (string, error) {
-	const OBSERVER = "./cmd/postgres/observe/main.go"
+func (m *Main) ObservePostgres(ctx context.Context, version string, src *dagger.Directory) (string, error) {
+	const OBSERVER = "./cmd/postgres/observe"
 	service, err := m.PgService(ctx, version)
 	if err != nil {
 		return "", err
 	}
 	observer := m.BuildAndCacheBin(OBSERVER, src)
 	return dag.Container().
-		From(builderImgRef).
+		From(builderImageRef).
 		WithMountedFile("/go/bin/observer", observer).
 		WithServiceBinding("db", service).
 		WithExec([]string{"/go/bin/observer", version}).
 		Stdout(ctx)
-
 }
+
+func (m *Main) BuildPgObserverBin(ctx context.Context, src *dagger.Directory) *dagger.File {
+	const OBSERVER = "./cmd/postgres/observe"
+	return m.BuildAndCacheBin(OBSERVER, src)
+}
+
+// func (m *Main) ScrapePostgres(ctx context.Context, version string, src *dagger.Directory) (string, error) {}
