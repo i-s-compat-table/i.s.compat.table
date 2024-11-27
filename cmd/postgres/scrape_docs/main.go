@@ -8,6 +8,8 @@ import (
 	"strings"
 	"sync"
 
+	log "log/slog"
+
 	"github.com/PuerkitoBio/goquery"
 	_ "github.com/cheggaaa/pb/v3"
 	"github.com/gocolly/colly/v2"
@@ -15,7 +17,6 @@ import (
 	commonSchema "github.com/i-s-compat-table/i.s.compat.table/internal/schema"
 	"github.com/i-s-compat-table/i.s.compat.table/internal/utils"
 	_ "github.com/mattn/go-sqlite3"
-	log "github.com/sirupsen/logrus"
 )
 
 var postgres = &commonSchema.Database{Name: "postgres"}
@@ -57,7 +58,7 @@ func scrape12Minus(html *colly.HTMLElement, tableName string, version string) []
 	})
 	trs := tableEl.Find("tbody tr")
 	if trs.Length() == 0 {
-		log.Warnf("no rows: %s\n", html.Request.URL)
+		log.Warn("no rows", "url", html.Request.URL)
 		return nil
 	}
 	isCurrent := false
@@ -108,7 +109,7 @@ func scrape13Plus(page *colly.HTMLElement, tableName string, version string) []c
 		url.Url = strings.Replace(url.Url, version, "current", 1)
 	}
 	if rows.Length() == 0 {
-		log.Warnf("no rows: %s\n", url)
+		log.Warn("no rows", "url", url)
 	}
 	cols := make([]commonSchema.ColVersion, rows.Length())
 	rows.Each(func(i int, tr *goquery.Selection) {
@@ -164,7 +165,7 @@ func Scrape(cacheDir string, dbPath string, dbg bool) {
 	}
 	nRoutines := runtime.NumCPU()*2 - 1
 	collector.Limit(&colly.LimitRule{Parallelism: nRoutines - runtime.NumCPU()})
-	log.Infof("scraping versions %s - %s", allPgVersions[0], allPgVersions[len(allPgVersions)-1])
+	log.Info("scraping versions", "minVersion", allPgVersions[0], "maxVersion", allPgVersions[len(allPgVersions)-1])
 	wg := sync.WaitGroup{}
 
 	urlChan := make(chan string)
@@ -225,7 +226,7 @@ func Scrape(cacheDir string, dbPath string, dbg bool) {
 		collector.Visit(url)
 	}
 	collector.Wait()
-	log.Infof("scraped %d column-versions", nRows)
+	log.Info("scraped column-versions", "nRows", nRows)
 	close(rowChan)
 	wg.Wait()
 }

@@ -7,8 +7,9 @@ import (
 	"strings"
 	"sync"
 
+	log "log/slog"
+
 	"github.com/cheggaaa/pb/v3"
-	log "github.com/sirupsen/logrus"
 
 	"github.com/PuerkitoBio/goquery"
 	"github.com/gocolly/colly/v2"
@@ -94,7 +95,7 @@ func deriveVersion(url string) (version string) {
 	} else if m == "master" {
 		version = versions[0]
 	} else {
-		log.Panic(url, m)
+		panic(url + "\t" + m)
 	}
 	return
 }
@@ -167,13 +168,13 @@ func parseFieldList(list *goquery.Selection) map[string]string {
 			code := li.Contents().First().Filter("code").Text()
 			key = strings.Trim(normalize(code), "\": ")
 			if len(key) == 0 {
-				log.Warnf("no key: %s", text)
+				log.Warn("no key", "text", text)
 			}
 			definition = split[0][len(key):]
 			definition = strings.Trim(definition, "\": ")
 		}
 		if prev, ok := definitions[key]; ok {
-			log.Warnf("previous definition for %s: %s", key, prev)
+			log.Warn("previous definition for", "key", key, "prev", prev)
 		}
 		definitions[key] = definition
 	})
@@ -209,7 +210,7 @@ func findColDescriptions(doc *goquery.Document) []map[string]string {
 		nextList := p.NextAllFiltered("ul, ol").First()
 		if isDefinitionList(nextList) {
 			if _, ok := expected[nextList]; ok {
-				log.Warnf("duplicate: %+v", nextList)
+				log.Warn("duplicate", "nextList", nextList)
 			} else {
 				expected[nextList] = void{}
 			}
@@ -270,15 +271,15 @@ func parseDescriptions(doc *goquery.Document, tableName string, url string) map[
 	matches.Each(func(i int, s *goquery.Selection) {
 		describedTableName := strings.Split(strings.Split(strings.ToLower(s.Text()), ";")[1], "desc ")[1]
 		if tableName != describedTableName && fmt.Sprintf("cluster_%s", tableName) != describedTableName {
-			log.Panicf("title %s != table %s", tableName, describedTableName)
+			panic(fmt.Sprintf("title %s != table %s", tableName, describedTableName))
 		}
 		text := s.Parent().Next().Text() // FIXME: wrong selection
 		plusTable := parsePlusTable(text)
 		if len(plusTable) == 0 {
-			log.Panicf("unable to parse +table @ %s: 0 rows found in %d chars", url, len(text))
+			panic(fmt.Sprintf("unable to parse +table @ %s: 0 rows found in %d chars", url, len(text)))
 		}
 		if header := strings.Join(plusTable[0], ","); header != "Field,Type,Null,Key,Default,Extra" {
-			log.Panicf("unexpected header @ %s : %s", url, header)
+			panic(fmt.Sprintf("unexpected header @ %s : %s", url, header))
 		}
 		cols := make([]*plusTableDesc, len(plusTable[1:]))
 		for i, row := range plusTable[1:] {
@@ -306,9 +307,9 @@ func scrapePage(doc *goquery.Document, tableName string, url string, rowChan cha
 	DESCs := parseDescriptions(doc, tableName, url)
 	lists := findColDescriptions(doc)
 	if len(lists) == 0 || len(DESCs) == 0 || len(DESCs) > len(lists) {
-		log.Warnf("DESCs\t%03d\tdefns\t%03d\t%s\t%s\t", len(DESCs), len(lists), tableName, url)
+		log.Warn("empty", "descs", len(DESCs), "lists", len(lists), "tableName", tableName, "url", url)
 	} else {
-		log.Debugf("DESCs\t%03d\tdefns\t%03d\t%s\t%s\t", len(DESCs), len(lists), tableName, url)
+		log.Warn("found", "descs", len(DESCs), "lists", len(lists), "tableName", tableName, "url", url)
 	}
 	for tableName, desc := range DESCs {
 		commonUrl := commonSchema.Url{Url: getNiceUrl(versionNumber, tableName)}
@@ -327,7 +328,7 @@ func scrapePage(doc *goquery.Document, tableName string, url string, rowChan cha
 				} else if normalized == "NO" {
 					nullable = commonSchema.NotNullable
 				} else {
-					log.Panic(colDesc.Null)
+					panic("unexpected +table column description nullability:" + colDesc.Null)
 				}
 			}
 			colVersion := commonSchema.ColVersion{

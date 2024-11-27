@@ -1,9 +1,8 @@
 package main
 
 import (
+	"fmt"
 	"sync"
-
-	log "github.com/sirupsen/logrus"
 
 	"github.com/i-s-compat-table/i.s.compat.table/internal/observer"
 	commonSchema "github.com/i-s-compat-table/i.s.compat.table/internal/schema"
@@ -21,6 +20,7 @@ var dbVersion = &commonSchema.Version{
 	Db: dbRecord, IsCurrent: &isCurrent, Version: "396", Order: &order,
 }
 
+// FIXME: embed this
 var query = `SELECT
     lower(col.table_name)
   , lower(col.column_name)
@@ -38,7 +38,7 @@ func main() {
 	go commonSchema.BulkInsert(outputPath, colChan, &waitForWrites)
 	db, err := observer.WaitFor(driver, dsn, 100)
 	if err != nil {
-		log.Panicf("failed to connect to %s: %v", dsn, err)
+		panic(fmt.Sprintf("failed to connect to %s: %v", dsn, err))
 	}
 	colChan <- observer.Observe(db, dbVersion, &query)
 	close(colChan)

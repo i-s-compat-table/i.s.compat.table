@@ -1,6 +1,7 @@
 package main
 
 import (
+	"fmt"
 	"sort"
 	"sync"
 
@@ -10,9 +11,10 @@ import (
 	"github.com/Masterminds/semver/v3"
 	"github.com/PuerkitoBio/goquery"
 
+	log "log/slog"
+
 	"github.com/gocolly/colly/v2"
 	"github.com/gocolly/colly/v2/debug"
-	log "github.com/sirupsen/logrus"
 
 	commonSchema "github.com/i-s-compat-table/i.s.compat.table/internal/schema"
 	"github.com/i-s-compat-table/i.s.compat.table/internal/utils"
@@ -67,7 +69,7 @@ func getVersions(base *colly.Collector) semver.Collection {
 	for i, r := range rawVersions {
 		version, err := semver.NewVersion(r)
 		if err != nil {
-			log.Errorf("Error parsing version: %s", err)
+			log.Error("Error parsing version string", "version", r, "err", err.Error())
 		}
 		versions[i] = version
 	}
@@ -111,10 +113,10 @@ func scrapePage(
 	if dl := doc.Find("#sidebar-first div.node_info dl"); dl.Length() == 1 {
 		txt := dl.Find("dt + dd").Text()
 		if !strings.Contains(txt, "CC BY-SA") {
-			log.Warnf("%s is missing cc-by-sa -license", pageUrl)
+			log.Warn("missing cc-by-sa license", "url", pageUrl)
 		}
 	} else {
-		log.Warnf("dl missing: %s", pageUrl)
+		log.Warn("dl missing", "url", pageUrl)
 	}
 	tableName = strings.ReplaceAll(tableName, "-", "_")
 	firstVersion := versions[0]
@@ -126,10 +128,10 @@ func scrapePage(
 			if strings.Contains(t, "starting with") ||
 				strings.Contains(t, "introduced") ||
 				strings.Contains(t, " added ") {
-				log.Debugf("%d\t:\t%s\t:\t%s\t:\t%s", i, ver, t, pageUrl)
+				log.Debug("caveats::starting_with", "index", i, "version", ver, "text", t, "url", pageUrl)
 				firstVersion = ver
 			} else {
-				log.Warnf("%d\t:\t%s\t:\t%s\t:\t%s", i, ver, t, pageUrl)
+				log.Warn("caveats::_", "index", i, "version", ver, "text", t, "url", pageUrl)
 			}
 		},
 	)
@@ -137,7 +139,7 @@ func scrapePage(
 	if caveats.Length() > 1 {
 		caveats.Each(func(i int, caveat *goquery.Selection) {
 			if i > 1 {
-				log.Warnf("extra caveat %d\t:\t%s\n%s", i, caveat.Text(), pageUrl)
+				log.Warn("extra caveat", "index", i, "text", caveat.Text(), "url", pageUrl)
 			}
 		})
 	}
@@ -150,7 +152,7 @@ func scrapePage(
 		return tr.Find("td").Length() > 0 && tr.Find("th").Length() == 0
 	})
 	if rows.Length() == 0 {
-		log.Warnf("%s : no rows", pageUrl)
+		log.Warn("no rows", "url", pageUrl)
 	}
 	resultRows := []commonSchema.ColVersion{}
 
@@ -192,17 +194,17 @@ func scrapePage(
 				if len(matches) == 0 {
 					break
 				} else if len(matches) != 1 {
-					log.Errorf("%v", matches)
+					log.Error("unexpected number of matches", "matches", fmt.Sprintf("%v", matches))
 				} else {
 					col = matches[0]
 				}
 				ver, err := semver.NewVersion(col)
 				if err == nil {
-					log.Infof("version added: %s", ver)
+					log.Info("added version", "version", ver)
 					firstVersion = ver
 				}
 			default:
-				log.Warnf("unknown header '%s' with value '%s'", headers[j], col)
+				log.Warn("unknown header", "header", headers[j], "value", col)
 			}
 		}
 
@@ -236,8 +238,7 @@ func Scrape(cacheDir string, dbPath string, dbg bool) {
 
 	links := scrapeIndex(collector)
 	versions := getVersions(collector)
-	log.Infof("%d links", len(links))
-	log.Infof("%d versions", len(versions))
+	log.Info("found index", "nLinks", len(links), "nVersions", len(versions))
 	colChan := make(chan []commonSchema.ColVersion)
 
 	wg := sync.WaitGroup{}
@@ -253,7 +254,7 @@ func Scrape(cacheDir string, dbPath string, dbg bool) {
 		if len(tableMatch) > 1 {
 			colChan <- scrapePage(h, tableMatch[1], versions)
 		} else {
-			log.Warnf("unable to parse table name from %s : %s\n", link, tableMatch)
+			log.Warn("unable to parse table name from link", "link", link, "table", tableMatch)
 		}
 	})
 	for _, link := range links {

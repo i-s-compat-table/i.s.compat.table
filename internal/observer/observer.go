@@ -7,9 +7,10 @@ import (
 	"strings"
 	"time"
 
+	log "log/slog"
+
 	commonSchema "github.com/i-s-compat-table/i.s.compat.table/internal/schema"
 	"github.com/i-s-compat-table/i.s.compat.table/internal/utils"
-	log "github.com/sirupsen/logrus"
 )
 
 var note = &commonSchema.Note{License: &commonSchema.License{License: "CC0-1.0"}}
@@ -55,19 +56,19 @@ func Observe(db *sql.DB, dbVersion *commonSchema.Version, query *string) []commo
 		colVersion.Nullable = commonSchema.FromString(nullable)
 		cols = append(cols, colVersion)
 	}
-	log.Infof("%s %s: found %d columns", dbVersion.Db.Name, dbVersion.Version, len(cols))
+	log.Info("found columns", "db", dbVersion.Db.Name, "version", dbVersion.Version, "nColumns", len(cols))
 	return cols
 }
 
 func WaitFor(driverName, dsn string, retries int) (db *sql.DB, finalErr error) {
-	log.SetLevel(log.DebugLevel)
+
 	ticker := time.NewTicker(time.Second)
 	for i := 0; i <= retries; i++ {
 		<-ticker.C // wait for a tick
 
 		if db, err := sql.Open(driverName, dsn); err == nil {
 			if err := db.Ping(); err == nil {
-				log.Infof("connected to %s", dsn)
+				log.Info("connected", "dsn", dsn)
 				return db, nil
 			} else {
 				finalErr = err
@@ -75,8 +76,7 @@ func WaitFor(driverName, dsn string, retries int) (db *sql.DB, finalErr error) {
 			}
 		} else {
 			finalErr = err
-			log.Debugf("%+v", err)
-			fmt.Printf("_")
+			log.Debug(err.Error())
 		}
 	}
 	return nil, finalErr

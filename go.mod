@@ -1,6 +1,6 @@
 module github.com/i-s-compat-table/i.s.compat.table
 
-go 1.21
+go 1.22
 
 require (
 	github.com/Masterminds/semver/v3 v3.2.1
@@ -11,7 +11,6 @@ require (
 	github.com/gocolly/colly/v2 v2.1.0
 	github.com/lib/pq v1.10.9
 	github.com/mattn/go-sqlite3 v1.14.22
-	github.com/sirupsen/logrus v1.9.3
 	golang.org/x/net v0.24.0
 )
 

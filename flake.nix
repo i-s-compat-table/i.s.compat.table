@@ -2,7 +2,7 @@
   description = "`information_schema` compatibility tables";
   inputs = {
     flake-utils.url = "github:numtide/flake-utils"; # TODO: pin
-    nixpkgs.url = "github:nixos/nixpkgs/nixos-23.11";
+    nixpkgs.url = "github:nixos/nixpkgs/nixos-24.05";
     # FIXME: eliminate reliance on GitHub
   };
 

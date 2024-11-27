@@ -4,15 +4,17 @@ import (
 	"database/sql"
 	_ "embed"
 	"encoding/binary"
+	"fmt"
 	"os"
 	"strings"
 	"sync"
+
+	log "log/slog"
 
 	"github.com/Masterminds/semver/v3"
 	"github.com/cespare/xxhash/v2"
 	"github.com/i-s-compat-table/i.s.compat.table/internal/utils"
 	_ "github.com/mattn/go-sqlite3"
-	log "github.com/sirupsen/logrus"
 )
 
 // pack major.minor[.patch] numbers into a single int64
@@ -23,7 +25,7 @@ func SemverAsOrder(v *semver.Version) (result int64) {
 	major := v.Major()
 	mustBeInInt16Range := func(part uint64) {
 		if part > 1<<15 {
-			log.Fatalf("%d can't fit into 16 bits", part)
+			panic(fmt.Sprintf("%d can't fit into 16 bits", part))
 		}
 	}
 	mustBeInInt16Range(patch)
@@ -31,7 +33,7 @@ func SemverAsOrder(v *semver.Version) (result int64) {
 	mustBeInInt16Range(major)
 	result = int64(patch | minor<<16 | major<<32)
 	if int64(result) < 0 {
-		log.Fatalf("version orders should never be negative: %v", v)
+		panic(fmt.Sprintf("version orders should never be negative: %v", v))
 	}
 	return
 }
@@ -39,7 +41,7 @@ func SemverAsOrder(v *semver.Version) (result int64) {
 func AsOrder(version string) int64 {
 	v, err := semver.NewVersion(version)
 	if err != nil {
-		log.Fatal(err)
+		panic(err)
 	}
 	return SemverAsOrder(v)
 }
@@ -85,7 +87,7 @@ func FromString(nullable string) Nullability {
 	case "":
 		return Unknown
 	}
-	log.Panicf("unknown value: '%s'", s)
+	panic(fmt.Sprintf("unknown value: '%s'", s))
 	return Unknown
 }
 
@@ -274,7 +276,7 @@ func BulkInsert(outputPath string, cols <-chan []ColVersion, wg *sync.WaitGroup)
 			panic(err)
 		}
 		wg.Done()
-		log.Infof("done; inserted %d column-versions into %s", count, outputPath)
+		log.Info("done", "count", count, "outputPath", outputPath)
 	}()
 
 	insertDb := utils.MustPrepare(txn, InsertDbQ)
@@ -377,7 +379,7 @@ func Connect(path string) (db *sql.DB, err error) {
 		}
 		return db, err
 	} else if f.IsDir() {
-		log.Panicf("%s is a directory", path)
+		panic(fmt.Sprintf("%s is a directory", path))
 	} else {
 		db, err = sql.Open("sqlite3", path)
 	}

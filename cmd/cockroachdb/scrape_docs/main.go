@@ -6,7 +6,7 @@ import (
 	"strings"
 	"sync"
 
-	log "github.com/sirupsen/logrus"
+	log "log/slog"
 
 	"github.com/PuerkitoBio/goquery"
 	"github.com/gocolly/colly/v2"
@@ -59,7 +59,7 @@ func getVersion(url string) string {
 
 var viewRe = regexp.MustCompile(`^[a-zA-Z_]+$`)
 
-func scrape(cacheDir string, dbPath string, dbg bool) {
+func scrape(dbPath string, dbg bool) {
 	collector := colly.NewCollector(
 		colly.CacheDir("./.cache"),
 		colly.AllowedDomains("raw.githubusercontent.com"),
@@ -137,11 +137,11 @@ func scrape(cacheDir string, dbPath string, dbg bool) {
 							row.Nullable = commonSchema.Nullable
 						}
 					default:
-						log.Warnf("unknown column %s @ %s", text, r.Request.URL)
+						log.Warn("unknown column", "column", text, "url", r.Request.URL)
 					}
 				})
 				if row.Column == nil {
-					log.Panicf("no col %+v @ %s", row, row.Url.Url)
+					log.Error("no column in row", "row", row, "url", row.Url.Url)
 				}
 				rows = append(rows, row)
 			})
@@ -161,5 +161,5 @@ func scrape(cacheDir string, dbPath string, dbg bool) {
 }
 
 func main() {
-	scrape("./.cache", "./data/cockroachdb/docs.sqlite", false)
+	scrape("./data/cockroachdb/docs.sqlite", false)
 }

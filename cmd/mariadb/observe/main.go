@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"sync"
 
-	log "github.com/sirupsen/logrus"
+	log "log/slog"
 
 	"github.com/go-sql-driver/mysql"
 	"github.com/i-s-compat-table/i.s.compat.table/internal/observer"
@@ -27,11 +27,18 @@ var versionPorts = map[string]int{
 }
 
 type myLogger struct {
-	logs []interface{}
+	logs []string
 }
 
+// implements mysql.Logger
 func (m *myLogger) Print(logs ...interface{}) {
-	m.logs = append(m.logs, logs...)
+	for _, log := range logs {
+		if s, ok := log.(string); ok {
+			m.logs = append(m.logs, s)
+		} else {
+			m.logs = append(m.logs, fmt.Sprintf("%v", log))
+		}
+	}
 }
 
 // there should already be one or more Mysql's running
@@ -57,7 +64,8 @@ func main() {
 				for _, message := range logger.logs {
 					log.Debug(message)
 				}
-				log.Panicf("failed to connect to %s: %v", dsn, err)
+				log.Error("failed to connect", "dsn", dsn)
+				panic(err)
 			}
 			colChan <- observer.Observe(db, dbVersion, nil)
 		}(version, port)

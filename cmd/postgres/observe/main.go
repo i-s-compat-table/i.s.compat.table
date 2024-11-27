@@ -5,10 +5,11 @@ import (
 	"fmt"
 	"sync"
 
+	log "log/slog"
+
 	"github.com/i-s-compat-table/i.s.compat.table/internal/observer"
 	commonSchema "github.com/i-s-compat-table/i.s.compat.table/internal/schema"
 	_ "github.com/lib/pq"
-	log "github.com/sirupsen/logrus"
 )
 
 const outputPath = "./data/postgres/observed.sqlite"
@@ -16,6 +17,8 @@ const driver = "postgres"
 const dsnTemplate = "user=postgres password=password host=localhost sslmode=disable port=%d"
 
 var dbRecord = &commonSchema.Database{Name: "postgres"}
+
+// FIXME: use random ephemeral ports
 var versionPorts = map[string]int{
 	// needs to keep in sync with docker-compose.yaml
 	"10": 5432,
@@ -47,7 +50,7 @@ func main() {
 			if err != nil {
 				panic(err)
 			}
-			log.Infof("connected to postgres %s on port %d", version, portNumber)
+			log.Info("connected to postgres", "version", version, "port", portNumber)
 			colChan <- observer.Observe(db, dbVersion, &query)
 		}(version, port)
 	}

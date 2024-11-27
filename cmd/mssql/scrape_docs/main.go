@@ -2,14 +2,16 @@ package main
 
 import (
 	"encoding/json"
+	"fmt"
 	"regexp"
 	"sort"
 	"sync"
 
 	"strings"
 
+	log "log/slog"
+
 	"github.com/PuerkitoBio/goquery"
-	log "github.com/sirupsen/logrus"
 	"golang.org/x/net/html"
 
 	// "github.com/cespare/xxhash/v2"
@@ -141,7 +143,8 @@ func getVersions(page *colly.HTMLElement, fam map[string][]string) (result []str
 			if monikers, ok := fam[name]; ok {
 				result = append(result, monikers...)
 			} else {
-				log.Panicf("unknown name %s", name)
+				log.Error("unknown name", "name", name)
+				panic("unknown name " + name)
 			}
 		}
 	}
@@ -175,7 +178,7 @@ func scrapePage(
 			return utils.NormalizeString(td.Text())
 		})
 		if len(columns) == 0 {
-			log.Panicf("no columns in " + url.Url)
+			panic("no columns in " + url.Url)
 		}
 		result := commonSchema.ColVersion{Url: url}
 		for j, col := range columns {
@@ -193,10 +196,10 @@ func scrapePage(
 			case "type", "data type":
 				result.Type = &commonSchema.Type{Name: strings.ToUpper(col)}
 			default:
-				log.Warnf("unknown header '%s' with value '%s'", headers[j], col)
+				log.Warn("unknown header", "header", headers[j], "value", col)
 			}
 			if result.Column == nil {
-				log.Panicf("%+v <- %s", result, url.Url)
+				panic(fmt.Sprintf("%+v <- %s", result, url.Url))
 			}
 			allVersions := fam["SQL Server (all supported versions)"]
 
@@ -229,7 +232,7 @@ func Scrape(cacheDir string, dbPath string, dbg bool) {
 	}
 	items := scrapeToc(collector)
 	fam := scrapeFamilyTree(collector)
-	log.Infof("%d items", len(items))
+	log.Info("found items", "nItems", len(items))
 	wg := sync.WaitGroup{}
 	wg.Add(1)
 	colChan := make(chan []commonSchema.ColVersion)
@@ -241,8 +244,8 @@ func Scrape(cacheDir string, dbPath string, dbg bool) {
 			}
 		}
 		// might be faster than constructing a map and doing a map lookup?
-		log.Panic("unable to find "+url, items)
-		return "", []string{}
+		log.Error("not found", "url", url)
+		panic("url not found")
 	}
 	collector.OnHTML("html", func(html *colly.HTMLElement) {
 		url := html.Request.URL
