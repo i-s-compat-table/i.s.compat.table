@@ -88,7 +88,6 @@ func FromString(nullable string) Nullability {
 		return Unknown
 	}
 	panic(fmt.Sprintf("unknown value: '%s'", s))
-	return Unknown
 }
 
 func xxhash3_64(text ...string) int64 {

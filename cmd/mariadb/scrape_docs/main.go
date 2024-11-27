@@ -60,7 +60,9 @@ func getVersions(base *colly.Collector) semver.Collection {
 				return s.Text()
 			})
 	})
-	collector.Visit("https://mariadb.org/mariadb/all-releases/")
+	if err := collector.Visit("https://mariadb.org/mariadb/all-releases/"); err != nil {
+		panic(err)
+	}
 	collector.Wait()
 	if len(rawVersions) == 0 {
 		panic("no versions")
@@ -98,7 +100,9 @@ func scrapeIndex(collector *colly.Collector) []string {
 			return html.Request.AbsoluteURL(href)
 		})
 	})
-	collector.Visit(infoSchemaTablesIndex)
+	if err := collector.Visit(infoSchemaTablesIndex); err != nil {
+		panic(err)
+	}
 	collector.Wait()
 	return links
 }
@@ -258,7 +262,9 @@ func Scrape(cacheDir string, dbPath string, dbg bool) {
 		}
 	})
 	for _, link := range links {
-		collector.Visit(link)
+		if err := collector.Visit(link); err != nil {
+			panic(err)
+		}
 	}
 	collector.Wait()
 	close(colChan)

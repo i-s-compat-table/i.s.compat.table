@@ -75,7 +75,7 @@ services:
   # see https://hub.docker.com/r/cockroachdb/cockroach/tags
   cockroachdb-19.2: &cockroach
     image: docker.io/cockroachdb/cockroach:latest-v19.2
-    command: [start-single-node, --insecure] # no password neccessary?
+    command: [start-single-node, --insecure] # no password necessary?
     ports: [26257:26257]
   cockroachdb-20.1:
     <<: *cockroach

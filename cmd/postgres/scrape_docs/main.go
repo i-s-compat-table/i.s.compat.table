@@ -164,7 +164,9 @@ func Scrape(cacheDir string, dbPath string, dbg bool) {
 		collector.SetDebugger(&debug.LogDebugger{})
 	}
 	nRoutines := runtime.NumCPU()*2 - 1
-	collector.Limit(&colly.LimitRule{Parallelism: nRoutines - runtime.NumCPU()})
+	if err := collector.Limit(&colly.LimitRule{Parallelism: nRoutines - runtime.NumCPU()}); err != nil {
+		panic(err)
+	}
 	log.Info("scraping versions", "minVersion", allPgVersions[0], "maxVersion", allPgVersions[len(allPgVersions)-1])
 	wg := sync.WaitGroup{}
 
@@ -206,7 +208,7 @@ func Scrape(cacheDir string, dbPath string, dbg bool) {
 	re := regexp.MustCompile(`[a-zA-Z_]+$`)
 	collector.OnHTML("html", func(html *colly.HTMLElement) {
 		version := deriveVersion(html)
-		title := utils.NormalizeString(html.DOM.Find("title").Text()) // 13+ sometimes have 0-width or nonbreaking spaces thrown in
+		title := utils.NormalizeString(html.DOM.Find("title").Text()) // 13+ sometimes have 0-width or non-breaking spaces thrown in
 		tableName := strings.Trim(strings.ToLower(re.FindString(title)), " ")
 		if v, err := strconv.ParseFloat(version, 32); err == nil {
 			if v >= 13 {
@@ -223,7 +225,9 @@ func Scrape(cacheDir string, dbPath string, dbg bool) {
 		}
 	})
 	for _, url := range urls {
-		collector.Visit(url)
+		if err := collector.Visit(url); err != nil {
+			panic(err)
+		}
 	}
 	collector.Wait()
 	log.Info("scraped column-versions", "nRows", nRows)

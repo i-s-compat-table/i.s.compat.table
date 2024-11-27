@@ -78,7 +78,7 @@ _observer_common=internal/observer/observer.go internal/observer/columns.sql
 ./bin/observe_clickhouse: ./cmd/clickhouse/observe/main.go $(_common_backend) $(_observer_common)
 	go build -o ./bin/observe_clickhouse ./cmd/clickhouse/observe/main.go
 
-# run the scaper binaries ----------------------------------------------------
+# run the scraper binaries ----------------------------------------------------
 cockroachdb-docs: ./data/cockroachdb/docs.sqlite
 ./data/cockroachdb/docs.sqlite: ./bin/scrape_cockroachdb_docs
 	mkdir -p ./data/cockroachdb
@@ -183,7 +183,7 @@ merge_scripts=./scripts/merge/dbs.sh ./scripts/merge/merge.sql
 	rm -f ./data/postgres/merged.sqlite
 	./scripts/merge/dbs.sh ./data/postgres/merged.sqlite ./data/postgres/observed.sqlite ./data/postgres/docs.sqlite
 
-# dump tsvs ------------------------------------------------------------------
+# dump TSVs ------------------------------------------------------------------
 ./data/cockroachdb/columns.tsv: $(tsv_dump_scripts) ./data/cockroachdb/docs.sqlite
 	./scripts/dump_tsv.sh --output ./data/cockroachdb/columns.tsv ./data/cockroachdb/docs.sqlite
 ./data/mariadb/columns.tsv: $(tsv_dump_scripts) ./data/mariadb/merged.sqlite

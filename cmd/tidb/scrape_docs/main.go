@@ -140,7 +140,9 @@ func collectPagesToScrape(collector *colly.Collector, md goldmark.Markdown, wg *
 	})
 	for _, version := range versions {
 		rawUrl := getRawUrl(getVersionBranch(version), "information-schema.md")
-		collector.Visit(rawUrl)
+		if err := collector.Visit(rawUrl); err != nil {
+			panic(err)
+		}
 	}
 	collector.Wait()
 	close(pageChan)
@@ -191,11 +193,11 @@ func isDefinitionList(list *goquery.Selection) (ok bool) {
 		text := li.Text()
 		ok = li.Contents().First().Filter("code").Length() != 0
 		if !ok {
-			log.Debug("no code", text)
+			log.Debug("no code", "text", text)
 		}
 		ok = ok || len(strings.Split(text, ":")) >= 2
 		if !ok {
-			log.Debug("no split", text)
+			log.Debug("no split", "text", text)
 		}
 		return ok
 	})
@@ -227,7 +229,7 @@ func findColDescriptions(doc *goquery.Document) []map[string]string {
 					handleList(s)
 					return
 				} else {
-					log.Debug("rejected:", normalized)
+					log.Debug("rejected", "normalizedText", normalized)
 				}
 			}
 		}
@@ -304,14 +306,26 @@ func scrapePage(doc *goquery.Document, tableName string, url string, rowChan cha
 	version := commonSchema.Version{
 		Db: tidb, IsCurrent: &isCurrent, Version: versionNumber, Order: &order,
 	}
-	DESCs := parseDescriptions(doc, tableName, url)
+	descriptions := parseDescriptions(doc, tableName, url)
 	lists := findColDescriptions(doc)
-	if len(lists) == 0 || len(DESCs) == 0 || len(DESCs) > len(lists) {
-		log.Warn("empty", "descs", len(DESCs), "lists", len(lists), "tableName", tableName, "url", url)
+	if len(lists) == 0 || len(descriptions) == 0 || len(descriptions) > len(lists) {
+		log.Warn(
+			"empty",
+			"descriptions", len(descriptions),
+			"lists", len(lists),
+			"tableName", tableName,
+			"url", url,
+		)
 	} else {
-		log.Warn("found", "descs", len(DESCs), "lists", len(lists), "tableName", tableName, "url", url)
+		log.Warn(
+			"found",
+			"descriptions", len(descriptions),
+			"lists", len(lists),
+			"tableName", tableName,
+			"url", url,
+		)
 	}
-	for tableName, desc := range DESCs {
+	for tableName, desc := range descriptions {
 		commonUrl := commonSchema.Url{Url: getNiceUrl(versionNumber, tableName)}
 		table := commonSchema.Table{Name: tableName}
 		resultSet := make([]commonSchema.ColVersion, len(desc))
@@ -385,7 +399,9 @@ func scrape(cacheDir string, dbPath string, dbg bool) {
 		scrapePage(doc, tableName, url.String(), rowChan)
 	})
 	for _, page := range pages {
-		collector.Visit(page)
+		if err := collector.Visit(page); err != nil {
+			panic(err)
+		}
 	}
 	collector.Wait()
 	bar.Finish()
